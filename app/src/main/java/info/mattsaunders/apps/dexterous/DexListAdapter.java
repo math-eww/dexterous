@@ -46,7 +46,6 @@ public class DexListAdapter extends BaseAdapter {
         ViewHolder holder;
 
         if(convertView == null) {
-            //Get the ID for R.layout.mRowLayout
             int resID = mContext.getResources().getIdentifier(mRowLayout, "layout", mContext.getPackageName());
             view = mInflater.inflate(resID, parent, false);
 

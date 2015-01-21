@@ -1,6 +1,8 @@
 package info.mattsaunders.apps.dexterous;
 
 import android.util.Log;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,6 +23,12 @@ public class LoadPokemon {
             //Try to parse JSON object:
             try {
                 name = jsonObject.getString("name");
+                //Get JSONArray of types:
+                JSONArray types = jsonObject.getJSONArray("types");
+                type1 = types.getJSONObject(0).getString("name");
+                if (types.length() > 1) {
+                    type2 = types.getJSONObject(1).getString("name");
+                }
             } catch (JSONException e) {
                 Log.e("JSON LOADING", "Failed to read JSON: " + e);
             }
