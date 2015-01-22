@@ -6,7 +6,6 @@ import android.util.Log;
 
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -33,15 +32,15 @@ public class DownloadPokemon {
             progress.setMessage("Downloading Pokedex info");
             progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             progress.setCancelable(false);
+            progress.setMax(TOTAL_POKES);
             progress.show();
+            Utilities.SUBDIR = "POKEMON/";
         }
         @Override
         protected String doInBackground(String... params) {
             //String urlStringEnd = params[0];
             //String command = params[1];
             String resultToDisplay = "";
-            int progressIncrCount = 0;
-            int progressPercent = 0;
 
             for (int i = 1; i <= TOTAL_POKES; i++ ) {
                 String urlString = API_URL + POKE + String.valueOf(i);
@@ -70,12 +69,7 @@ public class DownloadPokemon {
                 }
 
                 //Set progress bar:
-                progressIncrCount++;
-                if (progressIncrCount > 7) {
-                    progressPercent++;
-                    progressIncrCount = 0;
-                    progress.setProgress(progressPercent);
-                }
+                progress.incrementProgressBy(1);
             }
 
             return resultToDisplay;
@@ -84,6 +78,7 @@ public class DownloadPokemon {
         protected void onPostExecute(String result) {
             progress.dismiss();
             Log.i("API call complete", "Result = " + result);
+            Utilities.SUBDIR = "";
             MainActivity.pokemonList = LoadPokemon.buildPokeList();
         }
     }

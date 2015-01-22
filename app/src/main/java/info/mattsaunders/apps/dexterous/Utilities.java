@@ -23,6 +23,7 @@ public class Utilities {
     public static String FILENAME = "test";
     private final static String FILEDIR = "/Dexterous/";
     public static String SETTINGS_FILENAME = "_settings";
+    public static String SUBDIR = "";
 
     public static JSONObject bundleToJsonObject(Bundle bundle) {
         try {
@@ -63,7 +64,7 @@ public class Utilities {
     public static void writeJsonFile(JSONObject data) {
         try {
             File sdcard = Environment.getExternalStorageDirectory();
-            File dir = new File(sdcard.getAbsolutePath() + FILEDIR);
+            File dir = new File(sdcard.getAbsolutePath() + FILEDIR + SUBDIR);
             dir.mkdir();
             File file = new File(dir, FILENAME);
             FileOutputStream fos = new FileOutputStream(file);
@@ -84,7 +85,7 @@ public class Utilities {
         String json;
         try {
             File sdcard = Environment.getExternalStorageDirectory();
-            File dir = new File(sdcard.getAbsolutePath() + FILEDIR);
+            File dir = new File(sdcard.getAbsolutePath() + FILEDIR + SUBDIR);
             File file = new File(dir, FILENAME);
             try {
                 FileInputStream fis = new FileInputStream(file);

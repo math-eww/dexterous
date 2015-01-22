@@ -21,7 +21,7 @@ public class DownloadSprites {
     private static String POKE = "/media/img/";
     private static String FILE_EXT = ".png";
     private static int TOTAL_POKES = 718;
-    private static String FILEDIR = "/Dexterous/sprites/";
+    private static String FILEDIR = "/Dexterous/SPRITES/";
 
 
     public static class CallAPI extends AsyncTask<String, String, String> {
@@ -33,6 +33,7 @@ public class DownloadSprites {
             progress.setMessage("Downloading Pokemon sprites");
             progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             progress.setCancelable(false);
+            progress.setMax(TOTAL_POKES);
             progress.show();
         }
         @Override
@@ -40,11 +41,9 @@ public class DownloadSprites {
             //String urlStringEnd = params[0];
             //String command = params[1];
             String resultToDisplay = "";
-            int progressIncrCount = 0;
-            int progressPercent = 0;
 
             for (int i = 1; i <= TOTAL_POKES; i++ ) {
-                String urlString = API_URL + POKE + String.valueOf(i);
+                String urlString = API_URL + POKE + String.valueOf(i) + FILE_EXT;
                 HttpURLConnection urlConnection;
                 InputStream input;
                 Log.i("Executing background API task", "URL is " + urlString);
@@ -78,12 +77,7 @@ public class DownloadSprites {
                 }
 
                 //Set progress bar:
-                progressIncrCount++;
-                if (progressIncrCount > 7) {
-                    progressPercent++;
-                    progressIncrCount = 0;
-                    progress.setProgress(progressPercent);
-                }
+                progress.incrementProgressBy(1);
             }
 
             return resultToDisplay;

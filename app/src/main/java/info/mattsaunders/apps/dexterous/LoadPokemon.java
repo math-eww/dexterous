@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class LoadPokemon {
     public static ArrayList<Pokemon> buildPokeList() {
         ArrayList<Pokemon> pokelist = new ArrayList();
+        Utilities.SUBDIR = "POKEMON/";
         for (int i = 1; i <= DownloadPokemon.getTOTAL_POKES(); i++) {
             Utilities.FILENAME = String.valueOf(i);
             JSONObject jsonObject = Utilities.readJsonFile();
@@ -119,6 +120,7 @@ public class LoadPokemon {
         for (Pokemon poke : pokelist) {
             System.out.println(poke.getSummary());
         }
+        Utilities.SUBDIR = "";
         return pokelist;
     }
 }
