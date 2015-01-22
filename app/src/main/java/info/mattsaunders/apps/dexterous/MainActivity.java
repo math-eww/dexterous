@@ -33,6 +33,7 @@ public class MainActivity extends ActionBarActivity
 
     public static Context c;
     public static ArrayList<Pokemon> pokemonList = new ArrayList();
+    public static DexListAdapter dexAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +53,13 @@ public class MainActivity extends ActionBarActivity
         //Check if pokemon files already downloaded
         if (!Utilities.readSettingsFile().equals("1")) {
             new DownloadPokemon.CallAPI().execute();
+            pokemonList = LoadPokemon.buildPokeList();
+            new DownloadSprites.CallAPI().execute();
+            LoadSprites.loadSprites();
             Utilities.writeSettingsFile("1");
         } else {
             pokemonList = LoadPokemon.buildPokeList();
+            LoadSprites.loadSprites();
         }
     }
 
@@ -115,10 +120,12 @@ public class MainActivity extends ActionBarActivity
         }
         if (id == R.id.action_redownloadPokemon) {
             new DownloadPokemon.CallAPI().execute();
+            pokemonList = LoadPokemon.buildPokeList();
             return true;
         }
         if (id == R.id.action_redownloadSprites) {
             new DownloadSprites.CallAPI().execute();
+            LoadSprites.loadSprites();
             return true;
         }
 
@@ -155,7 +162,8 @@ public class MainActivity extends ActionBarActivity
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_pokelist, container, false);
             ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
-            l1.setAdapter(new DexListAdapter(c,pokemonList));
+            dexAdapter = new DexListAdapter(c,pokemonList);
+            l1.setAdapter(dexAdapter);
             return rootView;
         }
 

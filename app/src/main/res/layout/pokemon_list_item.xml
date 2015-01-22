@@ -58,8 +58,7 @@
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/pokemonImage"
-            android:src="#ff65ff4f" />
+            android:id="@+id/pokemonImage" />
 
     </LinearLayout>
 

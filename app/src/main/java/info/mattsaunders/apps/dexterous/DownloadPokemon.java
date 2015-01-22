@@ -79,7 +79,7 @@ public class DownloadPokemon {
             progress.dismiss();
             Log.i("API call complete", "Result = " + result);
             Utilities.SUBDIR = "";
-            MainActivity.pokemonList = LoadPokemon.buildPokeList();
+            //MainActivity.pokemonList = LoadPokemon.buildPokeList();
         }
     }
 

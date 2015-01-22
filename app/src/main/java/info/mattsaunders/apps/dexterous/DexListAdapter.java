@@ -1,6 +1,8 @@
 package info.mattsaunders.apps.dexterous;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,6 +69,12 @@ public class DexListAdapter extends BaseAdapter {
         holder.number.setText(poke.getStringNumber());
         holder.name.setText(poke.getName());
         holder.types.setText(poke.getTypeOne() + " " + poke.getTypeTwo());
+
+        //Set sprite if available to imageview
+        if (poke.isHasSprite()) {
+            Bitmap sprite = BitmapFactory.decodeFile(poke.getSpriteFile().getAbsolutePath());
+            holder.image.setImageBitmap(sprite);
+        }
 
         return view;
     }

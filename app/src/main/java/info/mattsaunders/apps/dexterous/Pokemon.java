@@ -2,6 +2,7 @@ package info.mattsaunders.apps.dexterous;
 
 import android.os.Bundle;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -21,6 +22,8 @@ public class Pokemon {
     private String height;
     private String weight;
     private ArrayList<Bundle> evolutions;
+    private boolean hasSprite = false;
+    private File spriteFile;
 
     public Pokemon(int number,
                    String name,
@@ -55,6 +58,10 @@ public class Pokemon {
     public String getName() { return name; }
     public String getTypeOne() { return typeOne; }
     public String getTypeTwo() { return typeTwo; }
+
+    public boolean isHasSprite() { return hasSprite; }
+    public void setSprite(File spriteF) { spriteFile = spriteF; hasSprite = true; }
+    public File getSpriteFile() { return spriteFile; }
 
     public String getSummary() {
         String evolves = "";

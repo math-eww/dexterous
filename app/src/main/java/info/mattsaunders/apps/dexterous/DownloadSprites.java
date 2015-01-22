@@ -86,7 +86,6 @@ public class DownloadSprites {
         protected void onPostExecute(String result) {
             progress.dismiss();
             Log.i("API call complete", "Result = " + result);
-            //Call something to set sprites to imageview
         }
     }
 

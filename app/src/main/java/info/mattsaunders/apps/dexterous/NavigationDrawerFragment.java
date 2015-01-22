@@ -249,12 +249,14 @@ public class NavigationDrawerFragment extends Fragment {
 
         if (item.getItemId() == R.id.action_redownloadPokemon) {
             new DownloadPokemon.CallAPI().execute();
+            MainActivity.pokemonList = LoadPokemon.buildPokeList();
             Toast.makeText(getActivity(), "Redownloading Pokemon info", Toast.LENGTH_SHORT).show();
             return true;
         }
 
         if (item.getItemId() == R.id.action_redownloadSprites) {
             new DownloadSprites.CallAPI().execute();
+            LoadSprites.loadSprites();
             Toast.makeText(getActivity(), "Redownloading Pokemon sprites", Toast.LENGTH_SHORT).show();
         }
 
