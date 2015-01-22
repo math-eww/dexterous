@@ -55,13 +55,17 @@ public class Pokemon {
     public String getName() { return name; }
     public String getTypeOne() { return typeOne; }
     public String getTypeTwo() { return typeTwo; }
+
     public String getSummary() {
         String evolves = "";
+        /*
         for (Bundle evo : evolutions) {
             if (evo.containsKey("to")) {
                 evolves = evolves + evo.getString("to");
             }
         }
+        */
+        evolves = evolutions.toString();
         return String.valueOf(number) + " " + name + " " + typeOne + " " + typeTwo + " -- " + evolves + "\n"
                 + "__________" + " HP: " + hp + " ATK: " + atk + " DEF: " + def + " SPATK: " + spatk + " SPDEF: " + spdef + " SPD " + spd;
     }

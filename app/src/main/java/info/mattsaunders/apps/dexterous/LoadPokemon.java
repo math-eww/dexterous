@@ -35,12 +35,14 @@ public class LoadPokemon {
             try {
                 //Get name:
                 name = jsonObject.getString("name");
+
                 //Get JSONArray of types:
                 JSONArray types = jsonObject.getJSONArray("types");
                 type1 = types.getJSONObject(0).getString("name");
                 if (types.length() > 1) {
                     type2 = types.getJSONObject(1).getString("name");
                 }
+
                 //Get stats:
                 hp = jsonObject.getInt("hp");
                 atk = jsonObject.getInt("attack");
@@ -48,19 +50,21 @@ public class LoadPokemon {
                 spatk = jsonObject.getInt("sp_atk");
                 spdef = jsonObject.getInt("sp_def");
                 spd = jsonObject.getInt("speed");
+
                 //Get height and weight:
                 height = jsonObject.getString("height");
                 weight = jsonObject.getString("weight");
+
                 //Get JSONArray of evolutions:
-                //TODO: for some reason, if a pokemon has more than 1 evolution it only gives it one, just repeats it (ie 8 of espeon for eevee)
                 JSONArray evos = jsonObject.getJSONArray("evolutions");
                 if (evos.length() > 0) {
                     int level = 0;
                     String method;
                     String to;
-                    Bundle tempBundle = new Bundle();
-
+                    String num;
+                    String detail;
                     for (int j = 0; j < evos.length(); j++) {
+                        Bundle tempBundle = new Bundle();
                         JSONObject tempobj = evos.getJSONObject(j);
                         if (tempobj.has("level")) {
                             level = tempobj.getInt("level");
@@ -78,14 +82,19 @@ public class LoadPokemon {
                                 tempBundle.putString("to", to);
                             }
                         }
-                        /*
-                        System.out.println("Name        -------------------------" + name);
-                        System.out.println("Bundle Array-------------------------" + evolutions.size());
-                        System.out.println("JSON Array  -------------------------" + evos.length());
-                        System.out.println("Level       -------------------------" + level);
-                        System.out.println("Method      -------------------------" + method);
-                        System.out.println("To          -------------------------" + to);
-                        */
+                        if (tempobj.has("resource_uri")) {
+                            num = tempobj.getString("resource_uri");
+                            num = num.substring(16, num.length() - 1);
+                            if (num != null) {
+                                tempBundle.putString("num", num);
+                            }
+                        }
+                        if (tempobj.has("detail")) {
+                            detail = tempobj.getString("detail");
+                            if (detail != null) {
+                                tempBundle.putString("detail", detail);
+                            }
+                        }
                         evolutions.add(tempBundle);
                     }
 
