@@ -52,6 +52,7 @@ public class LoadPokemon {
                 height = jsonObject.getString("height");
                 weight = jsonObject.getString("weight");
                 //Get JSONArray of evolutions:
+                //TODO: for some reason, if a pokemon has more than 1 evolution it only gives it one, just repeats it (ie 8 of espeon for eevee)
                 JSONArray evos = jsonObject.getJSONArray("evolutions");
                 if (evos.length() > 0) {
                     int level = 0;
@@ -61,9 +62,22 @@ public class LoadPokemon {
 
                     for (int j = 0; j < evos.length(); j++) {
                         JSONObject tempobj = evos.getJSONObject(j);
-                        level = tempobj.getInt("level");
-                        method = tempobj.getString("method");
-                        to = tempobj.getString("to");
+                        if (tempobj.has("level")) {
+                            level = tempobj.getInt("level");
+                            tempBundle.putInt("level", level);
+                        }
+                        if (tempobj.has("method")) {
+                            method = tempobj.getString("method");
+                            if (method != null) {
+                                tempBundle.putString("method", method);
+                            }
+                        }
+                        if (tempobj.has("to")) {
+                            to = tempobj.getString("to");
+                            if (to != null) {
+                                tempBundle.putString("to", to);
+                            }
+                        }
                         /*
                         System.out.println("Name        -------------------------" + name);
                         System.out.println("Bundle Array-------------------------" + evolutions.size());
@@ -72,33 +86,7 @@ public class LoadPokemon {
                         System.out.println("Method      -------------------------" + method);
                         System.out.println("To          -------------------------" + to);
                         */
-                        if (tempobj.has("level")) {
-                            //evolutions.get(j).putInt("level", level);
-                            tempBundle.putInt("level", level);
-                            System.out.println("Put level");
-                        }
-                        if (method != null) {
-                            //evolutions.get(j).putString("method", method);
-                            tempBundle.putString("method", method);
-                            System.out.println("Put method");
-                        }
-                        if (to != null) {
-                            //evolutions.get(j).putString("to", to);
-                            tempBundle.putString("to", to);
-                            System.out.println("Put to");
-                        }
                         evolutions.add(tempBundle);
-                        /*
-                        if (evos.getJSONObject(j).has("level")) {
-                            evolutions[j].putInt("level", evos.getJSONObject(j).getInt("level"));
-                        }
-                        if (evos.getJSONObject(j).has("method")) {
-                            evolutions[j].putString("method", evos.getJSONObject(j).getString("method"));
-                        }
-                        if (evos.getJSONObject(j).has("to")) {
-                            evolutions[j].putString("to", evos.getJSONObject(j).getString("to"));
-                        }
-                        */
                     }
 
                 }
