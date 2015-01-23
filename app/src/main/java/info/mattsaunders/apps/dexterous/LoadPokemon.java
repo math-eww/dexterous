@@ -118,7 +118,7 @@ public class LoadPokemon {
                     evolutions));
         }
         for (Pokemon poke : pokelist) {
-            System.out.println(poke.getSummary());
+            //System.out.println(poke.getSummary());
             //Set toggle states here
             if (MainActivity.pokeballTog1States != null) {
                 if (MainActivity.pokeballTog1States.getInt(poke.getStringNumber()) == 1) {
@@ -137,6 +137,7 @@ public class LoadPokemon {
             }
         }
         Utilities.SUBDIR = "";
+        System.out.println("Loaded Pokemon: " + pokelist.size());
         return pokelist;
     }
 }
