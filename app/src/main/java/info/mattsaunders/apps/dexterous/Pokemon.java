@@ -65,13 +65,6 @@ public class Pokemon {
 
     public String getSummary() {
         String evolves = "";
-        /*
-        for (Bundle evo : evolutions) {
-            if (evo.containsKey("to")) {
-                evolves = evolves + evo.getString("to");
-            }
-        }
-        */
         evolves = evolutions.toString();
         return String.valueOf(number) + " " + name + " " + typeOne + " " + typeTwo + " -- " + evolves + "\n"
                 + "__________" + " HP: " + hp + " ATK: " + atk + " DEF: " + def + " SPATK: " + spatk + " SPDEF: " + spdef + " SPD " + spd;
