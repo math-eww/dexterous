@@ -66,7 +66,7 @@ public class MainActivity extends ActionBarActivity
             new DownloadPokemon.CallAPI().execute();  //DownloadPokemon -> LoadPokemon & DownloadSprites -> LoadSprites
             Utilities.writeSettingsFile("1");
         } else {
-            new LoadData.CallAPI().execute();
+            new LoadData.CallAPI().execute(pokeballTog1States,pokeballTog2States,pokeballTog3States);
         }
     }
 
