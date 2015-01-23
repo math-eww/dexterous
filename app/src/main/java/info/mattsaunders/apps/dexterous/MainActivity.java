@@ -131,13 +131,13 @@ public class MainActivity extends ActionBarActivity
                 fragment = PokedexCaughtFragment.newInstance(position + 1);
                 break;
             case 3:
-                fragment = PokedexCaughtFragment.newInstance(position + 1);
+                fragment = LivingDexMissingFragment.newInstance(position + 1);
                 break;
             case 4:
-                fragment = PokedexCaughtFragment.newInstance(position + 1);
+                fragment = LivingDexCaughtFragment.newInstance(position + 1);
                 break;
             case 5:
-                fragment = PokedexCaughtFragment.newInstance(position + 1);
+                fragment = MyTeamFragment.newInstance(position + 1);
                 break;
         }
         fragmentManager.beginTransaction()
@@ -337,6 +337,153 @@ public class MainActivity extends ActionBarActivity
                 }
             }
             dexAdapter = new DexListAdapter(c,pokemonListCaught);
+            l1.setAdapter(dexAdapter);
+            return rootView;
+        }
+
+        @Override
+        public void onAttach(Activity activity) {
+            super.onAttach(activity);
+            ((MainActivity) activity).onSectionAttached(
+                    getArguments().getInt(ARG_SECTION_NUMBER));
+        }
+    }
+
+    /**
+     * A placeholder fragment containing a simple view.
+     */
+    public static class LivingDexMissingFragment extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static LivingDexMissingFragment newInstance(int sectionNumber) {
+            LivingDexMissingFragment fragment = new LivingDexMissingFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        public LivingDexMissingFragment() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_pokelist, container, false);
+            ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
+            ArrayList<Pokemon> pokemonListLDMissing = new ArrayList();
+            for (Pokemon poke : pokemonList) {
+                if (!poke.getPokeballToggle2()) {
+                    pokemonListLDMissing.add(poke);
+                }
+            }
+            dexAdapter = new DexListAdapter(c,pokemonListLDMissing);
+            l1.setAdapter(dexAdapter);
+            return rootView;
+        }
+
+        @Override
+        public void onAttach(Activity activity) {
+            super.onAttach(activity);
+            ((MainActivity) activity).onSectionAttached(
+                    getArguments().getInt(ARG_SECTION_NUMBER));
+        }
+    }
+
+    /**
+     * A placeholder fragment containing a simple view.
+     */
+    public static class LivingDexCaughtFragment extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static LivingDexCaughtFragment newInstance(int sectionNumber) {
+            LivingDexCaughtFragment fragment = new LivingDexCaughtFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        public LivingDexCaughtFragment() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_pokelist, container, false);
+            ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
+            ArrayList<Pokemon> pokemonListLDCaught = new ArrayList();
+            for (Pokemon poke : pokemonList) {
+                if (poke.getPokeballToggle2()) {
+                    pokemonListLDCaught.add(poke);
+                }
+            }
+            dexAdapter = new DexListAdapter(c,pokemonListLDCaught);
+            l1.setAdapter(dexAdapter);
+            return rootView;
+        }
+
+        @Override
+        public void onAttach(Activity activity) {
+            super.onAttach(activity);
+            ((MainActivity) activity).onSectionAttached(
+                    getArguments().getInt(ARG_SECTION_NUMBER));
+        }
+    }
+
+    /**
+     * A placeholder fragment containing a simple view.
+     */
+    public static class MyTeamFragment extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static MyTeamFragment newInstance(int sectionNumber) {
+            MyTeamFragment fragment = new MyTeamFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        public MyTeamFragment() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_pokelist, container, false);
+            ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
+            ArrayList<Pokemon> pokemonListTeam = new ArrayList();
+            for (Pokemon poke : pokemonList) {
+                if (poke.getPokeballToggle3()) {
+                    pokemonListTeam.add(poke);
+                }
+            }
+            dexAdapter = new DexListAdapter(c,pokemonListTeam);
             l1.setAdapter(dexAdapter);
             return rootView;
         }
