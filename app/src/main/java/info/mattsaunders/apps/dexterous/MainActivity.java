@@ -169,14 +169,8 @@ public class MainActivity extends ActionBarActivity
         if (id == R.id.action_settings) {
             return true;
         }
-        if (id == R.id.action_redownloadPokemon) {
-            new DownloadPokemon.CallAPI().execute();
-            pokemonList = LoadPokemon.buildPokeList();
-            return true;
-        }
-        if (id == R.id.action_redownloadSprites) {
-            new DownloadSprites.CallAPI().execute();
-            LoadSprites.loadSprites();
+        if (id == R.id.action_redownloadInfo) {
+            new DownloadPokemon.CallAPI().execute();  //DownloadPokemon -> LoadPokemon & DownloadSprites -> LoadSprites
             return true;
         }
 
