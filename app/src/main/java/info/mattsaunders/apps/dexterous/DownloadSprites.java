@@ -84,7 +84,10 @@ public class DownloadSprites {
         }
 
         protected void onPostExecute(String result) {
+            LoadSprites.loadSprites();
             progress.dismiss();
+            MainActivity.dexAdapter.setList(MainActivity.pokemonList);
+            MainActivity.dexAdapter.notifyDataSetChanged();
             Log.i("API call complete", "Result = " + result);
         }
     }

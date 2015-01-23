@@ -76,6 +76,8 @@ public class DownloadPokemon {
         }
 
         protected void onPostExecute(String result) {
+            MainActivity.pokemonList = LoadPokemon.buildPokeList();
+            new DownloadSprites.CallAPI().execute();
             progress.dismiss();
             Log.i("API call complete", "Result = " + result);
             Utilities.SUBDIR = "";

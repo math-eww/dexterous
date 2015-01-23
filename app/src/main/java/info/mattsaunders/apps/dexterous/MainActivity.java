@@ -63,14 +63,10 @@ public class MainActivity extends ActionBarActivity
 
         //Check if pokemon files already downloaded
         if (!Utilities.readSettingsFile().equals("1")) {
-            new DownloadPokemon.CallAPI().execute();
-            pokemonList = LoadPokemon.buildPokeList();
-            new DownloadSprites.CallAPI().execute();
-            LoadSprites.loadSprites();
+            new DownloadPokemon.CallAPI().execute();  //DownloadPokemon -> LoadPokemon & DownloadSprites -> LoadSprites
             Utilities.writeSettingsFile("1");
         } else {
-            pokemonList = LoadPokemon.buildPokeList();
-            LoadSprites.loadSprites();
+            new LoadData.CallAPI().execute();
         }
     }
 

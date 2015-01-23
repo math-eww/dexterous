@@ -124,6 +124,10 @@ public class DexListAdapter extends BaseAdapter {
         return view;
     }
 
+    public void setList(List<Pokemon> newList) {
+        mPokes = newList;
+    }
+
     private class ViewHolder {
         public TextView number, name, types;
         public ImageView image;
