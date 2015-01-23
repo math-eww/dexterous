@@ -118,8 +118,30 @@ public class MainActivity extends ActionBarActivity
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = PokedexMainFragment.newInstance(position + 1);
+        //Fragment fragment = null;
+        switch (position) {
+            case 0:
+                fragment = PokedexMainFragment.newInstance(position + 1);
+                break;
+            case 1:
+                fragment = PokedexMissingFragment.newInstance(position + 1);
+                break;
+            case 2:
+                fragment = PokedexCaughtFragment.newInstance(position + 1);
+                break;
+            case 3:
+                fragment = PokedexCaughtFragment.newInstance(position + 1);
+                break;
+            case 4:
+                fragment = PokedexCaughtFragment.newInstance(position + 1);
+                break;
+            case 5:
+                fragment = PokedexCaughtFragment.newInstance(position + 1);
+                break;
+        }
         fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                .replace(R.id.container, fragment)
                 .commit();
     }
 
@@ -133,6 +155,15 @@ public class MainActivity extends ActionBarActivity
                 break;
             case 3:
                 mTitle = getString(R.string.title_section3);
+                break;
+            case 4:
+                mTitle = getString(R.string.title_section4);
+                break;
+            case 5:
+                mTitle = getString(R.string.title_section5);
+                break;
+            case 6:
+                mTitle = getString(R.string.title_section6);
                 break;
         }
     }
@@ -180,7 +211,7 @@ public class MainActivity extends ActionBarActivity
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class PokedexMainFragment extends Fragment {
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -191,15 +222,15 @@ public class MainActivity extends ActionBarActivity
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
+        public static PokedexMainFragment newInstance(int sectionNumber) {
+            PokedexMainFragment fragment = new PokedexMainFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
             return fragment;
         }
 
-        public PlaceholderFragment() {
+        public PokedexMainFragment() {
         }
 
         @Override
@@ -208,6 +239,104 @@ public class MainActivity extends ActionBarActivity
             View rootView = inflater.inflate(R.layout.fragment_pokelist, container, false);
             ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
             dexAdapter = new DexListAdapter(c,pokemonList);
+            l1.setAdapter(dexAdapter);
+            return rootView;
+        }
+
+        @Override
+        public void onAttach(Activity activity) {
+            super.onAttach(activity);
+            ((MainActivity) activity).onSectionAttached(
+                    getArguments().getInt(ARG_SECTION_NUMBER));
+        }
+    }
+
+    /**
+     * A placeholder fragment containing a simple view.
+     */
+    public static class PokedexMissingFragment extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static PokedexMissingFragment newInstance(int sectionNumber) {
+            PokedexMissingFragment fragment = new PokedexMissingFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        public PokedexMissingFragment() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_pokelist, container, false);
+            ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
+            ArrayList<Pokemon> pokemonListMissing = new ArrayList();
+            for (Pokemon poke : pokemonList) {
+                if (!poke.getPokeballToggle1()) {
+                    pokemonListMissing.add(poke);
+                }
+            }
+            dexAdapter = new DexListAdapter(c,pokemonListMissing);
+            l1.setAdapter(dexAdapter);
+            return rootView;
+        }
+
+        @Override
+        public void onAttach(Activity activity) {
+            super.onAttach(activity);
+            ((MainActivity) activity).onSectionAttached(
+                    getArguments().getInt(ARG_SECTION_NUMBER));
+        }
+    }
+
+    /**
+     * A placeholder fragment containing a simple view.
+     */
+    public static class PokedexCaughtFragment extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static PokedexCaughtFragment newInstance(int sectionNumber) {
+            PokedexCaughtFragment fragment = new PokedexCaughtFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        public PokedexCaughtFragment() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_pokelist, container, false);
+            ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
+            ArrayList<Pokemon> pokemonListCaught = new ArrayList();
+            for (Pokemon poke : pokemonList) {
+                if (poke.getPokeballToggle1()) {
+                    pokemonListCaught.add(poke);
+                }
+            }
+            dexAdapter = new DexListAdapter(c,pokemonListCaught);
             l1.setAdapter(dexAdapter);
             return rootView;
         }

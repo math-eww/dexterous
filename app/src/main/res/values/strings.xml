@@ -3,8 +3,11 @@
 
     <string name="app_name">Dexterous</string>
     <string name="title_section1">Pokedex</string>
-    <string name="title_section2">Missing</string>
-    <string name="title_section3">My Team</string>
+    <string name="title_section2">Pokedex:Missing</string>
+    <string name="title_section3">Pokedex:Caught</string>
+    <string name="title_section4">Living Dex: Missing</string>
+    <string name="title_section5">Living Dex: Caught</string>
+    <string name="title_section6">My Team</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_redownloadInfo">Redownload Pokedex info</string>
