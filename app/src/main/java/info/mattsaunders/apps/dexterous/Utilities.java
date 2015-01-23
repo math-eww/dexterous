@@ -58,7 +58,10 @@ public class Utilities {
             return bundle;
         } catch (JSONException e) {
             throw new RuntimeException(e);
+        } catch (NullPointerException e) {
+            Log.e("JSON OBJ TO BUNDLE:", "Null pointer exception: missing file?");
         }
+        return null;
     }
 
     public static void writeJsonFile(JSONObject data) {

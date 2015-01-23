@@ -24,6 +24,9 @@ public class Pokemon {
     private ArrayList<Bundle> evolutions;
     private boolean hasSprite = false;
     private File spriteFile;
+    private boolean pokeballToggle1 = false;
+    private boolean pokeballToggle2 = false;
+    private boolean pokeballToggle3 = false;
 
     public Pokemon(int number,
                    String name,
@@ -62,6 +65,13 @@ public class Pokemon {
     public boolean isHasSprite() { return hasSprite; }
     public void setSprite(File spriteF) { spriteFile = spriteF; hasSprite = true; }
     public File getSpriteFile() { return spriteFile; }
+
+    public void setPokeballToggle1(boolean value) { pokeballToggle1 = value; }
+    public void setPokeballToggle2(boolean value) { pokeballToggle2 = value; }
+    public void setPokeballToggle3(boolean value) { pokeballToggle3 = value; }
+    public boolean getPokeballToggle1() { return pokeballToggle1; }
+    public boolean getPokeballToggle2() { return pokeballToggle2; }
+    public boolean getPokeballToggle3() { return pokeballToggle3; }
 
     public String getSummary() {
         String evolves = "";

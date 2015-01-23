@@ -34,6 +34,9 @@ public class MainActivity extends ActionBarActivity
     public static Context c;
     public static ArrayList<Pokemon> pokemonList = new ArrayList();
     public static DexListAdapter dexAdapter;
+    public static Bundle pokeballTog1States;
+    public static Bundle pokeballTog2States;
+    public static Bundle pokeballTog3States;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,14 @@ public class MainActivity extends ActionBarActivity
                 (DrawerLayout) findViewById(R.id.drawer_layout));
         c = this;
 
+        //Load 3 bundles with pokemon pokeball toggles
+        Utilities.FILENAME = "pokeball_1_states";
+        pokeballTog1States = Utilities.JsonObjectToBundle(Utilities.readJsonFile());
+        Utilities.FILENAME = "pokeball_2_states";
+        pokeballTog2States = Utilities.JsonObjectToBundle(Utilities.readJsonFile());
+        Utilities.FILENAME = "pokeball_3_states";
+        pokeballTog3States = Utilities.JsonObjectToBundle(Utilities.readJsonFile());
+
         //Check if pokemon files already downloaded
         if (!Utilities.readSettingsFile().equals("1")) {
             new DownloadPokemon.CallAPI().execute();
@@ -61,6 +72,50 @@ public class MainActivity extends ActionBarActivity
             pokemonList = LoadPokemon.buildPokeList();
             LoadSprites.loadSprites();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        //Save 3 bundles with pokemon pokeball toggles
+        pokeballTog1States = new Bundle();
+        pokeballTog2States = new Bundle();
+        pokeballTog3States = new Bundle();
+        for (Pokemon poke : pokemonList) {
+            if (poke.getPokeballToggle1()) {
+                pokeballTog1States.putInt(poke.getStringNumber(),1);
+            } else {
+                pokeballTog1States.putInt(poke.getStringNumber(),0);
+            }
+            if (poke.getPokeballToggle2()) {
+                pokeballTog2States.putInt(poke.getStringNumber(),1);
+            } else {
+                pokeballTog2States.putInt(poke.getStringNumber(),0);
+            }
+            if (poke.getPokeballToggle3()) {
+                pokeballTog3States.putInt(poke.getStringNumber(),1);
+            } else {
+                pokeballTog3States.putInt(poke.getStringNumber(),0);
+            }
+        }
+        Utilities.FILENAME = "pokeball_1_states";
+        Utilities.writeJsonFile(Utilities.bundleToJsonObject(pokeballTog1States));
+        Utilities.FILENAME = "pokeball_2_states";
+        Utilities.writeJsonFile(Utilities.bundleToJsonObject(pokeballTog2States));
+        Utilities.FILENAME = "pokeball_3_states";
+        Utilities.writeJsonFile(Utilities.bundleToJsonObject(pokeballTog3States));
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //Load 3 bundles with pokemon pokeball toggles
+        Utilities.FILENAME = "pokeball_1_states";
+        pokeballTog1States = Utilities.JsonObjectToBundle(Utilities.readJsonFile());
+        Utilities.FILENAME = "pokeball_2_states";
+        pokeballTog2States = Utilities.JsonObjectToBundle(Utilities.readJsonFile());
+        Utilities.FILENAME = "pokeball_3_states";
+        pokeballTog3States = Utilities.JsonObjectToBundle(Utilities.readJsonFile());
     }
 
     @Override

@@ -119,6 +119,22 @@ public class LoadPokemon {
         }
         for (Pokemon poke : pokelist) {
             System.out.println(poke.getSummary());
+            //Set toggle states here
+            if (MainActivity.pokeballTog1States != null) {
+                if (MainActivity.pokeballTog1States.getInt(poke.getStringNumber()) == 1) {
+                    poke.setPokeballToggle1(true);
+                }
+            }
+            if (MainActivity.pokeballTog2States != null) {
+                if (MainActivity.pokeballTog2States.getInt(poke.getStringNumber()) == 1) {
+                    poke.setPokeballToggle2(true);
+                }
+            }
+            if (MainActivity.pokeballTog3States != null) {
+                if (MainActivity.pokeballTog3States.getInt(poke.getStringNumber()) == 1) {
+                    poke.setPokeballToggle3(true);
+                }
+            }
         }
         Utilities.SUBDIR = "";
         return pokelist;
