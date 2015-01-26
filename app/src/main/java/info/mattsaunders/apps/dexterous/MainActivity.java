@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import java.util.ArrayList;
 
@@ -211,7 +212,7 @@ public class MainActivity extends ActionBarActivity
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PokedexMainFragment extends Fragment {
+    public static class PokedexMainFragment extends Fragment implements SearchView.OnQueryTextListener {
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -237,9 +238,11 @@ public class MainActivity extends ActionBarActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_pokelist, container, false);
+            SearchView searchView = (SearchView) rootView.findViewById(R.id.searchView);
             ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
             dexAdapter = new DexListAdapter(c,pokemonList);
             l1.setAdapter(dexAdapter);
+            searchView.setOnQueryTextListener(this);
             return rootView;
         }
 
@@ -249,12 +252,23 @@ public class MainActivity extends ActionBarActivity
             ((MainActivity) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            dexAdapter.getFilter().filter(newText);
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            return false;
+        }
     }
 
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PokedexMissingFragment extends Fragment {
+    public static class PokedexMissingFragment extends Fragment implements SearchView.OnQueryTextListener {
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -289,6 +303,8 @@ public class MainActivity extends ActionBarActivity
             }
             dexAdapter = new DexListAdapter(c,pokemonListMissing);
             l1.setAdapter(dexAdapter);
+            SearchView searchView = (SearchView) rootView.findViewById(R.id.searchView);
+            searchView.setOnQueryTextListener(this);
             return rootView;
         }
 
@@ -298,12 +314,23 @@ public class MainActivity extends ActionBarActivity
             ((MainActivity) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            dexAdapter.getFilter().filter(newText);
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            return false;
+        }
     }
 
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PokedexCaughtFragment extends Fragment {
+    public static class PokedexCaughtFragment extends Fragment implements SearchView.OnQueryTextListener {
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -338,6 +365,8 @@ public class MainActivity extends ActionBarActivity
             }
             dexAdapter = new DexListAdapter(c,pokemonListCaught);
             l1.setAdapter(dexAdapter);
+            SearchView searchView = (SearchView) rootView.findViewById(R.id.searchView);
+            searchView.setOnQueryTextListener(this);
             return rootView;
         }
 
@@ -347,12 +376,23 @@ public class MainActivity extends ActionBarActivity
             ((MainActivity) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            dexAdapter.getFilter().filter(newText);
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            return false;
+        }
     }
 
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class LivingDexMissingFragment extends Fragment {
+    public static class LivingDexMissingFragment extends Fragment implements SearchView.OnQueryTextListener {
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -387,6 +427,8 @@ public class MainActivity extends ActionBarActivity
             }
             dexAdapter = new DexListAdapter(c,pokemonListLDMissing);
             l1.setAdapter(dexAdapter);
+            SearchView searchView = (SearchView) rootView.findViewById(R.id.searchView);
+            searchView.setOnQueryTextListener(this);
             return rootView;
         }
 
@@ -396,12 +438,23 @@ public class MainActivity extends ActionBarActivity
             ((MainActivity) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            dexAdapter.getFilter().filter(newText);
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            return false;
+        }
     }
 
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class LivingDexCaughtFragment extends Fragment {
+    public static class LivingDexCaughtFragment extends Fragment implements SearchView.OnQueryTextListener {
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -436,6 +489,8 @@ public class MainActivity extends ActionBarActivity
             }
             dexAdapter = new DexListAdapter(c,pokemonListLDCaught);
             l1.setAdapter(dexAdapter);
+            SearchView searchView = (SearchView) rootView.findViewById(R.id.searchView);
+            searchView.setOnQueryTextListener(this);
             return rootView;
         }
 
@@ -445,12 +500,23 @@ public class MainActivity extends ActionBarActivity
             ((MainActivity) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            dexAdapter.getFilter().filter(newText);
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            return false;
+        }
     }
 
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class MyTeamFragment extends Fragment {
+    public static class MyTeamFragment extends Fragment implements SearchView.OnQueryTextListener {
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -485,6 +551,8 @@ public class MainActivity extends ActionBarActivity
             }
             dexAdapter = new DexListAdapter(c,pokemonListTeam);
             l1.setAdapter(dexAdapter);
+            SearchView searchView = (SearchView) rootView.findViewById(R.id.searchView);
+            searchView.setOnQueryTextListener(this);
             return rootView;
         }
 
@@ -493,6 +561,17 @@ public class MainActivity extends ActionBarActivity
             super.onAttach(activity);
             ((MainActivity) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            dexAdapter.getFilter().filter(newText);
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            return false;
         }
     }
 

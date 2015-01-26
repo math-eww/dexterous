@@ -7,25 +7,70 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Adapter to display Pokedex list
  */
-public class DexListAdapter extends BaseAdapter {
+public class DexListAdapter extends BaseAdapter implements Filterable {
     private LayoutInflater mInflater;
     private List<Pokemon> mPokes;
-    private String mRowLayout = "pokemon_list_item";
     private Context mContext;
+    private ValueFilter valueFilter;
+    private List<Pokemon> mPokesFilterList;
 
     public DexListAdapter(Context context, List<Pokemon> pokes) {
         mInflater = LayoutInflater.from(context);
         mPokes = pokes;
         mContext = context;
+        mPokesFilterList = pokes;
+    }
+
+    @Override
+    public Filter getFilter() {
+        if (valueFilter == null) {
+            valueFilter = new ValueFilter();
+        }
+        return valueFilter;
+    }
+
+    private class ValueFilter extends Filter {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            FilterResults results = new FilterResults();
+            if (constraint != null && constraint.length() > 0) {
+                ArrayList<Pokemon> filterList = new ArrayList<Pokemon>();
+                for (int i = 0; i < mPokesFilterList.size(); i++) {
+                    if ( (mPokesFilterList.get(i).getName().toUpperCase() )
+                            .contains(constraint.toString().toUpperCase())) {
+                        Pokemon listPoke = mPokesFilterList.get(i);
+                        filterList.add(listPoke);
+                    }
+                }
+                results.count = filterList.size();
+                results.values = filterList;
+            } else {
+                results.count = mPokesFilterList.size();
+                results.values = mPokesFilterList;
+            }
+            return results;
+
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint,
+                                      FilterResults results) {
+            mPokes = (ArrayList<Pokemon>) results.values;
+            notifyDataSetChanged();
+        }
+
     }
 
     @Override
@@ -49,6 +94,7 @@ public class DexListAdapter extends BaseAdapter {
         final ViewHolder holder;
 
         if(convertView == null) {
+            String mRowLayout = "pokemon_list_item";
             int resID = mContext.getResources().getIdentifier(mRowLayout, "layout", mContext.getPackageName());
             view = mInflater.inflate(resID, parent, false);
 
@@ -126,6 +172,7 @@ public class DexListAdapter extends BaseAdapter {
 
     public void setList(List<Pokemon> newList) {
         mPokes = newList;
+        mPokesFilterList = newList;
     }
 
     private class ViewHolder {
