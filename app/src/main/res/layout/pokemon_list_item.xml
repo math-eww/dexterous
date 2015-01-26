@@ -71,8 +71,8 @@
 
             <ToggleButton
                 android:id="@+id/toggle"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:background="@drawable/check1"
                 android:textOn=""
                 android:textOff=""
@@ -84,8 +84,8 @@
 
             <ToggleButton
                 android:id="@+id/toggle2"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:background="@drawable/check2"
                 android:textOn=""
                 android:textOff=""
@@ -97,8 +97,8 @@
 
             <ToggleButton
                 android:id="@+id/toggle3"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:background="@drawable/check3"
                 android:textOn=""
                 android:textOff=""
