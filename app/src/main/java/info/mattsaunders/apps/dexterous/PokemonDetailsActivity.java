@@ -1,6 +1,7 @@
 package info.mattsaunders.apps.dexterous;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -81,15 +82,22 @@ public class PokemonDetailsActivity extends ActionBarActivity {
         pokeTypes.setText(types);
         pokeHeightWeight.setText("Height: " + poke.getHeight() + " | " + "Weight: " + poke.getWeight());
 
+        pokeHp.setTypeface(Typeface.MONOSPACE);
+        pokeAtk.setTypeface(Typeface.MONOSPACE);
+        pokeDef.setTypeface(Typeface.MONOSPACE);
+        pokeSpAtk.setTypeface(Typeface.MONOSPACE);
+        pokeSpDef.setTypeface(Typeface.MONOSPACE);
+        pokeSpd.setTypeface(Typeface.MONOSPACE);
+        pokeTtl.setTypeface(Typeface.MONOSPACE);
         int[] stats = poke.getStats();
-        pokeHp.setText("HP: " + Integer.toString(stats[0]));
-        pokeAtk.setText("Attack: " + Integer.toString(stats[1]));
-        pokeDef.setText("Defense: " + Integer.toString(stats[2]));
-        pokeSpAtk.setText("Sp. Atk: " + Integer.toString(stats[3]));
-        pokeSpDef.setText("Sp. Def: " + Integer.toString(stats[4]));
-        pokeSpd.setText("Speed: " + Integer.toString(stats[5]));
         int total = stats[0] + stats[1] + stats[2] + stats[3] + stats[4] + stats[5];
-        pokeTtl.setText("Total: " + Integer.toString(total));
+        pokeHp.setText(String.format("%-15s %3d", "HP:", stats[0]));
+        pokeAtk.setText(String.format("%-15s %3d","Attack:",stats[1]));
+        pokeDef.setText(String.format("%-15s %3d","Defense:",stats[2]));
+        pokeSpAtk.setText(String.format("%-15s %3d","Sp. Atk:",stats[3]));
+        pokeSpDef.setText(String.format("%-15s %3d","Sp. Def:",stats[4]));
+        pokeSpd.setText(String.format("%-15s %3d","Speed:",stats[5]));
+        pokeTtl.setText(String.format("%-15s %3d","Total:",total));
 
     }
 
