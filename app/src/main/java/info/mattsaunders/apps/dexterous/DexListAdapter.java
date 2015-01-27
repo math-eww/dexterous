@@ -124,6 +124,7 @@ public class DexListAdapter extends BaseAdapter implements Filterable {
         holder.types.setText(poke.getTypeOne() + " " + poke.getTypeTwo());
 
         //Set sprite if available to image view
+        //TODO: sprite overlaps pokeball icon indicator/is cut off - fix
         if (poke.isHasSprite()) {
             Bitmap sprite = BitmapFactory.decodeFile(poke.getSpriteFile().getAbsolutePath());
             holder.image.setImageBitmap(sprite);
