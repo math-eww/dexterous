@@ -6,12 +6,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
+import android.view.View;
 import android.widget.TextView;
 
 import java.io.IOException;
 
 import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
 
 public class PokemonDetailsActivity extends ActionBarActivity {
 
@@ -24,7 +25,7 @@ public class PokemonDetailsActivity extends ActionBarActivity {
         int pokePosition = intent.getIntExtra("pokemon", 0);
         Pokemon poke = MainActivity.pokemonList.get(pokePosition);
 
-        ImageView pokeSprite = (ImageView) findViewById(R.id.pokeDetailsImage);
+        final GifImageView pokeSprite = (GifImageView) findViewById(R.id.pokeDetailsImage);
         TextView pokeName = (TextView) findViewById(R.id.pokeDetailsName);
         TextView pokeNum = (TextView) findViewById(R.id.pokeDetailsNum);
         TextView pokeTypes = (TextView) findViewById(R.id.pokeDetailsTypes);
@@ -38,11 +39,35 @@ public class PokemonDetailsActivity extends ActionBarActivity {
         TextView pokeSpd = (TextView) findViewById(R.id.pokeDetailsSpd);
         TextView pokeTtl = (TextView) findViewById(R.id.pokeDetailsTotals);
 
-        String subfolder = "xy-animated";
-        String subfolderShiny = "xy-animated-shiny";
-        String gifId = poke.getThreeDigitStringNumber() + ".gif";
+        final String subfolderNotShiny = "xy-animated";
+        final String subfolderShiny = "xy-animated-shiny";
+        final String gifId = poke.getThreeDigitStringNumber() + ".gif";
+        pokeSprite.setClickable(true);
+        pokeSprite.setOnClickListener(new View.OnClickListener() {
+            String subfolder = subfolderNotShiny;
+            @Override
+            public void onClick(View v) {
+                if (subfolder.equals(subfolderNotShiny)) {
+                    subfolder = subfolderShiny;
+                    try {
+                        GifDrawable gifFromAssets = new GifDrawable(getAssets(), subfolder + "/" + gifId);
+                        pokeSprite.setImageDrawable(gifFromAssets);
+                    } catch (IOException e) {
+                        Log.e("Error in gif loading: " + gifId, e.toString());
+                    }
+                } else {
+                    subfolder = subfolderNotShiny;
+                    try {
+                        GifDrawable gifFromAssets = new GifDrawable(getAssets(), subfolderNotShiny + "/" + gifId);
+                        pokeSprite.setImageDrawable(gifFromAssets);
+                    } catch (IOException e) {
+                        Log.e("Error in gif loading: " + gifId, e.toString());
+                    }
+                }
+            }
+        });
         try {
-            GifDrawable gifFromAssets = new GifDrawable(getAssets(), subfolder + "/" + gifId);
+            GifDrawable gifFromAssets = new GifDrawable(getAssets(), subfolderNotShiny + "/" + gifId);
             pokeSprite.setImageDrawable(gifFromAssets);
         } catch (IOException e) {
             Log.e("Error in gif loading: " + gifId, e.toString());
