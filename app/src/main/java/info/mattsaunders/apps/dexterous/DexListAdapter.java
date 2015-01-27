@@ -149,6 +149,9 @@ public class DexListAdapter extends BaseAdapter implements Filterable {
             public void onClick(View v) {
                 if (holder.pokeballTog2.isChecked()) {
                     poke.setPokeballToggle2(true);
+                    holder.pokeballTog1.setChecked(true);
+                    poke.setPokeballToggle1(true);
+
                 } else {
                     poke.setPokeballToggle2(false);
                 }
