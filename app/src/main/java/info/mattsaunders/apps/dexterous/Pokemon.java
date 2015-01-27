@@ -62,6 +62,11 @@ public class Pokemon {
     public String getTypeOne() { return typeOne; }
     public String getTypeTwo() { return typeTwo; }
 
+    public int[] getStats() { return new int[]{hp, atk, def, spatk, spdef, spd }; }
+    public String getHeight() { return height; }
+    public String getWeight() { return weight; }
+    public ArrayList<Bundle> getEvolutions() { return evolutions; }
+
     public boolean isHasSprite() { return hasSprite; }
     public void setSprite(File spriteF) { spriteFile = spriteF; hasSprite = true; }
     public File getSpriteFile() { return spriteFile; }
