@@ -1,14 +1,17 @@
 package info.mattsaunders.apps.dexterous;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.IOException;
+
+import pl.droidsonroids.gif.GifDrawable;
 
 public class PokemonDetailsActivity extends ActionBarActivity {
 
@@ -35,8 +38,15 @@ public class PokemonDetailsActivity extends ActionBarActivity {
         TextView pokeSpd = (TextView) findViewById(R.id.pokeDetailsSpd);
         TextView pokeTtl = (TextView) findViewById(R.id.pokeDetailsTotals);
 
-        Bitmap sprite = BitmapFactory.decodeFile(poke.getSpriteFile().getAbsolutePath());
-        pokeSprite.setImageBitmap(sprite);
+        String subfolder = "xy-animated";
+        String subfolderShiny = "xy-animated-shiny";
+        String gifId = poke.getThreeDigitStringNumber() + ".gif";
+        try {
+            GifDrawable gifFromAssets = new GifDrawable(getAssets(), subfolder + "/" + gifId);
+            pokeSprite.setImageDrawable(gifFromAssets);
+        } catch (IOException e) {
+            Log.e("Error in gif loading: " + gifId, e.toString());
+        }
 
         String types = poke.getTypeOne();
         if (!poke.getTypeTwo().equals("")) { types = types + " | " + poke.getTypeTwo(); }

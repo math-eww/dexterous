@@ -119,7 +119,7 @@ public class DexListAdapter extends BaseAdapter implements Filterable {
 
         final Pokemon poke = mPokes.get(position);
         //Set info from pokemon object to list view item
-        holder.number.setText(poke.getStringNumber());
+        holder.number.setText(poke.getThreeDigitStringNumber());
         holder.name.setText(poke.getName());
         holder.types.setText(poke.getTypeOne() + " " + poke.getTypeTwo());
 
@@ -172,7 +172,7 @@ public class DexListAdapter extends BaseAdapter implements Filterable {
             }
         });
 
-        final int pokePosition = position;
+        final int pokePosition = MainActivity.pokemonList.indexOf(poke);
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

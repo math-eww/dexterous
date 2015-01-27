@@ -58,6 +58,7 @@ public class Pokemon {
 
     public int getNumber() { return number; }
     public String getStringNumber() { return String.valueOf(number); }
+    public String getThreeDigitStringNumber() { String strNum = String.valueOf(number); return ("000" + strNum).substring(strNum.length()); }
     public String getName() { return name; }
     public String getTypeOne() { return typeOne; }
     public String getTypeTwo() { return typeTwo; }
