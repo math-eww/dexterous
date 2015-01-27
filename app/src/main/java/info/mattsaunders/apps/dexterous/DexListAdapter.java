@@ -1,6 +1,7 @@
 package info.mattsaunders.apps.dexterous;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -107,6 +109,7 @@ public class DexListAdapter extends BaseAdapter implements Filterable {
             holder.pokeballTog1 = (ToggleButton)view.findViewById(R.id.toggle);
             holder.pokeballTog2 = (ToggleButton)view.findViewById(R.id.toggle2);
             holder.pokeballTog3 = (ToggleButton)view.findViewById(R.id.toggle3);
+            holder.linearLayout = (LinearLayout)view.findViewById(R.id.pokemonItem);
 
             view.setTag(holder);
         } else {
@@ -169,6 +172,16 @@ public class DexListAdapter extends BaseAdapter implements Filterable {
             }
         });
 
+        final int pokePosition = position;
+        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext,PokemonDetailsActivity.class);
+                intent.putExtra("pokemon",pokePosition);
+                mContext.startActivity(intent);
+            }
+        });
+
 
         return view;
     }
@@ -179,6 +192,7 @@ public class DexListAdapter extends BaseAdapter implements Filterable {
     }
 
     private class ViewHolder {
+        public LinearLayout linearLayout;
         public TextView number, name, types;
         public ImageView image;
         public ToggleButton pokeballTog1, pokeballTog2, pokeballTog3;
