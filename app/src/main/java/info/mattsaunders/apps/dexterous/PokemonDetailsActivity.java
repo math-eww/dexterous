@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -43,6 +44,8 @@ public class PokemonDetailsActivity extends ActionBarActivity {
         final String subfolderNotShiny = "xy-animated";
         final String subfolderShiny = "xy-animated-shiny";
         final String gifId = poke.getThreeDigitStringNumber() + ".gif";
+        pokeSprite.setScaleType(ImageView.ScaleType.CENTER);
+        pokeSprite.setScaleX(3.5f); pokeSprite.setScaleY(3.5f);
         pokeSprite.setClickable(true);
         pokeSprite.setOnClickListener(new View.OnClickListener() {
             String subfolder = subfolderNotShiny;
