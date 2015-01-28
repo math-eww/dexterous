@@ -1,17 +1,24 @@
 package info.mattsaunders.apps.dexterous;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
@@ -27,7 +34,10 @@ public class PokemonDetailsActivity extends ActionBarActivity {
         int pokePosition = intent.getIntExtra("pokemon", 0);
         Pokemon poke = MainActivity.pokemonList.get(pokePosition);
 
+        final Context c = MainActivity.c;
+
         final GifImageView pokeSprite = (GifImageView) findViewById(R.id.pokeDetailsImage);
+
         TextView pokeName = (TextView) findViewById(R.id.pokeDetailsName);
         TextView pokeNum = (TextView) findViewById(R.id.pokeDetailsNum);
         TextView pokeTypes = (TextView) findViewById(R.id.pokeDetailsTypes);
@@ -40,6 +50,8 @@ public class PokemonDetailsActivity extends ActionBarActivity {
         TextView pokeSpDef = (TextView) findViewById(R.id.pokeDetailsSpDef);
         TextView pokeSpd = (TextView) findViewById(R.id.pokeDetailsSpd);
         TextView pokeTtl = (TextView) findViewById(R.id.pokeDetailsTotals);
+
+        LinearLayout evoList = (LinearLayout) findViewById(R.id.pokeDetailsEvoList);
 
         final String subfolderNotShiny = "xy-animated";
         final String subfolderShiny = "xy-animated-shiny";
@@ -81,7 +93,7 @@ public class PokemonDetailsActivity extends ActionBarActivity {
         if (!poke.getTypeTwo().equals("")) { types = types + " | " + poke.getTypeTwo(); }
 
         pokeName.setText(poke.getName());
-        pokeNum.setText(poke.getStringNumber());
+        pokeNum.setText(poke.getThreeDigitStringNumber());
         pokeTypes.setText(types);
         pokeHeightWeight.setText("Height: " + poke.getHeight() + " | " + "Weight: " + poke.getWeight());
 
@@ -102,6 +114,92 @@ public class PokemonDetailsActivity extends ActionBarActivity {
         pokeSpd.setText(String.format("%-15s %3d","Speed:",stats[5]));
         pokeTtl.setText(String.format("%-15s %3d","Total:",total));
 
+        ArrayList<Bundle> evolutionList = poke.getEvolutions();
+        if (evolutionList.size() > 0) {
+            TextView evoHeader = new TextView(getApplicationContext());
+            evoHeader.setText("Evolves into:");
+            evoHeader.setTextColor(Color.BLACK);
+            evoList.addView(evoHeader);
+        }
+        Collections.sort(evolutionList, new Comparator() {
+            public int compare(Object o1, Object o2) {
+                Bundle p1 = (Bundle) o1;
+                Bundle p2 = (Bundle) o2;
+                return p1.getString("num").compareTo(p2.getString("num"));
+            }
+        });
+        for (Bundle evoBundle : evolutionList) {
+            int level = 0;
+            String method = "";
+            String detail = "";
+            String mega = "";
+            boolean isMega = false;
+            String to = evoBundle.getString("to");
+            String num = evoBundle.getString("num");
+            num = ("000" + num).substring(num.length());
+            if (evoBundle.containsKey("level")) {
+                level = evoBundle.getInt("level");
+            }
+            if (evoBundle.containsKey("method")) {
+                method = evoBundle.getString("method");
+            }
+            if (evoBundle.containsKey("detail")) {
+                detail = evoBundle.getString("detail");
+            }
+
+            if (detail.equals("mega")) {
+                isMega = true;
+                //get substring at the end of to field
+                mega = to.substring(poke.getName().length());
+                //set num to current pokemon number
+                num = poke.getThreeDigitStringNumber();
+            }
+
+            ImageView tempImage = new ImageView(getApplicationContext());
+            try {
+                GifDrawable tempGifFromAssets = new GifDrawable(getAssets(), "xy-animated" + "/" + num + mega + ".gif");
+                tempImage.setImageDrawable(tempGifFromAssets);
+                tempImage.setMinimumWidth(3);
+                tempImage.setMaxWidth(3);
+                tempImage.setMinimumHeight(3);
+                tempImage.setMaxHeight(3);
+                tempImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            } catch (IOException e) {
+                Log.e("Error in gif loading (evolution): " + gifId, e.toString());
+            }
+
+            String tempTextShow = num + " " + to + " Method: " + method;
+            if (method.equals("level_up")) { tempTextShow = num + " - " + to + "\n" + "Level: " + level; }
+            if (method.equals("stone")) { tempTextShow = num + " - " + to + "\n" + "With stone " + detail; }
+            if (method.equals("other")) { tempTextShow = num + " - " + to + "\n" + "Other " + detail; }
+
+            TextView tempText = new TextView(getApplicationContext());
+            tempText.setText(tempTextShow);
+            tempText.setTextColor(Color.BLACK);
+            tempText.setGravity(Gravity.RIGHT);
+            tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+            LinearLayout rowLayout = new LinearLayout(getApplicationContext());
+            rowLayout.setOrientation(LinearLayout.HORIZONTAL);
+            rowLayout.addView(tempImage);
+            rowLayout.addView(tempText);
+
+            if (!isMega) {
+                rowLayout.setClickable(true);
+                //final int newPokePosition = MainActivity.pokemonList.indexOf(poke);
+                final int newPokePosition = Integer.parseInt(num) - 1;
+                rowLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(c,PokemonDetailsActivity.class);
+                        intent.putExtra("pokemon",newPokePosition);
+                        c.startActivity(intent);
+                    }
+                });
+            }
+
+            evoList.addView(rowLayout);
+        }
     }
 
 
