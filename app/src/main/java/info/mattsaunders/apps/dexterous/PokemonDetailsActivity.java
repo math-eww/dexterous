@@ -95,7 +95,14 @@ public class PokemonDetailsActivity extends ActionBarActivity {
         pokeName.setText(poke.getName());
         pokeNum.setText(poke.getThreeDigitStringNumber());
         pokeTypes.setText(types);
-        pokeHeightWeight.setText("Height: " + poke.getHeight() + " | " + "Weight: " + poke.getWeight());
+
+        String pokemonHeight = poke.getHeight();
+        if (pokemonHeight.length() < 2) { pokemonHeight = ("00" + pokemonHeight).substring(pokemonHeight.length()); }
+        pokemonHeight = new StringBuilder(pokemonHeight).insert(pokemonHeight.length()-1, ".").toString();
+        String pokemonWeight = poke.getWeight();
+        if (pokemonWeight.length() < 2) { pokemonWeight = ("00" + pokemonWeight).substring(pokemonWeight.length()); }
+        pokemonWeight = new StringBuilder(pokemonWeight).insert(pokemonWeight.length()-1, ".").toString();
+        pokeHeightWeight.setText("Height: " + pokemonHeight + " m" + "\n" + "Weight: " + pokemonWeight + " kg");
 
         pokeHp.setTypeface(Typeface.MONOSPACE);
         pokeAtk.setTypeface(Typeface.MONOSPACE);
