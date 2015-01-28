@@ -69,6 +69,7 @@ public class MainActivity extends ActionBarActivity
         } else {
             new LoadData.CallAPI().execute(pokeballTog1States,pokeballTog2States,pokeballTog3States);
         }
+        //TODO: download and load mega evolution's data, then allow clicking to mega from pokemon detail page evolution section
     }
 
     @Override
@@ -553,6 +554,7 @@ public class MainActivity extends ActionBarActivity
             l1.setAdapter(dexAdapter);
             SearchView searchView = (SearchView) rootView.findViewById(R.id.searchView);
             searchView.setOnQueryTextListener(this);
+            //TODO: activity to launch from here to show type coverages (defensive and offensive - with move selector for team pokemon)
             return rootView;
         }
 

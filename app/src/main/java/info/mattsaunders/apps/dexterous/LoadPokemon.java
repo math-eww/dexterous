@@ -103,6 +103,7 @@ public class LoadPokemon {
             } catch (JSONException e) {
                 Log.e("JSON LOADING", "Failed to read JSON: " + e);
             }
+            //TODO: parse moveset and ability from JSON data
             pokelist.add(new Pokemon(i,
                     name,
                     type1,
