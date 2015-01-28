@@ -74,6 +74,11 @@ public class MainActivity extends ActionBarActivity
     }
 
     @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
+
+    @Override
     protected void onPause() {
         //Save 3 bundles with pokemon pokeball toggles
         pokeballTog1States = new Bundle();
