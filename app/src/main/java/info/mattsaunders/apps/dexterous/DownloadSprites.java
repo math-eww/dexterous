@@ -7,6 +7,7 @@ import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -41,6 +42,15 @@ public class DownloadSprites {
             //String urlStringEnd = params[0];
             //String command = params[1];
             String resultToDisplay = "";
+
+            try {
+                File sdcard = Environment.getExternalStorageDirectory();
+                File f = new File(sdcard.getAbsolutePath() + FILEDIR,".nomedia");
+                f.getParentFile().mkdirs();
+                f.createNewFile();
+            } catch (IOException e) {
+                Log.e("DOWNLOAD SPRITES: File creation exception: ", e.toString());
+            }
 
             for (int i = 1; i <= TOTAL_POKES; i++ ) {
                 String urlString = API_URL + POKE + String.valueOf(i) + FILE_EXT;
