@@ -208,6 +208,8 @@ public class PokemonDetailsActivity extends ActionBarActivity {
             evoList.addView(rowLayout);
         }
         //TODO: Make multiple new pages: IV checker page, moveset page, type effectiveness page
+        //TODO: Add abilities to page
+        //TODO: Show evolves from section
     }
 
 
