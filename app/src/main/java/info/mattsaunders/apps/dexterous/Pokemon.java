@@ -22,6 +22,9 @@ public class Pokemon {
     private String height;
     private String weight;
     private ArrayList<Bundle> evolutions;
+    private ArrayList<Bundle> moveset;
+    private ArrayList<Bundle> eggTypes;
+    private ArrayList<Bundle> abilities;
     private boolean hasSprite = false;
     private File spriteFile;
     private boolean pokeballToggle1 = false;
@@ -40,7 +43,10 @@ public class Pokemon {
                    int spd,
                    String height,
                    String weight,
-                   ArrayList<Bundle> evolutions) {
+                   ArrayList<Bundle> evolutions,
+                   ArrayList<Bundle> moveset,
+                   ArrayList<Bundle> eggTypes,
+                   ArrayList<Bundle> abilities) {
         this.number = number;
         this.name = name;
         this.typeOne = typeOne;
@@ -54,6 +60,9 @@ public class Pokemon {
         this.height = height;
         this.weight = weight;
         this.evolutions = evolutions;
+        this.moveset = moveset;
+        this.eggTypes = eggTypes;
+        this.abilities = abilities;
     }
 
     public int getNumber() { return number; }
@@ -80,8 +89,7 @@ public class Pokemon {
     public boolean getPokeballToggle3() { return pokeballToggle3; }
 
     public String getSummary() {
-        String evolves = "";
-        evolves = evolutions.toString();
+        String evolves = evolutions.toString();
         return String.valueOf(number) + " " + name + " " + typeOne + " " + typeTwo + " -- " + evolves + "\n"
                 + "__________" + " HP: " + hp + " ATK: " + atk + " DEF: " + def + " SPATK: " + spatk + " SPDEF: " + spdef + " SPD " + spd;
     }

@@ -30,7 +30,9 @@ public class LoadPokemon {
             int spd = 0;
             String height = "";
             String weight = "";
-            //Bundle[] evolutions = new Bundle[0];
+            ArrayList<Bundle> abilities = new ArrayList();
+            ArrayList<Bundle> moveset = new ArrayList();
+            ArrayList<Bundle> eggs = new ArrayList();
             ArrayList<Bundle> evolutions = new ArrayList();
             //Try to parse JSON object:
             try {
@@ -100,10 +102,50 @@ public class LoadPokemon {
                     }
 
                 }
+
+                //Get JSONArray of abilities:
+                JSONArray abils = jsonObject.getJSONArray("abilities");
+                if (abils.length() > 0) {
+                    for (int j = 0; j < abils.length(); j++) {
+                        Bundle tempBundle = new Bundle();
+                        JSONObject tempobj = abils.getJSONObject(j);
+                        tempBundle.putString("name",tempobj.getString("name"));
+                        tempBundle.putString("resource",tempobj.getString("resource_uri"));
+                        abilities.add(tempBundle);
+                    }
+
+                }
+
+                //Get JSONArray of moves:
+                JSONArray moves = jsonObject.getJSONArray("moves");
+                if (moves.length() > 0) {
+                    for (int j = 0; j < moves.length(); j++) {
+                        Bundle tempBundle = new Bundle();
+                        JSONObject tempobj = moves.getJSONObject(j);
+                        tempBundle.putString("name",tempobj.getString("name"));
+                        tempBundle.putString("resource",tempobj.getString("resource_uri"));
+                        tempBundle.putString("learn",tempobj.getString("learn_type"));
+                        if (tempobj.has("level")) { tempBundle.putInt("level",tempobj.getInt("level")); }
+                        moveset.add(tempBundle);
+                    }
+
+                }
+
+                //Get JSONArray of eggtypes:
+                JSONArray eggType = jsonObject.getJSONArray("egg_groups");
+                if (eggType.length() > 0) {
+                    for (int j = 0; j < eggType.length(); j++) {
+                        Bundle tempBundle = new Bundle();
+                        JSONObject tempobj = eggType.getJSONObject(j);
+                        tempBundle.putString("name",tempobj.getString("name"));
+                        tempBundle.putString("resource",tempobj.getString("resource_uri"));
+                        eggs.add(tempBundle);
+                    }
+
+                }
             } catch (JSONException e) {
                 Log.e("JSON LOADING", "Failed to read JSON: " + e);
             }
-            //TODO: parse moveset and ability from JSON data
             pokelist.add(new Pokemon(i,
                     name,
                     type1,
@@ -116,7 +158,10 @@ public class LoadPokemon {
                     spd,
                     height,
                     weight,
-                    evolutions));
+                    evolutions,
+                    moveset,
+                    eggs,
+                    abilities));
         }
         for (Pokemon poke : pokelist) {
             //System.out.println(poke.getSummary());
