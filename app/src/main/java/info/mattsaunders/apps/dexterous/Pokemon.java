@@ -76,6 +76,7 @@ public class Pokemon {
     public String getHeight() { return height; }
     public String getWeight() { return weight; }
     public ArrayList<Bundle> getEvolutions() { return evolutions; }
+    public ArrayList<Bundle> getAbilities() { return abilities; }
 
     public boolean isHasSprite() { return hasSprite; }
     public void setSprite(File spriteF) { spriteFile = spriteF; hasSprite = true; }
