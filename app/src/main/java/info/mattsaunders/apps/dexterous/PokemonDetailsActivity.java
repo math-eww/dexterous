@@ -219,8 +219,7 @@ public class PokemonDetailsActivity extends ActionBarActivity {
         abilitiesText = abilitiesText.substring(0,abilitiesText.length()-2);
         abilitiesListText.setText(abilitiesText);
         //TODO: Make multiple new pages: IV checker page, moveset page, type effectiveness page
-        //TODO: Add abilities to page
-        //TODO: Show evolves from section
+        //TODO: Show evolves from section, egg types
         //TODO: crop off extra bit of name (bit after a dash, like deoxys-attack) / fix errors with gif loading where male a female look different (ie 678)
     }
 
