@@ -42,6 +42,7 @@ public class PokemonDetailsActivity extends ActionBarActivity {
         TextView pokeNum = (TextView) findViewById(R.id.pokeDetailsNum);
         TextView pokeTypes = (TextView) findViewById(R.id.pokeDetailsTypes);
         TextView pokeHeightWeight = (TextView) findViewById(R.id.pokeDetailsHeighWeight);
+        TextView pokeEggTypesList = (TextView) findViewById(R.id.pokeDetailsEggGroups);
 
         TextView pokeHp = (TextView) findViewById(R.id.pokeDetailsHp);
         TextView pokeAtk = (TextView) findViewById(R.id.pokeDetailsAtk);
@@ -114,13 +115,13 @@ public class PokemonDetailsActivity extends ActionBarActivity {
         pokeTtl.setTypeface(Typeface.MONOSPACE);
         int[] stats = poke.getStats();
         int total = stats[0] + stats[1] + stats[2] + stats[3] + stats[4] + stats[5];
-        pokeHp.setText(String.format("%-15s %3d", "HP:", stats[0]));
-        pokeAtk.setText(String.format("%-15s %3d","Attack:",stats[1]));
-        pokeDef.setText(String.format("%-15s %3d","Defense:",stats[2]));
-        pokeSpAtk.setText(String.format("%-15s %3d","Sp. Atk:",stats[3]));
-        pokeSpDef.setText(String.format("%-15s %3d","Sp. Def:",stats[4]));
-        pokeSpd.setText(String.format("%-15s %3d","Speed:",stats[5]));
-        pokeTtl.setText(String.format("%-15s %3d","Total:",total));
+        pokeHp.setText(String.format("%-10s %3d", "HP:", stats[0]));
+        pokeAtk.setText(String.format("%-10s %3d","Attack:",stats[1]));
+        pokeDef.setText(String.format("%-10s %3d","Defense:",stats[2]));
+        pokeSpAtk.setText(String.format("%-10s %3d","Sp. Atk:",stats[3]));
+        pokeSpDef.setText(String.format("%-10s %3d","Sp. Def:",stats[4]));
+        pokeSpd.setText(String.format("%-10s %3d","Speed:",stats[5]));
+        pokeTtl.setText(String.format("%-10s %3d","Total:",total));
 
         ArrayList<Bundle> evolutionList = poke.getEvolutions();
         if (evolutionList.size() > 0) {
@@ -212,12 +213,24 @@ public class PokemonDetailsActivity extends ActionBarActivity {
         ArrayList<Bundle> abilities = poke.getAbilities();
         String abilitiesText = "Abilities: ";
         String middleSepText = "";
-        if (abilities.size() > 1) { middleSepText = ", "; }
+        boolean shouldSnip = false;
+        if (abilities.size() > 1) { middleSepText = ", "; shouldSnip = true; }
         for (Bundle abil : abilities) {
             abilitiesText = abilitiesText + " " + abil.getString("name") + middleSepText;
         }
-        abilitiesText = abilitiesText.substring(0,abilitiesText.length()-2);
+        if (shouldSnip) abilitiesText = abilitiesText.substring(0,abilitiesText.length()-2);
         abilitiesListText.setText(abilitiesText);
+
+        ArrayList<Bundle> eggTypes = poke.getEggTypes();
+        String eggTypesText = "Egg types: ";
+        middleSepText = "";
+        shouldSnip = false;
+        if (eggTypes.size() > 1) { middleSepText = ", "; shouldSnip = true; }
+        for (Bundle eggTy : eggTypes) {
+            eggTypesText = eggTypesText + " " + eggTy.getString("name") + middleSepText;
+        }
+        if (shouldSnip) eggTypesText = eggTypesText.substring(0,eggTypesText.length()-2);
+        pokeEggTypesList.setText(eggTypesText);
         //TODO: Make multiple new pages: IV checker page, moveset page, type effectiveness page
         //TODO: Show evolves from section, egg types
         //TODO: crop off extra bit of name (bit after a dash, like deoxys-attack) / fix errors with gif loading where male a female look different (ie 678)

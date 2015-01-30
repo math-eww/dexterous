@@ -113,13 +113,6 @@
                     android:text="Small Text"
                     android:id="@+id/pokeDetailsTotals" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Small text"
-                    android:id="@+id/pokeDetailsHeighWeight"
-                    android:layout_marginTop="15dp" />
             </LinearLayout>
 
             <ScrollView
@@ -136,8 +129,32 @@
             </ScrollView>
         </LinearLayout>
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Small text"
+                android:id="@+id/pokeDetailsHeighWeight" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Small Text"
+                android:id="@+id/pokeDetailsEggGroups"
+                android:layout_marginLeft="20dp"
+                android:gravity="right" />
+        </LinearLayout>
+
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Small Text"
