@@ -25,16 +25,20 @@ import pl.droidsonroids.gif.GifImageView;
 
 public class PokemonDetailsActivity extends ActionBarActivity {
 
+    private static Context con;
+    private static int pokePosition;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pokemon_details);
 
         Intent intent = getIntent();
-        int pokePosition = intent.getIntExtra("pokemon", 0);
+        pokePosition = intent.getIntExtra("pokemon", 0);
         Pokemon poke = MainActivity.pokemonList.get(pokePosition);
 
         final Context c = MainActivity.c;
+        con = this;
 
         final GifImageView pokeSprite = (GifImageView) findViewById(R.id.pokeDetailsImage);
 
@@ -254,6 +258,12 @@ public class PokemonDetailsActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+
+        if (id == R.id.action_ivs) {
+            Intent intent = new Intent(con,IVCalculator.class);
+            intent.putExtra("pokemon",pokePosition);
+            con.startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

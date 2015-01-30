@@ -26,6 +26,11 @@
             android:label="@string/title_activity_pokemon_details"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".IVCalculator"
+            android:label="@string/title_activity_ivcalculator"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>
