@@ -23,7 +23,8 @@
         </activity>
         <activity
             android:name=".PokemonDetailsActivity"
-            android:label="@string/title_activity_pokemon_details" >
+            android:label="@string/title_activity_pokemon_details"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 
