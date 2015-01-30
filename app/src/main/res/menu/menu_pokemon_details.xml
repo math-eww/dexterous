@@ -2,8 +2,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="info.mattsaunders.apps.dexterous.PokemonDetailsActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_ivs" android:title="@string/action_ivcalc"
         android:orderInCategory="100" app:showAsAction="never" />
 </menu>
