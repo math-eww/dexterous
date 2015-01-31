@@ -38,6 +38,8 @@ public class MainActivity extends ActionBarActivity
     public static Bundle pokeballTog1States;
     public static Bundle pokeballTog2States;
     public static Bundle pokeballTog3States;
+    public static int caughtDex = 0;
+    public static int livingDex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

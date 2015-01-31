@@ -169,11 +169,13 @@ public class LoadPokemon {
             if (pokeball1 != null) {
                 if (pokeball1.getInt(poke.getStringNumber()) == 1) {
                     poke.setPokeballToggle1(true);
+                    MainActivity.caughtDex++;
                 }
             }
             if (pokeball2 != null) {
                 if (pokeball2.getInt(poke.getStringNumber()) == 1) {
                     poke.setPokeballToggle2(true);
+                    MainActivity.livingDex++;
                 }
             }
             if (pokeball3 != null) {

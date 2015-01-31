@@ -141,8 +141,10 @@ public class DexListAdapter extends BaseAdapter implements Filterable {
             public void onClick(View v) {
                 if (holder.pokeballTog1.isChecked()) {
                     poke.setPokeballToggle1(true);
+                    MainActivity.caughtDex++;
                 } else {
                     poke.setPokeballToggle1(false);
+                    MainActivity.caughtDex--;
                 }
             }
         });
@@ -154,9 +156,12 @@ public class DexListAdapter extends BaseAdapter implements Filterable {
                     poke.setPokeballToggle2(true);
                     holder.pokeballTog1.setChecked(true);
                     poke.setPokeballToggle1(true);
+                    MainActivity.caughtDex++;
+                    MainActivity.livingDex++;
 
                 } else {
                     poke.setPokeballToggle2(false);
+                    MainActivity.livingDex--;
                 }
             }
         });
