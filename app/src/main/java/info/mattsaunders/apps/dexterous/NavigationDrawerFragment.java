@@ -97,21 +97,6 @@ public class NavigationDrawerFragment extends Fragment {
                 selectItem(position);
             }
         });
-        //TODO: custom array adapter to put appropriate pokeball symbols next to title
-        /*
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-                getActionBar().getThemedContext(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                new String[]{
-                        getString(R.string.title_section1),
-                        getString(R.string.title_section2),
-                        getString(R.string.title_section3),
-                        getString(R.string.title_section4),
-                        getString(R.string.title_section5),
-                        getString(R.string.title_section6),
-                }));
-        */
         navDrawerAdapter = new NavDrawerListAdapter(getActionBar().getThemedContext(), R.layout.nav_dawer_list_item, new String[]{
                 getString(R.string.title_section1),
                 getString(R.string.title_section2),
