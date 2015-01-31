@@ -218,6 +218,9 @@ public class MainActivity extends ActionBarActivity
         return super.onOptionsItemSelected(item);
     }
 
+    public static int getCaughtDex() { return caughtDex; }
+    public static int getLivingDex() { return livingDex; }
+
     /**
      * A placeholder fragment containing a simple view.
      */

@@ -186,6 +186,8 @@ public class LoadPokemon {
         }
         Utilities.SUBDIR = "";
         System.out.println("Loaded Pokemon: " + pokelist.size());
+        System.out.println("Main Activity caughtdex = " + MainActivity.caughtDex);
+        System.out.println("Main Acvitivy livingdex = " + MainActivity.livingDex);
         return pokelist;
     }
 }

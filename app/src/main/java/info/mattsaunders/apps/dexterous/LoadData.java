@@ -33,6 +33,15 @@ public class LoadData {
             progress.dismiss();
             MainActivity.dexAdapter.setList(MainActivity.pokemonList);
             MainActivity.dexAdapter.notifyDataSetChanged();
+            NavigationDrawerFragment.navDrawerAdapter.setList(new String[]{
+                    MainActivity.c.getString(R.string.title_section1),
+                    MainActivity.c.getString(R.string.title_section2),
+                    MainActivity.c.getString(R.string.title_section3),
+                    MainActivity.c.getString(R.string.title_section4),
+                    MainActivity.c.getString(R.string.title_section5),
+                    MainActivity.c.getString(R.string.title_section6),
+            });
+            NavigationDrawerFragment.navDrawerAdapter.notifyDataSetChanged();
         }
     }
 }

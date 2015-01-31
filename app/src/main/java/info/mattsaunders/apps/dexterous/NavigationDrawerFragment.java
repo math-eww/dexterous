@@ -18,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -29,6 +28,7 @@ import android.widget.Toast;
  */
 public class NavigationDrawerFragment extends Fragment {
 
+    public static NavDrawerListAdapter navDrawerAdapter;
     /**
      * Remember the position of the selected item.
      */
@@ -98,6 +98,7 @@ public class NavigationDrawerFragment extends Fragment {
             }
         });
         //TODO: custom array adapter to put appropriate pokeball symbols next to title
+        /*
         mDrawerListView.setAdapter(new ArrayAdapter<String>(
                 getActionBar().getThemedContext(),
                 android.R.layout.simple_list_item_activated_1,
@@ -110,6 +111,16 @@ public class NavigationDrawerFragment extends Fragment {
                         getString(R.string.title_section5),
                         getString(R.string.title_section6),
                 }));
+        */
+        navDrawerAdapter = new NavDrawerListAdapter(getActionBar().getThemedContext(), R.layout.nav_dawer_list_item, new String[]{
+                getString(R.string.title_section1),
+                getString(R.string.title_section2),
+                getString(R.string.title_section3),
+                getString(R.string.title_section4),
+                getString(R.string.title_section5),
+                getString(R.string.title_section6),
+        });
+        mDrawerListView.setAdapter(navDrawerAdapter);
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
     }
