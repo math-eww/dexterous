@@ -3,5 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="info.mattsaunders.apps.dexterous.PokemonDetailsActivity">
     <item android:id="@+id/action_ivs" android:title="@string/action_ivcalc"
-        android:orderInCategory="100" app:showAsAction="never" />
+        android:orderInCategory="100" app:showAsAction="always"
+        android:icon="@drawable/ivs"/>
 </menu>
