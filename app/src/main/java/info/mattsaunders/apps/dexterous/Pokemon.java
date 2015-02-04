@@ -22,7 +22,7 @@ public class Pokemon {
     private String height;
     private String weight;
     private ArrayList<Bundle> evolutions;
-    private String evolvesFrom;
+    private String evolvesFrom = "";
     private int evolvesFromNum;
     private ArrayList<Bundle> moveset;
     private ArrayList<Bundle> eggTypes;

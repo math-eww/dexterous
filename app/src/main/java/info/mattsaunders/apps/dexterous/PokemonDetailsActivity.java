@@ -127,6 +127,57 @@ public class PokemonDetailsActivity extends ActionBarActivity {
         pokeSpd.setText(String.format("%-10s %3d","Speed:",stats[5]));
         pokeTtl.setText(String.format("%-10s %3d","Total:",total));
 
+        if (!poke.getEvolvesFrom().equals("")) {
+            TextView evoHeader = new TextView(getApplicationContext());
+            evoHeader.setText("Evolves from:");
+            evoHeader.setTextColor(Color.BLACK);
+            evoList.addView(evoHeader);
+
+            String to = poke.getEvolvesFrom();
+            String num = String.valueOf(poke.getEvolvesFromNum());
+            num = ("000" + num).substring(num.length());
+
+            ImageView tempImage = new ImageView(getApplicationContext());
+            try {
+                GifDrawable tempGifFromAssets = new GifDrawable(getAssets(), "xy-animated" + "/" + num + ".gif");
+                tempImage.setImageDrawable(tempGifFromAssets);
+                tempImage.setMinimumWidth(3);
+                tempImage.setMaxWidth(3);
+                tempImage.setMinimumHeight(3);
+                tempImage.setMaxHeight(3);
+                tempImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            } catch (IOException e) {
+                Log.e("Error in gif loading (evolution): " + gifId, e.toString());
+            }
+
+            String tempTextShow = num + " " + to;
+
+            TextView tempText = new TextView(getApplicationContext());
+            tempText.setText(tempTextShow);
+            tempText.setTextColor(Color.BLACK);
+            tempText.setGravity(Gravity.RIGHT);
+            tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+            LinearLayout rowLayout = new LinearLayout(getApplicationContext());
+            rowLayout.setOrientation(LinearLayout.HORIZONTAL);
+            rowLayout.addView(tempImage);
+            rowLayout.addView(tempText);
+
+            rowLayout.setClickable(true);
+            final int newPokePosition = Integer.parseInt(num) - 1;
+            rowLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(c,PokemonDetailsActivity.class);
+                    intent.putExtra("pokemon",newPokePosition);
+                    c.startActivity(intent);
+                    finish();
+                }
+            });
+
+            evoList.addView(rowLayout);
+        }
+
         ArrayList<Bundle> evolutionList = poke.getEvolutions();
         if (evolutionList.size() > 0) {
             TextView evoHeader = new TextView(getApplicationContext());
@@ -207,6 +258,7 @@ public class PokemonDetailsActivity extends ActionBarActivity {
                         Intent intent = new Intent(c,PokemonDetailsActivity.class);
                         intent.putExtra("pokemon",newPokePosition);
                         c.startActivity(intent);
+                        finish();
                     }
                 });
             }
