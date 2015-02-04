@@ -72,7 +72,6 @@ public class MainActivity extends ActionBarActivity
             new LoadData.CallAPI().execute(pokeballTog1States,pokeballTog2States,pokeballTog3States);
         }
         //TODO: download and load mega evolution's data, then allow clicking to mega from pokemon detail page evolution section
-        //TODO: show percentage complete/missing for each fragment page - possibly on navigation drawer list item
     }
 
     @Override
