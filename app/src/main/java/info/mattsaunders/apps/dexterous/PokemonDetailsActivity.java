@@ -288,8 +288,7 @@ public class PokemonDetailsActivity extends ActionBarActivity {
         if (shouldSnip) eggTypesText = eggTypesText.substring(0,eggTypesText.length()-2);
         pokeEggTypesList.setText(eggTypesText);
         //TODO: Make multiple new pages: moveset page, type effectiveness page
-        //TODO: Show evolves from section
-        //TODO: crop off extra bit of name (bit after a dash, like deoxys-attack) / fix errors with gif loading where male a female look different (ie 678)
+        //TODO: crop off extra bit of name (bit after a dash, like deoxys-attack)
     }
 
 
