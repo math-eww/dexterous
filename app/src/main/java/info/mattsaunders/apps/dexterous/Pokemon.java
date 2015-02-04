@@ -22,6 +22,8 @@ public class Pokemon {
     private String height;
     private String weight;
     private ArrayList<Bundle> evolutions;
+    private String evolvesFrom;
+    private int evolvesFromNum;
     private ArrayList<Bundle> moveset;
     private ArrayList<Bundle> eggTypes;
     private ArrayList<Bundle> abilities;
@@ -79,6 +81,11 @@ public class Pokemon {
     public ArrayList<Bundle> getAbilities() { return abilities; }
     public ArrayList<Bundle> getMoveset() { return moveset; }
     public ArrayList<Bundle> getEggTypes() { return eggTypes; }
+
+    public void setEvolvesFrom(String evoFrom) { evolvesFrom = evoFrom; }
+    public String getEvolvesFrom() { return evolvesFrom; }
+    public void setEvolvesFromNum(int evoFromNum) { evolvesFromNum = evoFromNum; }
+    public int getEvolvesFromNum() { return evolvesFromNum; }
 
     public boolean isHasSprite() { return hasSprite; }
     public void setSprite(File spriteF) { spriteFile = spriteF; hasSprite = true; }

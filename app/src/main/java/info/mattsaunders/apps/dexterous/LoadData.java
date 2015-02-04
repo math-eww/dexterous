@@ -26,6 +26,7 @@ public class LoadData {
 
             MainActivity.pokemonList = LoadPokemon.buildPokeList(pokeballindicator1, pokeballindicator2, pokeballindicator3);
             LoadSprites.loadSprites();
+            LoadEvoFrom.loadEvoFrom();
 
             return resultToDisplay;
         }
