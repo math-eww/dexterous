@@ -15,5 +15,7 @@
     <string name="title_activity_pokemon_details">Dexterous</string>
     <string name="title_activity_ivcalculator">IV Calculator</string>
     <string name="action_ivcalc">IV calculator</string>
+    <string name="action_prev">Previous</string>
+    <string name="action_next">Next</string>
 
 </resources>

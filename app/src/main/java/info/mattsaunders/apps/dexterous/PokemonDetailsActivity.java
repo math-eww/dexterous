@@ -27,6 +27,8 @@ public class PokemonDetailsActivity extends ActionBarActivity {
 
     private static Context con;
     private static int pokePosition;
+    private Menu menu;
+    private Pokemon poke;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +37,7 @@ public class PokemonDetailsActivity extends ActionBarActivity {
 
         Intent intent = getIntent();
         pokePosition = intent.getIntExtra("pokemon", 0);
-        Pokemon poke = MainActivity.pokemonList.get(pokePosition);
+        poke = MainActivity.pokemonList.get(pokePosition);
 
         final Context c = MainActivity.c;
         con = this;
@@ -295,7 +297,22 @@ public class PokemonDetailsActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        this.menu = menu;
+
         getMenuInflater().inflate(R.menu.menu_pokemon_details, menu);
+
+        String num;
+        if (!(poke.getNumber() < 2)) {
+            num = String.valueOf(poke.getNumber() - 1);
+            num = ("000" + num).substring(num.length());
+            setOptionTitle(R.id.action_prev, num);
+        } else { hideOption(R.id.action_prev); }
+        if (!(poke.getNumber() > MainActivity.pokemonList.size() - 1)) {
+            num = String.valueOf(poke.getNumber() + 1);
+            num = ("000" + num).substring(num.length());
+            setOptionTitle(R.id.action_next, num);
+        } else { hideOption(R.id.action_next); }
+
         return true;
     }
 
@@ -317,6 +334,44 @@ public class PokemonDetailsActivity extends ActionBarActivity {
             con.startActivity(intent);
         }
 
+        if (id == R.id.action_prev) {
+            Intent intent = new Intent(con,PokemonDetailsActivity.class);
+            intent.putExtra("pokemon",pokePosition-1);
+            con.startActivity(intent);
+            finish();
+        }
+
+        if (id == R.id.action_next) {
+            Intent intent = new Intent(con,PokemonDetailsActivity.class);
+            intent.putExtra("pokemon",pokePosition+1);
+            con.startActivity(intent);
+            finish();
+        }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    private void hideOption(int id)
+    {
+        MenuItem item = menu.findItem(id);
+        item.setVisible(false);
+    }
+
+    private void showOption(int id)
+    {
+        MenuItem item = menu.findItem(id);
+        item.setVisible(true);
+    }
+
+    private void setOptionTitle(int id, String title)
+    {
+        MenuItem item = menu.findItem(id);
+        item.setTitle(title);
+    }
+
+    private void setOptionIcon(int id, int iconRes)
+    {
+        MenuItem item = menu.findItem(id);
+        item.setIcon(iconRes);
     }
 }
