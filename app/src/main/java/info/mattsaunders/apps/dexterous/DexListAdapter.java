@@ -181,7 +181,7 @@ public class DexListAdapter extends BaseAdapter implements Filterable {
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext,PokemonDetailsActivity.class);
+                Intent intent = new Intent(mContext,PokeDetailsTabs.class);
                 intent.putExtra("pokemon",pokePosition);
                 mContext.startActivity(intent);
             }

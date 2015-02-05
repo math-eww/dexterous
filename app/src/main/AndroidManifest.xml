@@ -31,6 +31,10 @@
             android:label="@string/title_activity_ivcalculator"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".PokeDetailsTabs"
+            android:label="@string/title_activity_poke_details_tabs" >
+        </activity>
     </application>
 
 </manifest>

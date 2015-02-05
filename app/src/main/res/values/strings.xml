@@ -17,5 +17,6 @@
     <string name="action_ivcalc">IV calculator</string>
     <string name="action_prev">Previous</string>
     <string name="action_next">Next</string>
+    <string name="title_activity_poke_details_tabs">Dexterous</string>
 
 </resources>
