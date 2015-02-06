@@ -127,14 +127,14 @@ public class PokeDetailsTabs extends ActionBarActivity {
         }
 
         if (id == R.id.action_prev) {
-            Intent intent = new Intent(con,PokemonDetailsActivity.class);
+            Intent intent = new Intent(con,PokeDetailsTabs.class);
             intent.putExtra("pokemon",pokePosition-1);
             con.startActivity(intent);
             finish();
         }
 
         if (id == R.id.action_next) {
-            Intent intent = new Intent(con,PokemonDetailsActivity.class);
+            Intent intent = new Intent(con,PokeDetailsTabs.class);
             intent.putExtra("pokemon",pokePosition+1);
             con.startActivity(intent);
             finish();
@@ -487,7 +487,6 @@ public class PokeDetailsTabs extends ActionBarActivity {
             }
             if (shouldSnip) eggTypesText = eggTypesText.substring(0,eggTypesText.length()-2);
             pokeEggTypesList.setText(eggTypesText);
-            //TODO: Make multiple new pages: moveset page, type effectiveness page
             //TODO: crop off extra bit of name (bit after a dash, like deoxys-attack)
 
             return rootView;
