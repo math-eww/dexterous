@@ -26,6 +26,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import pl.droidsonroids.gif.GifDrawable;
@@ -55,6 +57,8 @@ public class PokeDetailsTabs extends ActionBarActivity {
     private static Pokemon poke;
     private static Context c;
     private static Activity activity;
+
+    private static MoveListAdapter moveListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,13 +165,41 @@ public class PokeDetailsTabs extends ActionBarActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return MainDetails.newInstance(position + 1);
+            //return MainDetails.newInstance(position + 1);
+
+            switch (position) {
+                case 0:
+                    return MainDetails.newInstance(position + 1);
+                case 1:
+                    return PokemonMoveFragment.newInstance(position + 1);
+                case 2:
+                    return PokemonMoveTMFragment.newInstance(position + 1);
+                case 3:
+                    return PokemonMoveTutorFragment.newInstance(position + 1);
+                default:
+                    return MainDetails.newInstance(position + 1);
+
+                /*
+                case 2:
+                    fragment = PokedexCaughtFragment.newInstance(position + 1);
+                    break;
+                case 3:
+                    fragment = LivingDexMissingFragment.newInstance(position + 1);
+                    break;
+                case 4:
+                    fragment = LivingDexCaughtFragment.newInstance(position + 1);
+                    break;
+                case 5:
+                    fragment = MyTeamFragment.newInstance(position + 1);
+                    break;
+                */
+            }
         }
 
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 4;
         }
 
         @Override
@@ -457,6 +489,201 @@ public class PokeDetailsTabs extends ActionBarActivity {
 
             return rootView;
 
+        }
+    }
+
+    /**
+     * A placeholder fragment containing a simple view.
+     */
+    public static class PokemonMoveFragment extends Fragment implements SearchView.OnQueryTextListener {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static PokemonMoveFragment newInstance(int sectionNumber) {
+            PokemonMoveFragment fragment = new PokemonMoveFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        public PokemonMoveFragment() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_poke_details_tabs_moves, container, false);
+            SearchView searchView = (SearchView) rootView.findViewById(R.id.searchViewMoves);
+            ListView l1=(ListView)rootView.findViewById(R.id.pokeMoveList);
+            ArrayList<Bundle> movesList = poke.getMoveset();
+            ArrayList<Bundle> showMovesList = new ArrayList<Bundle>();
+            for (Bundle bundle : movesList) {
+                if (bundle.getString("learn").equals("level up")) {
+                    showMovesList.add(bundle);
+                }
+            }
+
+            Collections.sort(showMovesList, new Comparator() {
+                public int compare(Object o1, Object o2) {
+                    Bundle p1 = (Bundle) o1;
+                    Bundle p2 = (Bundle) o2;
+                    return String.valueOf(p1.getInt("level")).compareTo(String.valueOf(p2.getInt("level")));
+                }
+            });
+
+            moveListAdapter = new MoveListAdapter(con,showMovesList);
+            l1.setAdapter(moveListAdapter);
+            searchView.setOnQueryTextListener(this);
+            return rootView;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            moveListAdapter.getFilter().filter(newText);
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            return false;
+        }
+    }
+
+    /**
+     * A placeholder fragment containing a simple view.
+     */
+    public static class PokemonMoveTMFragment extends Fragment implements SearchView.OnQueryTextListener {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static PokemonMoveTMFragment newInstance(int sectionNumber) {
+            PokemonMoveTMFragment fragment = new PokemonMoveTMFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        public PokemonMoveTMFragment() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_poke_details_tabs_moves, container, false);
+            SearchView searchView = (SearchView) rootView.findViewById(R.id.searchViewMoves);
+            ListView l1=(ListView)rootView.findViewById(R.id.pokeMoveList);
+            ArrayList<Bundle> movesList = poke.getMoveset();
+            ArrayList<Bundle> showMovesList = new ArrayList<Bundle>();
+            for (Bundle bundle : movesList) {
+                if (bundle.getString("learn").equals("machine")) {
+                    showMovesList.add(bundle);
+                }
+            }
+
+            Collections.sort(showMovesList, new Comparator() {
+                public int compare(Object o1, Object o2) {
+                    Bundle p1 = (Bundle) o1;
+                    Bundle p2 = (Bundle) o2;
+                    return p1.getString("name").compareTo(p2.getString("name"));
+                }
+            });
+
+            moveListAdapter = new MoveListAdapter(con,showMovesList);
+            l1.setAdapter(moveListAdapter);
+            searchView.setOnQueryTextListener(this);
+            return rootView;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            moveListAdapter.getFilter().filter(newText);
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            return false;
+        }
+    }
+
+    /**
+     * A placeholder fragment containing a simple view.
+     */
+    public static class PokemonMoveTutorFragment extends Fragment implements SearchView.OnQueryTextListener {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static PokemonMoveTutorFragment newInstance(int sectionNumber) {
+            PokemonMoveTutorFragment fragment = new PokemonMoveTutorFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        public PokemonMoveTutorFragment() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_poke_details_tabs_moves, container, false);
+            SearchView searchView = (SearchView) rootView.findViewById(R.id.searchViewMoves);
+            ListView l1=(ListView)rootView.findViewById(R.id.pokeMoveList);
+            ArrayList<Bundle> movesList = poke.getMoveset();
+            ArrayList<Bundle> showMovesList = new ArrayList<Bundle>();
+            for (Bundle bundle : movesList) {
+                if (bundle.getString("learn").equals("tutor")) {
+                    showMovesList.add(bundle);
+                }
+            }
+
+            Collections.sort(showMovesList, new Comparator() {
+                public int compare(Object o1, Object o2) {
+                    Bundle p1 = (Bundle) o1;
+                    Bundle p2 = (Bundle) o2;
+                    return p1.getString("name").compareTo(p2.getString("name"));
+                }
+            });
+
+            moveListAdapter = new MoveListAdapter(con,showMovesList);
+            l1.setAdapter(moveListAdapter);
+            searchView.setOnQueryTextListener(this);
+            return rootView;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            moveListAdapter.getFilter().filter(newText);
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            return false;
         }
     }
 
