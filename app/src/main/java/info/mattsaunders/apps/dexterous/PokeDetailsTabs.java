@@ -73,6 +73,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setCurrentItem(1);
 
 
         Intent intent = getIntent();
@@ -169,12 +170,14 @@ public class PokeDetailsTabs extends ActionBarActivity {
 
             switch (position) {
                 case 0:
-                    return MainDetails.newInstance(position + 1);
+                    return PokemonTypeEffectivenessFragment.newInstance(position + 1);
                 case 1:
-                    return PokemonMoveFragment.newInstance(position + 1);
+                    return MainDetails.newInstance(position + 1);
                 case 2:
-                    return PokemonMoveTMFragment.newInstance(position + 1);
+                    return PokemonMoveFragment.newInstance(position + 1);
                 case 3:
+                    return PokemonMoveTMFragment.newInstance(position + 1);
+                case 4:
                     return PokemonMoveTutorFragment.newInstance(position + 1);
                 default:
                     return MainDetails.newInstance(position + 1);
@@ -199,7 +202,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 4;
+            return 5;
         }
 
         @Override
@@ -684,6 +687,142 @@ public class PokeDetailsTabs extends ActionBarActivity {
         @Override
         public boolean onQueryTextSubmit(String query) {
             return false;
+        }
+    }
+
+    /**
+     * A placeholder fragment containing a simple view.
+     */
+    public static class PokemonTypeEffectivenessFragment extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static PokemonTypeEffectivenessFragment newInstance(int sectionNumber) {
+            PokemonTypeEffectivenessFragment fragment = new PokemonTypeEffectivenessFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        public PokemonTypeEffectivenessFragment() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_poke_details_tabs_type_effectiveness, container, false);
+            LinearLayout offensiveSuper = (LinearLayout) rootView.findViewById(R.id.type_supereffective);
+            LinearLayout offensiveNotvery = (LinearLayout) rootView.findViewById(R.id.type_notveryeffective);
+            LinearLayout offensiveDoesnot = (LinearLayout) rootView.findViewById(R.id.type_doesnoteffect);
+            LinearLayout defensiveSuper = (LinearLayout) rootView.findViewById(R.id.type_def_supereffective);
+            LinearLayout defensiveNotvery = (LinearLayout) rootView.findViewById(R.id.type_def_notveryeffective);
+            LinearLayout defensiveDoesnot = (LinearLayout) rootView.findViewById(R.id.type_def_doesnoteffect);
+
+            String typeOne = poke.getTypeOne();
+            String typeTwo = poke.getTypeTwo();
+            typeOne = typeOne.substring(0,1).toUpperCase() + typeOne.substring(1).toLowerCase();
+            if (!typeTwo.equals("")) {
+                typeTwo = typeTwo.substring(0, 1).toUpperCase() + typeTwo.substring(1).toLowerCase();
+            }
+
+            ArrayList<String> supereffective = new ArrayList<String>();
+            ArrayList<String> notveryeffective = new ArrayList<String>();
+            ArrayList<String> doesnoteffect = new ArrayList<String>();
+
+            ArrayList<String> def_supereffective = new ArrayList<String>();
+            ArrayList<String> def_notveryeffective = new ArrayList<String>();
+            ArrayList<String> def_doesnoteffect = new ArrayList<String>();
+
+            //Get offensive type effectiveness
+            Bundle typeEffectiveness = TypeEffectiveness.getTypeEffectiveness(typeOne, typeTwo);
+
+            for (String type : TypeEffectiveness.typeNamesList) {
+                float effectiveness = typeEffectiveness.getFloat(type);
+                if (effectiveness < 1) {
+                    if (effectiveness == 0) {
+                        doesnoteffect.add(type);
+                    } else {
+                        notveryeffective.add(type);
+                    }
+                } else if (effectiveness > 1) {
+                    supereffective.add(type);
+                }
+            }
+
+            for (String toPrint : supereffective) {
+                TextView tempText = new TextView(con.getApplicationContext());
+                tempText.setText(toPrint);
+                tempText.setTextColor(Color.BLACK);
+                tempText.setGravity(Gravity.CENTER);
+                tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                offensiveSuper.addView(tempText);
+            }
+            for (String toPrint : notveryeffective) {
+                TextView tempText = new TextView(con.getApplicationContext());
+                tempText.setText(toPrint);
+                tempText.setTextColor(Color.BLACK);
+                tempText.setGravity(Gravity.CENTER);
+                tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                offensiveNotvery.addView(tempText);
+            }
+            for (String toPrint : doesnoteffect) {
+                TextView tempText = new TextView(con.getApplicationContext());
+                tempText.setText(toPrint);
+                tempText.setTextColor(Color.BLACK);
+                tempText.setGravity(Gravity.CENTER);
+                tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                offensiveDoesnot.addView(tempText);
+            }
+
+            typeEffectiveness = TypeEffectiveness.getDefensiveTypeEffectiveness(typeOne, typeTwo);
+
+            for (String type : TypeEffectiveness.typeNamesList) {
+                float effectiveness = typeEffectiveness.getFloat(type);
+                if (effectiveness < 1) {
+                    if (effectiveness == 0) {
+                        def_doesnoteffect.add(type);
+                    } else {
+                        def_notveryeffective.add(type);
+                    }
+                } else if (effectiveness > 1) {
+                    def_supereffective.add(type);
+                }
+            }
+
+            for (String toPrint : def_supereffective) {
+                TextView tempText = new TextView(con.getApplicationContext());
+                tempText.setText(toPrint);
+                tempText.setTextColor(Color.BLACK);
+                tempText.setGravity(Gravity.CENTER);
+                tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                defensiveSuper.addView(tempText);
+            }
+            for (String toPrint : def_notveryeffective) {
+                TextView tempText = new TextView(con.getApplicationContext());
+                tempText.setText(toPrint);
+                tempText.setTextColor(Color.BLACK);
+                tempText.setGravity(Gravity.CENTER);
+                tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                defensiveNotvery.addView(tempText);
+            }
+            for (String toPrint : def_doesnoteffect) {
+                TextView tempText = new TextView(con.getApplicationContext());
+                tempText.setText(toPrint);
+                tempText.setTextColor(Color.BLACK);
+                tempText.setGravity(Gravity.CENTER);
+                tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                defensiveDoesnot.addView(tempText);
+            }
+
+            return rootView;
         }
     }
 
