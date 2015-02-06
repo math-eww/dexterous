@@ -535,11 +535,9 @@ public class PokeDetailsTabs extends ActionBarActivity {
                 }
             }
 
-            Collections.sort(showMovesList, new Comparator() {
-                public int compare(Object o1, Object o2) {
-                    Bundle p1 = (Bundle) o1;
-                    Bundle p2 = (Bundle) o2;
-                    return String.valueOf(p1.getInt("level")).compareTo(String.valueOf(p2.getInt("level")));
+            Collections.sort(showMovesList, new Comparator<Bundle>() {
+                @Override public int compare(Bundle p1, Bundle p2) {
+                    return p1.getInt("level")- p2.getInt("level");
                 }
             });
 
