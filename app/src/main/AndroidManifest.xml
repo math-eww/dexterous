@@ -33,7 +33,8 @@
         </activity>
         <activity
             android:name=".PokeDetailsTabs"
-            android:label="@string/title_activity_poke_details_tabs" >
+            android:label="@string/title_activity_poke_details_tabs"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 
