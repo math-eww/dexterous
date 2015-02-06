@@ -525,6 +525,8 @@ public class PokeDetailsTabs extends ActionBarActivity {
             View rootView = inflater.inflate(R.layout.fragment_poke_details_tabs_moves, container, false);
             SearchView searchView = (SearchView) rootView.findViewById(R.id.searchViewMoves);
             ListView l1=(ListView)rootView.findViewById(R.id.pokeMoveList);
+            TextView header = (TextView)rootView.findViewById(R.id.moveListHeader);
+            header.setText("MOVES: LEVEL UP");
             ArrayList<Bundle> movesList = poke.getMoveset();
             ArrayList<Bundle> showMovesList = new ArrayList<Bundle>();
             for (Bundle bundle : movesList) {
@@ -590,6 +592,8 @@ public class PokeDetailsTabs extends ActionBarActivity {
             View rootView = inflater.inflate(R.layout.fragment_poke_details_tabs_moves, container, false);
             SearchView searchView = (SearchView) rootView.findViewById(R.id.searchViewMoves);
             ListView l1=(ListView)rootView.findViewById(R.id.pokeMoveList);
+            TextView header = (TextView)rootView.findViewById(R.id.moveListHeader);
+            header.setText("MOVES: TM");
             ArrayList<Bundle> movesList = poke.getMoveset();
             ArrayList<Bundle> showMovesList = new ArrayList<Bundle>();
             for (Bundle bundle : movesList) {
@@ -655,6 +659,8 @@ public class PokeDetailsTabs extends ActionBarActivity {
             View rootView = inflater.inflate(R.layout.fragment_poke_details_tabs_moves, container, false);
             SearchView searchView = (SearchView) rootView.findViewById(R.id.searchViewMoves);
             ListView l1=(ListView)rootView.findViewById(R.id.pokeMoveList);
+            TextView header = (TextView)rootView.findViewById(R.id.moveListHeader);
+            header.setText("MOVES: TUTOR");
             ArrayList<Bundle> movesList = poke.getMoveset();
             ArrayList<Bundle> showMovesList = new ArrayList<Bundle>();
             for (Bundle bundle : movesList) {
