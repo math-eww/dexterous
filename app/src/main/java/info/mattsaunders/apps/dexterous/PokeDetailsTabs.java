@@ -735,10 +735,16 @@ public class PokeDetailsTabs extends ActionBarActivity {
             ArrayList<String> supereffective = new ArrayList<String>();
             ArrayList<String> notveryeffective = new ArrayList<String>();
             ArrayList<String> doesnoteffect = new ArrayList<String>();
+            ArrayList<Float> supereffectivenum = new ArrayList<Float>();
+            ArrayList<Float> notveryeffectivenum = new ArrayList<Float>();
+            ArrayList<Float> doesnoteffectnum = new ArrayList<Float>();
 
             ArrayList<String> def_supereffective = new ArrayList<String>();
             ArrayList<String> def_notveryeffective = new ArrayList<String>();
             ArrayList<String> def_doesnoteffect = new ArrayList<String>();
+            ArrayList<Float> def_supereffectivenum = new ArrayList<Float>();
+            ArrayList<Float> def_notveryeffectivenum = new ArrayList<Float>();
+            ArrayList<Float> def_doesnoteffectnum = new ArrayList<Float>();
 
             //Get offensive type effectiveness
             Bundle typeEffectiveness = TypeEffectiveness.getTypeEffectiveness(typeOne, typeTwo);
@@ -748,33 +754,36 @@ public class PokeDetailsTabs extends ActionBarActivity {
                 if (effectiveness < 1) {
                     if (effectiveness == 0) {
                         doesnoteffect.add(type);
+                        doesnoteffectnum.add(effectiveness);
                     } else {
                         notveryeffective.add(type);
+                        notveryeffectivenum.add(effectiveness);
                     }
                 } else if (effectiveness > 1) {
                     supereffective.add(type);
+                    supereffectivenum.add(effectiveness);
                 }
             }
 
-            for (String toPrint : supereffective) {
+            for (int i = 0; i < supereffective.size(); i++) {
                 TextView tempText = new TextView(con.getApplicationContext());
-                tempText.setText(toPrint);
+                tempText.setText(supereffective.get(i) + " (" + supereffectivenum.get(i) + ")");
                 tempText.setTextColor(Color.BLACK);
                 tempText.setGravity(Gravity.CENTER);
                 tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                 offensiveSuper.addView(tempText);
             }
-            for (String toPrint : notveryeffective) {
+            for (int i = 0; i < notveryeffective.size(); i++) {
                 TextView tempText = new TextView(con.getApplicationContext());
-                tempText.setText(toPrint);
+                tempText.setText(notveryeffective.get(i) + " (" + notveryeffectivenum.get(i) + ")");
                 tempText.setTextColor(Color.BLACK);
                 tempText.setGravity(Gravity.CENTER);
                 tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                 offensiveNotvery.addView(tempText);
             }
-            for (String toPrint : doesnoteffect) {
+            for (int i = 0; i < doesnoteffect.size(); i++) {
                 TextView tempText = new TextView(con.getApplicationContext());
-                tempText.setText(toPrint);
+                tempText.setText(doesnoteffect.get(i) + " (" + doesnoteffectnum.get(i) + ")");
                 tempText.setTextColor(Color.BLACK);
                 tempText.setGravity(Gravity.CENTER);
                 tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -788,33 +797,36 @@ public class PokeDetailsTabs extends ActionBarActivity {
                 if (effectiveness < 1) {
                     if (effectiveness == 0) {
                         def_doesnoteffect.add(type);
+                        def_doesnoteffectnum.add(effectiveness);
                     } else {
                         def_notveryeffective.add(type);
+                        def_notveryeffectivenum.add(effectiveness);
                     }
                 } else if (effectiveness > 1) {
                     def_supereffective.add(type);
+                    def_supereffectivenum.add(effectiveness);
                 }
             }
 
-            for (String toPrint : def_supereffective) {
+            for (int i = 0; i < def_supereffective.size(); i++) {
                 TextView tempText = new TextView(con.getApplicationContext());
-                tempText.setText(toPrint);
+                tempText.setText(def_supereffective.get(i) + " (" + def_supereffectivenum.get(i) + ")");
                 tempText.setTextColor(Color.BLACK);
                 tempText.setGravity(Gravity.CENTER);
                 tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                 defensiveSuper.addView(tempText);
             }
-            for (String toPrint : def_notveryeffective) {
+            for (int i = 0; i < def_notveryeffective.size(); i++) {
                 TextView tempText = new TextView(con.getApplicationContext());
-                tempText.setText(toPrint);
+                tempText.setText(def_notveryeffective.get(i) + " (" + def_notveryeffectivenum.get(i) + ")");
                 tempText.setTextColor(Color.BLACK);
                 tempText.setGravity(Gravity.CENTER);
                 tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                 defensiveNotvery.addView(tempText);
             }
-            for (String toPrint : def_doesnoteffect) {
+            for (int i = 0; i < def_doesnoteffect.size(); i++) {
                 TextView tempText = new TextView(con.getApplicationContext());
-                tempText.setText(toPrint);
+                tempText.setText(def_doesnoteffect.get(i) + " (" + def_doesnoteffectnum.get(i) + ")");
                 tempText.setTextColor(Color.BLACK);
                 tempText.setGravity(Gravity.CENTER);
                 tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
