@@ -49,31 +49,29 @@ public class PokemonGson {
         SharedPreferences pokemonSharedPreference = context.getSharedPreferences("PokemonPrefsFile", Context.MODE_PRIVATE);
         SharedPreferences.Editor pokemonPreferenceEdit = pokemonSharedPreference.edit();
 
-        Log.i("GSON SAVE/LOAD: ", "Beginning conversion: List size: " + pokeList.size());
+        Log.i("GSON SAVE: ", "Beginning conversion: List size: " + pokeList.size());
         Gson gson = new Gson();
         String objStr = gson.toJson(pokeList);
-        Log.i("GSON SAVE/LOAD: ", "Conversion successful - Beginning Save");
+        Log.i("GSON SAVE: ", "Conversion successful - Beginning Save");
 
         pokemonPreferenceEdit.putString("pokemonList", objStr);
         pokemonPreferenceEdit.commit();
-        Log.i("GSON SAVE/LOAD: ", "Save successful");
+        Log.i("GSON SAVE: ", "Save successful");
     }
 
     public static ArrayList<Pokemon> loadPokemonObjectList(Context context) {
         String toLoad = "pokemonList";
-        Log.i("GSON SAVE/LOAD: ", "Beginning load");
+        Log.i("GSON LOAD: ", "Beginning load - Loading string");
         Gson gson = new Gson();
         SharedPreferences pokemonSharedPreference = context.getSharedPreferences("PokemonPrefsFile",Context.MODE_PRIVATE);
-        Log.i("GSON SAVE/LOAD: ", "Loading string");
         String savedObjStr = pokemonSharedPreference.getString(toLoad, null);
-        Log.i("GSON SAVE/LOAD: ", "String loaded - Beginning conversion");
+        Log.i("GSON LOAD: ", "String loaded - Beginning conversion");
         if(savedObjStr != null) {
-            //ArrayList<Pokemon> pokeList = gson.fromJson(savedObjStr, Pokemon.class);
             ArrayList<Pokemon> pokeList = gson.fromJson(savedObjStr, new TypeToken<ArrayList<Pokemon>>(){}.getType());
-            Log.i("GSON SAVE/LOAD: ", "Object list created: " + "Size" + ": " + pokeList.size());
+            Log.i("GSON LOAD: ", "Object list created: Size: " + pokeList.size());
             return pokeList;
         } else {
-            Log.e("GSON SAVE/LOAD: ", "Saved Object String is null!");
+            Log.e("GSON LOAD: ", "Saved Object String is null!");
         }
         return null;
     }
