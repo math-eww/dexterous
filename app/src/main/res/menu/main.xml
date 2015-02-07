@@ -5,4 +5,8 @@
         android:showAsAction="withText|ifRoom" />
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" android:showAsAction="never" />
+    <item android:id="@+id/action_backupPokeballs" android:title="@string/action_backup"
+        android:orderInCategory="100" android:showAsAction="never" />
+    <item android:id="@+id/action_restorePokeballs" android:title="@string/action_restore"
+        android:orderInCategory="100" android:showAsAction="never" />
 </menu>

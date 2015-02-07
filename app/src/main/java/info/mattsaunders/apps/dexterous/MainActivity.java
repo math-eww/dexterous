@@ -214,6 +214,14 @@ public class MainActivity extends ActionBarActivity
             new DownloadPokemon.CallAPI().execute();  //DownloadPokemon -> LoadPokemon & DownloadSprites -> LoadSprites
             return true;
         }
+        if (id == R.id.action_backupPokeballs) {
+            Utilities.backupPokeballIndicators();
+            return true;
+        }
+        if (id == R.id.action_restorePokeballs) {
+            Utilities.restorePokeballIndicators();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }

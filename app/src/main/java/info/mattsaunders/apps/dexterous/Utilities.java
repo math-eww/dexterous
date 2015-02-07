@@ -166,4 +166,87 @@ public class Utilities {
             ex.printStackTrace();
         }
     }
+
+    public static void backupPokeballIndicators() {
+        MainActivity.pokeballTog1States = new Bundle();
+        MainActivity.pokeballTog2States = new Bundle();
+        MainActivity.pokeballTog3States = new Bundle();
+        for (Pokemon poke : MainActivity.pokemonList) {
+            if (poke.getPokeballToggle1()) {
+                MainActivity.pokeballTog1States.putInt(poke.getStringNumber(),1);
+            } else {
+                MainActivity.pokeballTog1States.putInt(poke.getStringNumber(),0);
+            }
+            if (poke.getPokeballToggle2()) {
+                MainActivity.pokeballTog2States.putInt(poke.getStringNumber(),1);
+            } else {
+                MainActivity.pokeballTog2States.putInt(poke.getStringNumber(),0);
+            }
+            if (poke.getPokeballToggle3()) {
+                MainActivity.pokeballTog3States.putInt(poke.getStringNumber(),1);
+            } else {
+                MainActivity.pokeballTog3States.putInt(poke.getStringNumber(),0);
+            }
+        }
+        SUBDIR = "__BAK";
+        FILENAME = "pokeball_1_states";
+        writeJsonFile(bundleToJsonObject(MainActivity.pokeballTog1States));
+        FILENAME = "pokeball_2_states";
+        writeJsonFile(bundleToJsonObject(MainActivity.pokeballTog2States));
+        FILENAME = "pokeball_3_states";
+        writeJsonFile(bundleToJsonObject(MainActivity.pokeballTog3States));
+        SUBDIR = "";
+    }
+
+    public static void restorePokeballIndicators() {
+        SUBDIR = "__BAK";
+        FILENAME = "pokeball_1_states";
+        MainActivity.pokeballTog1States = JsonObjectToBundle(readJsonFile());
+        FILENAME = "pokeball_2_states";
+        MainActivity.pokeballTog2States = JsonObjectToBundle(readJsonFile());
+        FILENAME = "pokeball_3_states";
+        MainActivity.pokeballTog3States = JsonObjectToBundle(readJsonFile());
+        SUBDIR = "";
+        MainActivity.caughtDex = 0;
+        MainActivity.livingDex = 0;
+        for (Pokemon poke : MainActivity.pokemonList) {
+            //System.out.println(poke.getSummary());
+            //Set toggle states here
+            if (MainActivity.pokeballTog1States != null) {
+                if (MainActivity.pokeballTog1States.getInt(poke.getStringNumber()) == 1) {
+                    poke.setPokeballToggle1(true);
+                    MainActivity.caughtDex++;
+                } else {
+                    poke.setPokeballToggle1(false);
+                }
+            }
+            if (MainActivity.pokeballTog2States != null) {
+                if (MainActivity.pokeballTog2States.getInt(poke.getStringNumber()) == 1) {
+                    poke.setPokeballToggle2(true);
+                    MainActivity.livingDex++;
+                } else {
+                poke.setPokeballToggle2(false);
+                }
+            }
+            if (MainActivity.pokeballTog3States != null) {
+                if (MainActivity.pokeballTog3States.getInt(poke.getStringNumber()) == 1) {
+                    poke.setPokeballToggle3(true);
+                } else {
+                    poke.setPokeballToggle3(false);
+                }
+            }
+        }
+        MainActivity.dexAdapter.setList(MainActivity.pokemonList);
+        MainActivity.dexAdapter.notifyDataSetChanged();
+        NavigationDrawerFragment.navDrawerAdapter.setList(new String[]{
+                MainActivity.c.getString(R.string.title_section1),
+                MainActivity.c.getString(R.string.title_section2),
+                MainActivity.c.getString(R.string.title_section3),
+                MainActivity.c.getString(R.string.title_section4),
+                MainActivity.c.getString(R.string.title_section5),
+                MainActivity.c.getString(R.string.title_section6),
+        });
+        NavigationDrawerFragment.navDrawerAdapter.notifyDataSetChanged();
+    }
+
 }
