@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 /**
- * Loads pokedex data in AsyncTask - calling LoadPokemon and LoadSprites
+ * Loads pokedex data in AsyncTask - calling LoadPokemon or PokemonGson.loadPokemonObjectList and LoadSprites
  */
 public class LoadData {
     public static class CallAPI extends AsyncTask<Bundle, String, String> {
