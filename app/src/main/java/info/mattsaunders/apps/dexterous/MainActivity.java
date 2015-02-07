@@ -108,6 +108,7 @@ public class MainActivity extends ActionBarActivity
         Utilities.writeJsonFile(Utilities.bundleToJsonObject(pokeballTog2States));
         Utilities.FILENAME = "pokeball_3_states";
         Utilities.writeJsonFile(Utilities.bundleToJsonObject(pokeballTog3States));
+        PokemonGson.savePokemonObjectList(pokemonList,c);
         super.onPause();
     }
 

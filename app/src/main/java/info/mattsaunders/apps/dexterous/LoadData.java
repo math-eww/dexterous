@@ -3,7 +3,6 @@ package info.mattsaunders.apps.dexterous;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 
 /**
  * Loads pokedex data in AsyncTask - calling LoadPokemon and LoadSprites
@@ -24,8 +23,20 @@ public class LoadData {
             Bundle pokeballindicator2 = params[1];
             Bundle pokeballindicator3 = params[2];
             String resultToDisplay = "";
+            boolean readPokeBallStates = true;
 
-            MainActivity.pokemonList = LoadPokemon.buildPokeList(pokeballindicator1, pokeballindicator2, pokeballindicator3);
+            MainActivity.pokemonList = PokemonGson.loadPokemonObjectList(MainActivity.c);
+            if (MainActivity.pokemonList == null) {
+                MainActivity.pokemonList = LoadPokemon.buildPokeList(pokeballindicator1, pokeballindicator2, pokeballindicator3);
+                PokemonGson.savePokemonObjectList(MainActivity.pokemonList, MainActivity.c);
+                readPokeBallStates = false;
+            }
+            if (readPokeBallStates) {
+                for (Pokemon poke : MainActivity.pokemonList) {
+                    if (poke.getPokeballToggle1()) { MainActivity.caughtDex++; }
+                    if (poke.getPokeballToggle2()) { MainActivity.livingDex++; }
+                }
+            }
             LoadSprites.loadSprites();
             LoadEvoFrom.loadEvoFrom();
 
@@ -44,15 +55,6 @@ public class LoadData {
                     MainActivity.c.getString(R.string.title_section6),
             });
             NavigationDrawerFragment.navDrawerAdapter.notifyDataSetChanged();
-
-
-            Pokemon pokeSave = MainActivity.pokemonList.get(0);
-            Log.i("SAVE POKEMON OBJECT","Beginning save process: " + pokeSave.getName() + ": " + pokeSave.getNumber());
-            PokemonObjectSerializer.writeSerializedPokemon(pokeSave);
-            Log.i("SAVE POKEMON OBJECT","Ending save process: " + pokeSave.getName() + ": " + pokeSave.getNumber());
-            Log.i("SAVE POKEMON OBJECT","Beginning load process: " + pokeSave.getName() + ": " + pokeSave.getNumber());
-            Pokemon pokeLoad = PokemonObjectSerializer.readSerializedPokemon(String.valueOf(pokeSave.getNumber()));
-            Log.i("SAVE POKEMON OBJECT", "Ending load process: " + pokeLoad.getName() + ": " + pokeLoad.getNumber());
         }
     }
 }
