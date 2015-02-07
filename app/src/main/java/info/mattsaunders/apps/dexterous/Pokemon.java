@@ -1,14 +1,16 @@
 package info.mattsaunders.apps.dexterous;
 
-import android.os.Bundle;
-
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Pokemon object to store info for pokemon
  */
-public class Pokemon {
+public class Pokemon implements Serializable {
+
+    private static final long serialVersionUID = -29238982928391L;
+
     private int number;
     private String name;
     private String typeOne;
@@ -21,12 +23,12 @@ public class Pokemon {
     private int spd;
     private String height;
     private String weight;
-    private ArrayList<Bundle> evolutions;
+    private ArrayList<Evolution> evolutions;
     private String evolvesFrom = "";
     private int evolvesFromNum;
-    private ArrayList<Bundle> moveset;
-    private ArrayList<Bundle> eggTypes;
-    private ArrayList<Bundle> abilities;
+    private ArrayList<Move> moveset;
+    private ArrayList<EggGroup> eggTypes;
+    private ArrayList<Ability> abilities;
     private boolean hasSprite = false;
     private File spriteFile;
     private boolean pokeballToggle1 = false;
@@ -45,10 +47,10 @@ public class Pokemon {
                    int spd,
                    String height,
                    String weight,
-                   ArrayList<Bundle> evolutions,
-                   ArrayList<Bundle> moveset,
-                   ArrayList<Bundle> eggTypes,
-                   ArrayList<Bundle> abilities) {
+                   ArrayList<Evolution> evolutions,
+                   ArrayList<Move> moveset,
+                   ArrayList<EggGroup> eggTypes,
+                   ArrayList<Ability> abilities) {
         this.number = number;
         this.name = name;
         this.typeOne = typeOne;
@@ -77,10 +79,10 @@ public class Pokemon {
     public int[] getStats() { return new int[]{hp, atk, def, spatk, spdef, spd }; }
     public String getHeight() { return height; }
     public String getWeight() { return weight; }
-    public ArrayList<Bundle> getEvolutions() { return evolutions; }
-    public ArrayList<Bundle> getAbilities() { return abilities; }
-    public ArrayList<Bundle> getMoveset() { return moveset; }
-    public ArrayList<Bundle> getEggTypes() { return eggTypes; }
+    public ArrayList<Evolution> getEvolutions() { return evolutions; }
+    public ArrayList<Ability> getAbilities() { return abilities; }
+    public ArrayList<Move> getMoveset() { return moveset; }
+    public ArrayList<EggGroup> getEggTypes() { return eggTypes; }
 
     public void setEvolvesFrom(String evoFrom) { evolvesFrom = evoFrom; }
     public String getEvolvesFrom() { return evolvesFrom; }

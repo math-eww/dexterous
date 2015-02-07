@@ -30,10 +30,10 @@ public class LoadPokemon {
             int spd = 0;
             String height = "";
             String weight = "";
-            ArrayList<Bundle> abilities = new ArrayList();
-            ArrayList<Bundle> moveset = new ArrayList();
-            ArrayList<Bundle> eggs = new ArrayList();
-            ArrayList<Bundle> evolutions = new ArrayList();
+            ArrayList<Ability> abilities = new ArrayList();
+            ArrayList<Move> moveset = new ArrayList();
+            ArrayList<EggGroup> eggs = new ArrayList();
+            ArrayList<Evolution> evolutions = new ArrayList();
             //Try to parse JSON object:
             try {
                 //Get name:
@@ -62,43 +62,30 @@ public class LoadPokemon {
                 JSONArray evos = jsonObject.getJSONArray("evolutions");
                 if (evos.length() > 0) {
                     int level = 0;
-                    String method;
-                    String to;
-                    String num;
-                    String detail;
+                    String method = "";
+                    String to = "";
+                    String num = "";
+                    String detail = "";
                     for (int j = 0; j < evos.length(); j++) {
-                        Bundle tempBundle = new Bundle();
                         JSONObject tempobj = evos.getJSONObject(j);
                         if (tempobj.has("level")) {
                             level = tempobj.getInt("level");
-                            tempBundle.putInt("level", level);
                         }
                         if (tempobj.has("method")) {
                             method = tempobj.getString("method");
-                            if (method != null) {
-                                tempBundle.putString("method", method);
-                            }
                         }
                         if (tempobj.has("to")) {
                             to = tempobj.getString("to");
-                            if (to != null) {
-                                tempBundle.putString("to", to);
-                            }
                         }
                         if (tempobj.has("resource_uri")) {
                             num = tempobj.getString("resource_uri");
                             num = num.substring(16, num.length() - 1);
-                            if (num != null) {
-                                tempBundle.putString("num", num);
-                            }
                         }
                         if (tempobj.has("detail")) {
                             detail = tempobj.getString("detail");
-                            if (detail != null) {
-                                tempBundle.putString("detail", detail);
-                            }
                         }
-                        evolutions.add(tempBundle);
+                        Evolution tempEvolution = new Evolution(method,to,num,detail,level);
+                        evolutions.add(tempEvolution);
                     }
 
                 }
@@ -106,12 +93,14 @@ public class LoadPokemon {
                 //Get JSONArray of abilities:
                 JSONArray abils = jsonObject.getJSONArray("abilities");
                 if (abils.length() > 0) {
+                    String abilName = "";
+                    String resource = "";
                     for (int j = 0; j < abils.length(); j++) {
-                        Bundle tempBundle = new Bundle();
                         JSONObject tempobj = abils.getJSONObject(j);
-                        tempBundle.putString("name",tempobj.getString("name"));
-                        tempBundle.putString("resource",tempobj.getString("resource_uri"));
-                        abilities.add(tempBundle);
+                        abilName = tempobj.getString("name");
+                        resource = tempobj.getString("resource_uri");
+                        Ability tempAbility = new Ability(abilName,resource);
+                        abilities.add(tempAbility);
                     }
 
                 }
@@ -119,14 +108,17 @@ public class LoadPokemon {
                 //Get JSONArray of moves:
                 JSONArray moves = jsonObject.getJSONArray("moves");
                 if (moves.length() > 0) {
+                    String moveName = "";
+                    String resrouce = "";
+                    String learn = "";
                     for (int j = 0; j < moves.length(); j++) {
-                        Bundle tempBundle = new Bundle();
                         JSONObject tempobj = moves.getJSONObject(j);
-                        tempBundle.putString("name",tempobj.getString("name"));
-                        tempBundle.putString("resource",tempobj.getString("resource_uri"));
-                        tempBundle.putString("learn",tempobj.getString("learn_type"));
-                        if (tempobj.has("level")) { tempBundle.putInt("level",tempobj.getInt("level")); }
-                        moveset.add(tempBundle);
+                        moveName = tempobj.getString("name");
+                        resrouce = tempobj.getString("resource_uri");
+                        learn = tempobj.getString("learn_type");
+                        Move tempMove = new Move(moveName,resrouce,learn);
+                        if (tempobj.has("level")) { tempMove.setLevel(tempobj.getInt("level")); }
+                        moveset.add(tempMove);
                     }
 
                 }
@@ -134,12 +126,14 @@ public class LoadPokemon {
                 //Get JSONArray of eggtypes:
                 JSONArray eggType = jsonObject.getJSONArray("egg_groups");
                 if (eggType.length() > 0) {
+                    String eggGroupName = "";
+                    String resource = "";
                     for (int j = 0; j < eggType.length(); j++) {
-                        Bundle tempBundle = new Bundle();
                         JSONObject tempobj = eggType.getJSONObject(j);
-                        tempBundle.putString("name",tempobj.getString("name"));
-                        tempBundle.putString("resource",tempobj.getString("resource_uri"));
-                        eggs.add(tempBundle);
+                        eggGroupName = tempobj.getString("name");
+                        resource = tempobj.getString("resource_uri");
+                        EggGroup tempEggGroup = new EggGroup(eggGroupName,resource);
+                        eggs.add(tempEggGroup);
                     }
 
                 }

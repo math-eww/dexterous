@@ -378,7 +378,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
                 evoList.addView(rowLayout);
             }
 
-            ArrayList<Bundle> evolutionList = poke.getEvolutions();
+            ArrayList<Evolution> evolutionList = poke.getEvolutions();
             if (evolutionList.size() > 0) {
                 TextView evoHeader = new TextView(con.getApplicationContext());
                 evoHeader.setText("Evolves into:");
@@ -392,23 +392,23 @@ public class PokeDetailsTabs extends ActionBarActivity {
                     return p1.getString("num").compareTo(p2.getString("num"));
                 }
             });
-            for (Bundle evoBundle : evolutionList) {
+            for (Evolution evoBundle : evolutionList) {
                 int level = 0;
                 String method = "";
                 String detail = "";
                 String mega = "";
                 boolean isMega = false;
-                String to = evoBundle.getString("to");
-                String num = evoBundle.getString("num");
+                String to = evoBundle.getEvolvesTo();
+                String num = evoBundle.getNum();
                 num = ("000" + num).substring(num.length());
-                if (evoBundle.containsKey("level")) {
-                    level = evoBundle.getInt("level");
+                if (evoBundle.getLevel() != 0) {
+                    level = evoBundle.getLevel();
                 }
-                if (evoBundle.containsKey("method")) {
-                    method = evoBundle.getString("method");
+                if (evoBundle.getMethod() != null) {
+                    method = evoBundle.getMethod();
                 }
-                if (evoBundle.containsKey("detail")) {
-                    detail = evoBundle.getString("detail");
+                if (evoBundle.getDetail() != null) {
+                    detail = evoBundle.getDetail();
                 }
 
                 if (detail.equals("mega")) {
@@ -466,24 +466,24 @@ public class PokeDetailsTabs extends ActionBarActivity {
                 evoList.addView(rowLayout);
             }
 
-            ArrayList<Bundle> abilities = poke.getAbilities();
+            ArrayList<Ability> abilities = poke.getAbilities();
             String abilitiesText = "Abilities: ";
             String middleSepText = "";
             boolean shouldSnip = false;
             if (abilities.size() > 1) { middleSepText = ", "; shouldSnip = true; }
-            for (Bundle abil : abilities) {
-                abilitiesText = abilitiesText + " " + abil.getString("name") + middleSepText;
+            for (Ability abil : abilities) {
+                abilitiesText = abilitiesText + " " + abil.getAbilityName() + middleSepText;
             }
             if (shouldSnip) abilitiesText = abilitiesText.substring(0,abilitiesText.length()-2);
             abilitiesListText.setText(abilitiesText);
 
-            ArrayList<Bundle> eggTypes = poke.getEggTypes();
+            ArrayList<EggGroup> eggTypes = poke.getEggTypes();
             String eggTypesText = "Egg types: ";
             middleSepText = "";
             shouldSnip = false;
             if (eggTypes.size() > 1) { middleSepText = ", "; shouldSnip = true; }
-            for (Bundle eggTy : eggTypes) {
-                eggTypesText = eggTypesText + " " + eggTy.getString("name") + middleSepText;
+            for (EggGroup eggTy : eggTypes) {
+                eggTypesText = eggTypesText + " " + eggTy.getEggGroupName() + middleSepText;
             }
             if (shouldSnip) eggTypesText = eggTypesText.substring(0,eggTypesText.length()-2);
             pokeEggTypesList.setText(eggTypesText);
@@ -527,17 +527,17 @@ public class PokeDetailsTabs extends ActionBarActivity {
             ListView l1=(ListView)rootView.findViewById(R.id.pokeMoveList);
             TextView header = (TextView)rootView.findViewById(R.id.moveListHeader);
             header.setText("MOVES: LEVEL UP");
-            ArrayList<Bundle> movesList = poke.getMoveset();
-            ArrayList<Bundle> showMovesList = new ArrayList<Bundle>();
-            for (Bundle bundle : movesList) {
-                if (bundle.getString("learn").equals("level up")) {
-                    showMovesList.add(bundle);
+            ArrayList<Move> movesList = poke.getMoveset();
+            ArrayList<Move> showMovesList = new ArrayList<Move>();
+            for (Move move : movesList) {
+                if (move.getLearnMethod().equals("level up")) {
+                    showMovesList.add(move);
                 }
             }
 
-            Collections.sort(showMovesList, new Comparator<Bundle>() {
-                @Override public int compare(Bundle p1, Bundle p2) {
-                    return p1.getInt("level")- p2.getInt("level");
+            Collections.sort(showMovesList, new Comparator<Move>() {
+                @Override public int compare(Move p1, Move p2) {
+                    return p1.getLevel()- p2.getLevel();
                 }
             });
 
@@ -592,19 +592,19 @@ public class PokeDetailsTabs extends ActionBarActivity {
             ListView l1=(ListView)rootView.findViewById(R.id.pokeMoveList);
             TextView header = (TextView)rootView.findViewById(R.id.moveListHeader);
             header.setText("MOVES: TM");
-            ArrayList<Bundle> movesList = poke.getMoveset();
-            ArrayList<Bundle> showMovesList = new ArrayList<Bundle>();
-            for (Bundle bundle : movesList) {
-                if (bundle.getString("learn").equals("machine")) {
-                    showMovesList.add(bundle);
+            ArrayList<Move> movesList = poke.getMoveset();
+            ArrayList<Move> showMovesList = new ArrayList<Move>();
+            for (Move move : movesList) {
+                if (move.getLearnMethod().equals("machine")) {
+                    showMovesList.add(move);
                 }
             }
 
             Collections.sort(showMovesList, new Comparator() {
                 public int compare(Object o1, Object o2) {
-                    Bundle p1 = (Bundle) o1;
-                    Bundle p2 = (Bundle) o2;
-                    return p1.getString("name").compareTo(p2.getString("name"));
+                    Move p1 = (Move) o1;
+                    Move p2 = (Move) o2;
+                    return p1.getMoveName().compareTo(p2.getMoveName());
                 }
             });
 
@@ -659,19 +659,19 @@ public class PokeDetailsTabs extends ActionBarActivity {
             ListView l1=(ListView)rootView.findViewById(R.id.pokeMoveList);
             TextView header = (TextView)rootView.findViewById(R.id.moveListHeader);
             header.setText("MOVES: TUTOR");
-            ArrayList<Bundle> movesList = poke.getMoveset();
-            ArrayList<Bundle> showMovesList = new ArrayList<Bundle>();
-            for (Bundle bundle : movesList) {
-                if (bundle.getString("learn").equals("tutor")) {
-                    showMovesList.add(bundle);
+            ArrayList<Move> movesList = poke.getMoveset();
+            ArrayList<Move> showMovesList = new ArrayList<Move>();
+            for (Move move : movesList) {
+                if (move.getLearnMethod().equals("tutor")) {
+                    showMovesList.add(move);
                 }
             }
 
             Collections.sort(showMovesList, new Comparator() {
                 public int compare(Object o1, Object o2) {
-                    Bundle p1 = (Bundle) o1;
-                    Bundle p2 = (Bundle) o2;
-                    return p1.getString("name").compareTo(p2.getString("name"));
+                    Move p1 = (Move) o1;
+                    Move p2 = (Move) o2;
+                    return p1.getMoveName().compareTo(p2.getMoveName());
                 }
             });
 

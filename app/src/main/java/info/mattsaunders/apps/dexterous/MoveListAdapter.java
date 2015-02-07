@@ -1,7 +1,6 @@
 package info.mattsaunders.apps.dexterous;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +17,12 @@ import java.util.List;
  */
 public class MoveListAdapter extends BaseAdapter implements Filterable {
     private LayoutInflater mInflater;
-    private List<Bundle> mMoves;
+    private List<Move> mMoves;
     private Context mContext;
     private ValueFilter valueFilter;
-    private List<Bundle> mMovesFilterList;
+    private List<Move> mMovesFilterList;
 
-    public MoveListAdapter(Context context, List<Bundle> moves) {
+    public MoveListAdapter(Context context, List<Move> moves) {
         mInflater = LayoutInflater.from(context);
         mMoves = moves;
         mContext = context;
@@ -43,11 +42,11 @@ public class MoveListAdapter extends BaseAdapter implements Filterable {
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
             if (constraint != null && constraint.length() > 0) {
-                ArrayList<Bundle> filterList = new ArrayList<Bundle>();
+                ArrayList<Move> filterList = new ArrayList<Move>();
                 for (int i = 0; i < mMovesFilterList.size(); i++) {
-                    if ( (mMovesFilterList.get(i).getString("name").toUpperCase() )
+                    if ( (mMovesFilterList.get(i).getMoveName().toUpperCase() )
                             .contains(constraint.toString().toUpperCase())) {
-                        Bundle listMove = mMovesFilterList.get(i);
+                        Move listMove = mMovesFilterList.get(i);
                         filterList.add(listMove);
                     }
                 }
@@ -64,7 +63,7 @@ public class MoveListAdapter extends BaseAdapter implements Filterable {
         @Override
         protected void publishResults(CharSequence constraint,
                                       FilterResults results) {
-            mMoves = (ArrayList<Bundle>) results.values;
+            mMoves = (ArrayList<Move>) results.values;
             notifyDataSetChanged();
         }
 
@@ -106,23 +105,23 @@ public class MoveListAdapter extends BaseAdapter implements Filterable {
             holder = (ViewHolder)view.getTag();
         }
 
-        final Bundle move = mMoves.get(position);
+        final Move move = mMoves.get(position);
         //Set info from move bundle to list view item
-        String name = move.getString("name");
-        String learnType = move.getString("learn");
+        String name = move.getMoveName();
+        String learnType = move.getLearnMethod();
         holder.name.setText(name);
         holder.type.setText(learnType);
 
         holder.level.setText("");
-        if (move.containsKey("level")) {
-            holder.level.setText(String.valueOf(move.getInt("level")));
+        if (move.getLevel() != 0) {
+            holder.level.setText(String.valueOf(move.getLevel()));
         }
 
 
         return view;
     }
 
-    public void setList(List<Bundle> newList) {
+    public void setList(List<Move> newList) {
         mMoves = newList;
         mMovesFilterList = newList;
     }

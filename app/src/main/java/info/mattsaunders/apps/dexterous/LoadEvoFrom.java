@@ -1,7 +1,5 @@
 package info.mattsaunders.apps.dexterous;
 
-import android.os.Bundle;
-
 import java.util.ArrayList;
 
 /**
@@ -11,13 +9,13 @@ public class LoadEvoFrom {
     public static void loadEvoFrom() {
         ArrayList<Pokemon> pokemonList = MainActivity.pokemonList;
         for (Pokemon poke : pokemonList) {
-            ArrayList<Bundle> evolutionList = poke.getEvolutions();
-            for (Bundle evoBundle : evolutionList) {
-                String to = evoBundle.getString("to");
-                String num = evoBundle.getString("num");
+            ArrayList<Evolution> evolutionList = poke.getEvolutions();
+            for (Evolution evoBundle : evolutionList) {
+                String to = evoBundle.getEvolvesTo();
+                String num = evoBundle.getNum();
                 String detail = "";
-                if (evoBundle.containsKey("detail")) {
-                    detail = evoBundle.getString("detail");
+                if (!evoBundle.getDetail().equals("")) {
+                    detail = evoBundle.getDetail();
                 }
                 if (!detail.equals("mega")) {
                     Pokemon targetPoke = pokemonList.get(Integer.parseInt(num) - 1);
