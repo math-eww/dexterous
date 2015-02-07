@@ -387,9 +387,9 @@ public class PokeDetailsTabs extends ActionBarActivity {
             }
             Collections.sort(evolutionList, new Comparator() {
                 public int compare(Object o1, Object o2) {
-                    Bundle p1 = (Bundle) o1;
-                    Bundle p2 = (Bundle) o2;
-                    return p1.getString("num").compareTo(p2.getString("num"));
+                    Evolution p1 = (Evolution) o1;
+                    Evolution p2 = (Evolution) o2;
+                    return p1.getNum().compareTo(p2.getNum());
                 }
             });
             for (Evolution evoBundle : evolutionList) {

@@ -76,7 +76,7 @@ public class DownloadPokemon {
         }
 
         protected void onPostExecute(String result) {
-            MainActivity.pokemonList = LoadPokemon.buildPokeList(null, null, null);
+            MainActivity.pokemonList = LoadPokemon.buildPokeList(MainActivity.pokeballTog1States, MainActivity.pokeballTog2States, MainActivity.pokeballTog3States);
             new DownloadSprites.CallAPI().execute();
             progress.dismiss();
             Log.i("API call complete", "Result = " + result);
