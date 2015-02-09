@@ -6,6 +6,9 @@ import java.io.Serializable;
  * Object to store egg group data
  */
 public class EggGroup implements Serializable {
+
+    private static final long serialVersionUID = -29238982928393L;
+
     private String name;
     private String resource;
 

@@ -6,6 +6,9 @@ import java.io.Serializable;
  *  Object to store move data
  */
 public class Move implements Serializable {
+
+    private static final long serialVersionUID = -29238982928392L;
+    
     private String name;
     private String resource;
     private String learn;

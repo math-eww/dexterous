@@ -6,6 +6,9 @@ import java.io.Serializable;
  * Object to store pokemon evolution info
  */
 public class Evolution implements Serializable {
+
+    private static final long serialVersionUID = -29238982928394L;
+
     private String method;
     private String to;
     private String num;
