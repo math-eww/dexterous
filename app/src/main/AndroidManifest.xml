@@ -31,6 +31,10 @@
             android:label="@string/title_activity_poke_details_tabs"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".BreedingToolsActivity"
+            android:label="@string/title_activity_breeding_tools" >
+        </activity>
     </application>
 
 </manifest>

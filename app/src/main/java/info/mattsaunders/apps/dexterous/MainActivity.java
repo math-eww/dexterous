@@ -1,6 +1,7 @@
 package info.mattsaunders.apps.dexterous;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -220,6 +221,11 @@ public class MainActivity extends ActionBarActivity
         }
         if (id == R.id.action_restorePokeballs) {
             Utilities.restorePokeballIndicators();
+            return true;
+        }
+        if (id == R.id.action_openBreedingTools) {
+            Intent intent = new Intent(this, BreedingToolsActivity.class);
+            startActivity(intent);
             return true;
         }
 

@@ -9,4 +9,6 @@
         android:orderInCategory="100" android:showAsAction="never" />
     <item android:id="@+id/action_restorePokeballs" android:title="@string/action_restore"
         android:orderInCategory="100" android:showAsAction="never" />
+    <item android:id="@+id/action_openBreedingTools" android:title="@string/action_breedingtools"
+        android:orderInCategory="100" android:showAsAction="never" />
 </menu>
