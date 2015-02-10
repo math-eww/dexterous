@@ -93,7 +93,7 @@
             android:background="@drawable/circle1"
             android:textOn=""
             android:textOff=""
-            android:id="@+id/toggleButton" />
+            android:id="@+id/breedingtools_toggleButtonCircle2" />
 
         <ToggleButton
             android:layout_width="40dp"
@@ -101,7 +101,7 @@
             android:background="@drawable/triangle1"
             android:textOn=""
             android:textOff=""
-            android:id="@+id/toggleButton2"
+            android:id="@+id/breedingtools_toggleButtonTriangle2"
             android:layout_marginLeft="10dp" />
 
         <ToggleButton
@@ -110,7 +110,7 @@
             android:background="@drawable/square1"
             android:textOn=""
             android:textOff=""
-            android:id="@+id/toggleButton3"
+            android:id="@+id/breedingtools_toggleButtonSquare2"
             android:layout_marginLeft="10dp" />
 
         <ToggleButton
@@ -119,7 +119,7 @@
             android:background="@drawable/heart1"
             android:textOn=""
             android:textOff=""
-            android:id="@+id/toggleButton4"
+            android:id="@+id/breedingtools_toggleButtonHeart2"
             android:layout_marginLeft="10dp" />
 
         <ToggleButton
@@ -128,7 +128,7 @@
             android:background="@drawable/star1"
             android:textOn=""
             android:textOff=""
-            android:id="@+id/toggleButton5"
+            android:id="@+id/breedingtools_toggleButtonStar2"
             android:layout_marginLeft="10dp" />
 
         <ToggleButton
@@ -137,7 +137,7 @@
             android:background="@drawable/diamond1"
             android:textOn=""
             android:textOff=""
-            android:id="@+id/toggleButton6"
+            android:id="@+id/breedingtools_toggleButtonDiamond2"
             android:layout_marginLeft="10dp" />
     </LinearLayout>
 
@@ -156,7 +156,7 @@
             android:background="@drawable/circle1"
             android:textOn=""
             android:textOff=""
-            android:id="@+id/toggleButton7" />
+            android:id="@+id/breedingtools_toggleButtonCircle3" />
 
         <ToggleButton
             android:layout_width="40dp"
@@ -164,7 +164,7 @@
             android:background="@drawable/triangle1"
             android:textOn=""
             android:textOff=""
-            android:id="@+id/toggleButton8"
+            android:id="@+id/breedingtools_toggleButtonTriangle3"
             android:layout_marginLeft="10dp" />
 
         <ToggleButton
@@ -173,7 +173,7 @@
             android:background="@drawable/square1"
             android:textOn=""
             android:textOff=""
-            android:id="@+id/toggleButton9"
+            android:id="@+id/breedingtools_toggleButtonSquare3"
             android:layout_marginLeft="10dp" />
 
         <ToggleButton
@@ -182,7 +182,7 @@
             android:background="@drawable/heart1"
             android:textOn=""
             android:textOff=""
-            android:id="@+id/toggleButton10"
+            android:id="@+id/breedingtools_toggleButtonHeart3"
             android:layout_marginLeft="10dp" />
 
         <ToggleButton
@@ -191,7 +191,7 @@
             android:background="@drawable/star1"
             android:textOn=""
             android:textOff=""
-            android:id="@+id/toggleButton11"
+            android:id="@+id/breedingtools_toggleButtonStar3"
             android:layout_marginLeft="10dp" />
 
         <ToggleButton
@@ -200,7 +200,7 @@
             android:background="@drawable/diamond1"
             android:textOn=""
             android:textOff=""
-            android:id="@+id/toggleButton12"
+            android:id="@+id/breedingtools_toggleButtonDiamond3"
             android:layout_marginLeft="10dp" />
     </LinearLayout>
 
@@ -219,7 +219,7 @@
             android:background="@drawable/circle1"
             android:textOn=""
             android:textOff=""
-            android:id="@+id/toggleButton13" />
+            android:id="@+id/breedingtools_toggleButtonCircle4" />
 
         <ToggleButton
             android:layout_width="40dp"
@@ -227,7 +227,7 @@
             android:background="@drawable/triangle1"
             android:textOn=""
             android:textOff=""
-            android:id="@+id/toggleButton14"
+            android:id="@+id/breedingtools_toggleButtonTriangle4"
             android:layout_marginLeft="10dp" />
 
         <ToggleButton
@@ -236,7 +236,7 @@
             android:background="@drawable/square1"
             android:textOn=""
             android:textOff=""
-            android:id="@+id/toggleButton15"
+            android:id="@+id/breedingtools_toggleButtonSquare4"
             android:layout_marginLeft="10dp" />
 
         <ToggleButton
@@ -245,7 +245,7 @@
             android:background="@drawable/heart1"
             android:textOn=""
             android:textOff=""
-            android:id="@+id/toggleButton16"
+            android:id="@+id/breedingtools_toggleButtonHeart4"
             android:layout_marginLeft="10dp" />
 
         <ToggleButton
@@ -254,7 +254,7 @@
             android:background="@drawable/star1"
             android:textOn=""
             android:textOff=""
-            android:id="@+id/toggleButton17"
+            android:id="@+id/breedingtools_toggleButtonStar4"
             android:layout_marginLeft="10dp" />
 
         <ToggleButton
@@ -263,7 +263,7 @@
             android:background="@drawable/diamond1"
             android:textOn=""
             android:textOff=""
-            android:id="@+id/toggleButton18"
+            android:id="@+id/breedingtools_toggleButtonDiamond4"
             android:layout_marginLeft="10dp" />
     </LinearLayout>
 
@@ -281,7 +281,7 @@
             android:background="@drawable/circle1"
             android:textOn=""
             android:textOff=""
-            android:id="@+id/toggleButton19" />
+            android:id="@+id/breedingtools_toggleButtonCircle5" />
 
         <ToggleButton
             android:layout_width="40dp"
@@ -289,7 +289,7 @@
             android:background="@drawable/triangle1"
             android:textOn=""
             android:textOff=""
-            android:id="@+id/toggleButton20"
+            android:id="@+id/breedingtools_toggleButtonTriangle5"
             android:layout_marginLeft="10dp" />
 
         <ToggleButton
@@ -298,7 +298,7 @@
             android:background="@drawable/square1"
             android:textOn=""
             android:textOff=""
-            android:id="@+id/toggleButton21"
+            android:id="@+id/breedingtools_toggleButtonSquare5"
             android:layout_marginLeft="10dp" />
 
         <ToggleButton
@@ -307,7 +307,7 @@
             android:background="@drawable/heart1"
             android:textOn=""
             android:textOff=""
-            android:id="@+id/toggleButton22"
+            android:id="@+id/breedingtools_toggleButtonHeart5"
             android:layout_marginLeft="10dp" />
 
         <ToggleButton
@@ -316,7 +316,7 @@
             android:background="@drawable/star1"
             android:textOn=""
             android:textOff=""
-            android:id="@+id/toggleButton23"
+            android:id="@+id/breedingtools_toggleButtonStar5"
             android:layout_marginLeft="10dp" />
 
         <ToggleButton
@@ -325,7 +325,15 @@
             android:background="@drawable/diamond1"
             android:textOn=""
             android:textOff=""
-            android:id="@+id/toggleButton24"
+            android:id="@+id/breedingtools_toggleButtonDiamond5"
             android:layout_marginLeft="10dp" />
     </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reset Markers"
+        android:id="@+id/breedingtools_resetbutton"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
