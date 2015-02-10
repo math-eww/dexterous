@@ -33,7 +33,8 @@
         </activity>
         <activity
             android:name=".BreedingToolsActivity"
-            android:label="@string/title_activity_breeding_tools" >
+            android:label="@string/title_activity_breeding_tools"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 
