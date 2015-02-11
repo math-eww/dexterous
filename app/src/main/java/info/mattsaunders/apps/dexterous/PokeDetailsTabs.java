@@ -57,6 +57,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
     private static Pokemon poke;
     private static Context c;
     private static Activity activity;
+    private static PokedexDatabase db;
 
     private static MoveListAdapter moveListAdapter;
 
@@ -79,6 +80,14 @@ public class PokeDetailsTabs extends ActionBarActivity {
         Intent intent = getIntent();
         pokePosition = intent.getIntExtra("pokemon", 0);
         poke = MainActivity.pokemonList.get(pokePosition);
+        int pokemonNumber = poke.getNumber();
+
+        db = MainActivity.db;
+        if (poke.getMoveset() == null) { poke.setMoveset(db.getMoveset(pokemonNumber)); }
+        if (poke.getAbilities() == null) { poke.setAbilities(db.getAbilities(pokemonNumber)); }
+        if (poke.getEggTypes() == null) { poke.setEggTypes(db.getEggGroups(pokemonNumber)); }
+        if (poke.getEvolutions() == null) { poke.setEvolutions(db.getEvolutions(pokemonNumber)); }
+        if (poke.getEvolvesFromNum() == 0) { db.setEvolvesFrom(pokemonNumber); }
 
         final Context c = MainActivity.c;
         con = this;
@@ -179,30 +188,17 @@ public class PokeDetailsTabs extends ActionBarActivity {
                     return PokemonMoveTMFragment.newInstance(position + 1);
                 case 4:
                     return PokemonMoveTutorFragment.newInstance(position + 1);
+                case 5:
+                    return PokemonMoveEggFragment.newInstance(position + 1);
                 default:
                     return MainDetails.newInstance(position + 1);
-
-                /*
-                case 2:
-                    fragment = PokedexCaughtFragment.newInstance(position + 1);
-                    break;
-                case 3:
-                    fragment = LivingDexMissingFragment.newInstance(position + 1);
-                    break;
-                case 4:
-                    fragment = LivingDexCaughtFragment.newInstance(position + 1);
-                    break;
-                case 5:
-                    fragment = MyTeamFragment.newInstance(position + 1);
-                    break;
-                */
             }
         }
 
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 5;
+            return 6;
         }
 
         @Override
@@ -328,6 +324,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
             pokeTtl.setText(String.format("%-10s %3d","Total:",total));
 
             if (!poke.getEvolvesFrom().equals("")) {
+            //if (!db.getEvolvesFrom(poke.getNumber()).equals("")) {
                 TextView evoHeader = new TextView(con.getApplicationContext());
                 evoHeader.setText("Evolves from:");
                 evoHeader.setTextColor(Color.BLACK);
@@ -379,6 +376,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
             }
 
             ArrayList<Evolution> evolutionList = poke.getEvolutions();
+            //ArrayList<Evolution> evolutionList = db.getEvolutions(poke.getNumber());
             if (evolutionList.size() > 0) {
                 TextView evoHeader = new TextView(con.getApplicationContext());
                 evoHeader.setText("Evolves into:");
@@ -433,9 +431,10 @@ public class PokeDetailsTabs extends ActionBarActivity {
                 }
 
                 String tempTextShow = num + " " + to + " Method: " + method;
-                if (method.equals("level_up")) { tempTextShow = num + " - " + to + "\n" + "Level: " + level; }
-                if (method.equals("stone")) { tempTextShow = num + " - " + to + "\n" + "With stone " + detail; }
-                if (method.equals("other")) { tempTextShow = num + " - " + to + "\n" + "Other " + detail; }
+                if (method.equals("level-up")) { tempTextShow = num + " - " + to + "\n" + "Level: " + level; }
+                if (method.equals("use-item")) { tempTextShow = num + " - " + to + "\n" + "With item " + detail; }
+                if (method.equals("trade")) { tempTextShow = num + " - " + to + "\n" + "Trade " + detail; }
+                if (method.equals("shed")) { tempTextShow = num + " - " + to + "\n" + "Shed " + detail; }
 
                 TextView tempText = new TextView(con.getApplicationContext());
                 tempText.setText(tempTextShow);
@@ -467,6 +466,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
             }
 
             ArrayList<Ability> abilities = poke.getAbilities();
+            //ArrayList<Ability> abilities = db.getAbilities(poke.getNumber());
             String abilitiesText = "Abilities: ";
             String middleSepText = "";
             boolean shouldSnip = false;
@@ -478,6 +478,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
             abilitiesListText.setText(abilitiesText);
 
             ArrayList<EggGroup> eggTypes = poke.getEggTypes();
+            //ArrayList<EggGroup> eggTypes = db.getEggGroups(poke.getNumber());
             String eggTypesText = "Egg types: ";
             middleSepText = "";
             shouldSnip = false;
@@ -528,9 +529,10 @@ public class PokeDetailsTabs extends ActionBarActivity {
             TextView header = (TextView)rootView.findViewById(R.id.moveListHeader);
             header.setText("MOVES: LEVEL UP");
             ArrayList<Move> movesList = poke.getMoveset();
+            //ArrayList<Move> movesList = db.getMoveset(poke.getNumber());
             ArrayList<Move> showMovesList = new ArrayList<Move>();
             for (Move move : movesList) {
-                if (move.getLearnMethod().equals("level up")) {
+                if (move.getLearnMethod().equals("level-up")) {
                     showMovesList.add(move);
                 }
             }
@@ -593,6 +595,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
             TextView header = (TextView)rootView.findViewById(R.id.moveListHeader);
             header.setText("MOVES: TM");
             ArrayList<Move> movesList = poke.getMoveset();
+            //ArrayList<Move> movesList = db.getMoveset(poke.getNumber());
             ArrayList<Move> showMovesList = new ArrayList<Move>();
             for (Move move : movesList) {
                 if (move.getLearnMethod().equals("machine")) {
@@ -660,9 +663,78 @@ public class PokeDetailsTabs extends ActionBarActivity {
             TextView header = (TextView)rootView.findViewById(R.id.moveListHeader);
             header.setText("MOVES: TUTOR");
             ArrayList<Move> movesList = poke.getMoveset();
+            //ArrayList<Move> movesList = db.getMoveset(poke.getNumber());
             ArrayList<Move> showMovesList = new ArrayList<Move>();
             for (Move move : movesList) {
                 if (move.getLearnMethod().equals("tutor")) {
+                    showMovesList.add(move);
+                }
+            }
+
+            Collections.sort(showMovesList, new Comparator() {
+                public int compare(Object o1, Object o2) {
+                    Move p1 = (Move) o1;
+                    Move p2 = (Move) o2;
+                    return p1.getMoveName().compareTo(p2.getMoveName());
+                }
+            });
+
+            moveListAdapter = new MoveListAdapter(con,showMovesList);
+            l1.setAdapter(moveListAdapter);
+            searchView.setOnQueryTextListener(this);
+            return rootView;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            moveListAdapter.getFilter().filter(newText);
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            return false;
+        }
+    }
+
+    /**
+     * A placeholder fragment containing a simple view.
+     */
+    public static class PokemonMoveEggFragment extends Fragment implements SearchView.OnQueryTextListener {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static PokemonMoveEggFragment newInstance(int sectionNumber) {
+            PokemonMoveEggFragment fragment = new PokemonMoveEggFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        public PokemonMoveEggFragment() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_poke_details_tabs_moves, container, false);
+            SearchView searchView = (SearchView) rootView.findViewById(R.id.searchViewMoves);
+            ListView l1=(ListView)rootView.findViewById(R.id.pokeMoveList);
+            TextView header = (TextView)rootView.findViewById(R.id.moveListHeader);
+            header.setText("MOVES: EGG");
+            ArrayList<Move> movesList = poke.getMoveset();
+            //ArrayList<Move> movesList = db.getMoveset(poke.getNumber());
+            ArrayList<Move> showMovesList = new ArrayList<Move>();
+            for (Move move : movesList) {
+                if (move.getLearnMethod().equals("egg")) {
                     showMovesList.add(move);
                 }
             }

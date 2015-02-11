@@ -1,15 +1,12 @@
 package info.mattsaunders.apps.dexterous;
 
 import java.io.File;
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Pokemon object to store info for pokemon
  */
-public class Pokemon implements Serializable {
-
-    private static final long serialVersionUID = -29238982928391L;
+public class Pokemon {
 
     private int number;
     private String name;
@@ -83,6 +80,10 @@ public class Pokemon implements Serializable {
     public ArrayList<Ability> getAbilities() { return abilities; }
     public ArrayList<Move> getMoveset() { return moveset; }
     public ArrayList<EggGroup> getEggTypes() { return eggTypes; }
+    public void setMoveset(ArrayList<Move> moveset) { this.moveset = moveset; }
+    public void setAbilities(ArrayList<Ability> abilities) { this.abilities = abilities; }
+    public void setEvolutions(ArrayList<Evolution> evolutions) { this.evolutions = evolutions; }
+    public void setEggTypes(ArrayList<EggGroup> eggTypes) { this.eggTypes = eggTypes; }
 
     public void setEvolvesFrom(String evoFrom) { evolvesFrom = evoFrom; }
     public String getEvolvesFrom() { return evolvesFrom; }

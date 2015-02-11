@@ -1,22 +1,18 @@
 package info.mattsaunders.apps.dexterous;
 
-import java.io.Serializable;
-
 /**
  * Object to store egg group data
  */
-public class EggGroup implements Serializable {
-
-    private static final long serialVersionUID = -29238982928393L;
+public class EggGroup {
 
     private String name;
-    private String resource;
+    private int resource;
 
-    public EggGroup(String name, String resource) {
+    public EggGroup(String name, int resource) {
         this.name = name;
         this.resource = resource;
     }
 
     public String getEggGroupName() { return name; }
-    public String getResource() { return resource; }
+    public int getResource() { return resource; }
 }

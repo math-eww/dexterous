@@ -2,7 +2,6 @@ package info.mattsaunders.apps.dexterous;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -42,9 +41,10 @@ public class MainActivity extends ActionBarActivity
     public static Bundle pokeballTog3States;
     public static int caughtDex = 0;
     public static int livingDex = 0;
+    private static int TOTAL_POKES = 719;
 
-    public PokedexDatabase db;
-    public Cursor cursor;
+    public static int getTotalPokes() { return TOTAL_POKES; }
+    public static PokedexDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,12 +77,8 @@ public class MainActivity extends ActionBarActivity
             new LoadData.CallAPI().execute(pokeballTog1States,pokeballTog2States,pokeballTog3States);
         }
         //TODO: download and load mega evolution's data, then allow clicking to mega from pokemon detail page evolution section
+
         db = new PokedexDatabase(this);
-        cursor = db.getPokemonTable();
-        System.out.println("CURSOR COUNT::      " + cursor.getCount());
-        db.getPokemonDBList();
-        cursor.close();
-        db.close();
     }
 
     @Override
@@ -119,7 +115,6 @@ public class MainActivity extends ActionBarActivity
         Utilities.writeJsonFile(Utilities.bundleToJsonObject(pokeballTog2States));
         Utilities.FILENAME = "pokeball_3_states";
         Utilities.writeJsonFile(Utilities.bundleToJsonObject(pokeballTog3States));
-        new SaveData.CallAPI().execute();
         super.onPause();
     }
 

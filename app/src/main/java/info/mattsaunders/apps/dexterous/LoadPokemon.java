@@ -99,7 +99,7 @@ public class LoadPokemon {
                         JSONObject tempobj = abils.getJSONObject(j);
                         abilName = tempobj.getString("name");
                         resource = tempobj.getString("resource_uri");
-                        Ability tempAbility = new Ability(abilName,resource);
+                        Ability tempAbility = new Ability(abilName,0);
                         abilities.add(tempAbility);
                     }
 
@@ -116,7 +116,7 @@ public class LoadPokemon {
                         moveName = tempobj.getString("name");
                         resrouce = tempobj.getString("resource_uri");
                         learn = tempobj.getString("learn_type");
-                        Move tempMove = new Move(moveName,resrouce,learn);
+                        Move tempMove = new Move(moveName,0,learn);
                         if (tempobj.has("level")) { tempMove.setLevel(tempobj.getInt("level")); }
                         moveset.add(tempMove);
                     }
@@ -132,7 +132,7 @@ public class LoadPokemon {
                         JSONObject tempobj = eggType.getJSONObject(j);
                         eggGroupName = tempobj.getString("name");
                         resource = tempobj.getString("resource_uri");
-                        EggGroup tempEggGroup = new EggGroup(eggGroupName,resource);
+                        EggGroup tempEggGroup = new EggGroup(eggGroupName,0);
                         eggs.add(tempEggGroup);
                     }
 

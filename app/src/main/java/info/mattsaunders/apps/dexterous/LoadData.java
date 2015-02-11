@@ -23,22 +23,20 @@ public class LoadData {
             Bundle pokeballindicator2 = params[1];
             Bundle pokeballindicator3 = params[2];
             String resultToDisplay = "";
-            boolean readPokeBallStates = true;
 
-            MainActivity.pokemonList = PokemonGson.loadPokemonObjectList(MainActivity.c);
-            if (MainActivity.pokemonList == null) {
-                MainActivity.pokemonList = LoadPokemon.buildPokeList(pokeballindicator1, pokeballindicator2, pokeballindicator3);
-                PokemonGson.savePokemonObjectList(MainActivity.pokemonList, MainActivity.c);
-                readPokeBallStates = false;
+
+            //MainActivity.pokemonList = LoadPokemon.buildPokeList(pokeballindicator1, pokeballindicator2, pokeballindicator3);
+            PokedexDatabase db;
+            db = new PokedexDatabase(MainActivity.c);
+            MainActivity.pokemonList = db.getPokemonList(pokeballindicator1, pokeballindicator2, pokeballindicator3);
+
+            for (Pokemon poke : MainActivity.pokemonList) {
+                if (poke.getPokeballToggle1()) { MainActivity.caughtDex++; }
+                if (poke.getPokeballToggle2()) { MainActivity.livingDex++; }
             }
-            if (readPokeBallStates) {
-                for (Pokemon poke : MainActivity.pokemonList) {
-                    if (poke.getPokeballToggle1()) { MainActivity.caughtDex++; }
-                    if (poke.getPokeballToggle2()) { MainActivity.livingDex++; }
-                }
-            }
+
             LoadSprites.loadSprites();
-            LoadEvoFrom.loadEvoFrom();
+            //LoadEvoFrom.loadEvoFrom();
 
             return resultToDisplay;
         }
@@ -55,6 +53,7 @@ public class LoadData {
                     MainActivity.c.getString(R.string.title_section6),
             });
             NavigationDrawerFragment.navDrawerAdapter.notifyDataSetChanged();
+            new LoadInBackground.CallAPI().execute();
         }
     }
 }
