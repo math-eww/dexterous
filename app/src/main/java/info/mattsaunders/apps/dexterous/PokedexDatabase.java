@@ -264,7 +264,7 @@ public class PokedexDatabase extends SQLiteAssetHelper {
     public ArrayList<Pokemon> getPokemonList(Bundle pokeball1, Bundle pokeball2, Bundle pokeball3) {
         ArrayList<Pokemon> pokemonArrayList = new ArrayList<Pokemon>();
 
-        Log.i(TAG,"Beginning Pokedex Load from DB");
+        Log.i(TAG,"Beginning Stage 1: Pokedex Load from DB");
 
         Cursor cursorTypes = getPokemonTypesTable();
         String[] typeNames = new String[cursorTypes.getCount()];
@@ -274,11 +274,9 @@ public class PokedexDatabase extends SQLiteAssetHelper {
         }
         cursorTypes.close();
 
-        Log.i(TAG,"Stage 1 complete");
-
         Cursor cursorPokemon = getPokemonTable();
         Cursor cursorStats = getPokemonStatsTable();
-        Log.i(TAG,"Entering main loop");
+        Log.i(TAG,"Stage 1 Complete: Beginning Stage 2: Entering main loop");
         //for (int i = 0; i < cursorPokemon.getCount(); i++) {
         for (int i = 0; i < MainActivity.getTotalPokes(); i++) {
 
@@ -326,12 +324,11 @@ public class PokedexDatabase extends SQLiteAssetHelper {
             ));
             cursorPokemon.moveToNext();
         }
-        Log.i(TAG,"Exiting main loop");
+        Log.i(TAG,"Stage 2 Complete: Exiting main loop: Beginning Stage 3: Setting Toggles");
         cursorPokemon.close();
         cursorStats.close();
 
         for (Pokemon poke : pokemonArrayList) {
-            //System.out.println(poke.getSummary());
             //Set toggle states here
             String pokeNum = poke.getStringNumber();
             if (pokeball1 != null) {
@@ -352,6 +349,7 @@ public class PokedexDatabase extends SQLiteAssetHelper {
                 }
             }
         }
+        Log.i(TAG, "Stage 3 Complete: Load Completed: Returning Array");
 
         return pokemonArrayList;
     }

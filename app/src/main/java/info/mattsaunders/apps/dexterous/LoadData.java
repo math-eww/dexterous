@@ -29,8 +29,7 @@ public class LoadData {
             Bundle pokeballindicator3 = params[2];
             String resultToDisplay = "";
 
-            PokedexDatabase db;
-            db = new PokedexDatabase(MainActivity.c);
+            PokedexDatabase db = MainActivity.db;
             MainActivity.pokemonList = db.getPokemonList(pokeballindicator1, pokeballindicator2, pokeballindicator3);
 
             for (Pokemon poke : MainActivity.pokemonList) {

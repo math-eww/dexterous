@@ -60,7 +60,7 @@ public class MainActivity extends ActionBarActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
         c = this;
-
+        db = new PokedexDatabase(this);
         //Load 3 bundles with pokemon pokeball toggles
         Utilities.FILENAME = "pokeball_1_states";
         pokeballTog1States = Utilities.JsonObjectToBundle(Utilities.readJsonFile());
@@ -78,8 +78,6 @@ public class MainActivity extends ActionBarActivity
             new LoadData.CallAPI(false).execute(pokeballTog1States,pokeballTog2States,pokeballTog3States);
         }
         //TODO: download and load mega evolution's data, then allow clicking to mega from pokemon detail page evolution section
-
-        db = new PokedexDatabase(this);
     }
 
     @Override
