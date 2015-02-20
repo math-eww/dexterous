@@ -5,11 +5,16 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 /**
- * Loads pokedex data in AsyncTask - calling LoadPokemon or PokemonGson.loadPokemonObjectList and LoadSprites
+ * Loads pokedex data in AsyncTask - calling PokedexDatabase & LoadSprites
  */
 public class LoadData {
     public static class CallAPI extends AsyncTask<Bundle, String, String> {
         ProgressDialog progress;
+        boolean firstLoad;
+        CallAPI(boolean firstLoad) {
+            this.firstLoad = firstLoad;
+        }
+
         @Override
         protected void onPreExecute() {
             progress = new ProgressDialog(MainActivity.c);
@@ -24,8 +29,6 @@ public class LoadData {
             Bundle pokeballindicator3 = params[2];
             String resultToDisplay = "";
 
-
-            //MainActivity.pokemonList = LoadPokemon.buildPokeList(pokeballindicator1, pokeballindicator2, pokeballindicator3);
             PokedexDatabase db;
             db = new PokedexDatabase(MainActivity.c);
             MainActivity.pokemonList = db.getPokemonList(pokeballindicator1, pokeballindicator2, pokeballindicator3);
@@ -35,8 +38,9 @@ public class LoadData {
                 if (poke.getPokeballToggle2()) { MainActivity.livingDex++; }
             }
 
-            LoadSprites.loadSprites();
-            //LoadEvoFrom.loadEvoFrom();
+            if (!firstLoad) {
+                LoadSprites.loadSprites();
+            }
 
             return resultToDisplay;
         }

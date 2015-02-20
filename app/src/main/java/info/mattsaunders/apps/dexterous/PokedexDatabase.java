@@ -333,20 +333,21 @@ public class PokedexDatabase extends SQLiteAssetHelper {
         for (Pokemon poke : pokemonArrayList) {
             //System.out.println(poke.getSummary());
             //Set toggle states here
+            String pokeNum = poke.getStringNumber();
             if (pokeball1 != null) {
-                if (pokeball1.getInt(poke.getStringNumber()) == 1) {
+                if (pokeball1.getInt(pokeNum) == 1) {
                     poke.setPokeballToggle1(true);
                     MainActivity.caughtDex++;
                 }
             }
             if (pokeball2 != null) {
-                if (pokeball2.getInt(poke.getStringNumber()) == 1) {
+                if (pokeball2.getInt(pokeNum) == 1) {
                     poke.setPokeballToggle2(true);
                     MainActivity.livingDex++;
                 }
             }
             if (pokeball3 != null) {
-                if (pokeball3.getInt(poke.getStringNumber()) == 1) {
+                if (pokeball3.getInt(pokeNum) == 1) {
                     poke.setPokeballToggle3(true);
                 }
             }

@@ -248,7 +248,7 @@ public class NavigationDrawerFragment extends Fragment {
         }
 
         if (item.getItemId() == R.id.action_redownloadInfo) {
-            new DownloadPokemon.CallAPI().execute();  //DownloadPokemon -> LoadPokemon & DownloadSprites -> LoadSprites
+            new DownloadSprites.CallAPI().execute();
             Toast.makeText(getActivity(), "Redownloading Pokemon info", Toast.LENGTH_SHORT).show();
             return true;
         }

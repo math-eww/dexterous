@@ -71,11 +71,11 @@ public class MainActivity extends ActionBarActivity
 
         //Check if pokemon files already downloaded
         if (!Utilities.readSettingsFile().equals("1")) {
-            //TODO: change to use database instead
-            new DownloadPokemon.CallAPI().execute();  //DownloadPokemon -> LoadPokemon & DownloadSprites -> LoadSprites
+            new LoadData.CallAPI(true).execute(pokeballTog1States,pokeballTog2States,pokeballTog3States);
+            new DownloadSprites.CallAPI().execute();
             Utilities.writeSettingsFile("1");
         } else {
-            new LoadData.CallAPI().execute(pokeballTog1States,pokeballTog2States,pokeballTog3States);
+            new LoadData.CallAPI(false).execute(pokeballTog1States,pokeballTog2States,pokeballTog3States);
         }
         //TODO: download and load mega evolution's data, then allow clicking to mega from pokemon detail page evolution section
 
@@ -219,7 +219,7 @@ public class MainActivity extends ActionBarActivity
         }
         if (id == R.id.action_redownloadInfo) {
             //TODO: change to download sprites instead of download pokemon
-            new DownloadPokemon.CallAPI().execute();  //DownloadPokemon -> LoadPokemon & DownloadSprites -> LoadSprites
+            new DownloadSprites.CallAPI().execute();
             return true;
         }
         if (id == R.id.action_backupPokeballs) {
