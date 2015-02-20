@@ -488,7 +488,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
             }
             if (shouldSnip) eggTypesText = eggTypesText.substring(0,eggTypesText.length()-2);
             pokeEggTypesList.setText(eggTypesText);
-            //TODO: crop off extra bit of name (bit after a dash, like deoxys-attack)
+            //TODO: crop off extra bit of name (bit after a dash, like deoxys-attack) or show all forms in list
 
             return rootView;
 

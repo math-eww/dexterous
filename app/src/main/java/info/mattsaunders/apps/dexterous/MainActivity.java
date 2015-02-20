@@ -218,7 +218,6 @@ public class MainActivity extends ActionBarActivity
             return true;
         }
         if (id == R.id.action_redownloadInfo) {
-            //TODO: change to download sprites instead of download pokemon
             new DownloadSprites.CallAPI().execute();
             return true;
         }
