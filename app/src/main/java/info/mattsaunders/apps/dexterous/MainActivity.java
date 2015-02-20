@@ -71,6 +71,7 @@ public class MainActivity extends ActionBarActivity
 
         //Check if pokemon files already downloaded
         if (!Utilities.readSettingsFile().equals("1")) {
+            //TODO: change to use database instead
             new DownloadPokemon.CallAPI().execute();  //DownloadPokemon -> LoadPokemon & DownloadSprites -> LoadSprites
             Utilities.writeSettingsFile("1");
         } else {
@@ -217,6 +218,7 @@ public class MainActivity extends ActionBarActivity
             return true;
         }
         if (id == R.id.action_redownloadInfo) {
+            //TODO: change to download sprites instead of download pokemon
             new DownloadPokemon.CallAPI().execute();  //DownloadPokemon -> LoadPokemon & DownloadSprites -> LoadSprites
             return true;
         }

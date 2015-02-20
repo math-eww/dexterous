@@ -100,10 +100,4 @@ public class Pokemon {
     public boolean getPokeballToggle1() { return pokeballToggle1; }
     public boolean getPokeballToggle2() { return pokeballToggle2; }
     public boolean getPokeballToggle3() { return pokeballToggle3; }
-
-    public String getSummary() {
-        String evolves = evolutions.toString();
-        return String.valueOf(number) + " " + name + " " + typeOne + " " + typeTwo + " -- " + evolves + "\n"
-                + "__________" + " HP: " + hp + " ATK: " + atk + " DEF: " + def + " SPATK: " + spatk + " SPDEF: " + spdef + " SPD " + spd;
-    }
 }
