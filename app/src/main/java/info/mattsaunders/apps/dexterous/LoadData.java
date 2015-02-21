@@ -32,6 +32,8 @@ public class LoadData {
             PokedexDatabase db = MainActivity.db;
             MainActivity.pokemonList = db.getPokemonList(pokeballindicator1, pokeballindicator2, pokeballindicator3);
 
+            MainActivity.caughtDex = 0;
+            MainActivity.livingDex = 0;
             for (Pokemon poke : MainActivity.pokemonList) {
                 if (poke.getPokeballToggle1()) { MainActivity.caughtDex++; }
                 if (poke.getPokeballToggle2()) { MainActivity.livingDex++; }

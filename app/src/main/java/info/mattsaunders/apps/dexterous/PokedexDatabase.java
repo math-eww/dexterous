@@ -102,6 +102,53 @@ public class PokedexDatabase extends SQLiteAssetHelper {
         return moveName;
     }
 
+    public Bundle getMoveDetailsFromId(int id) {
+        String[] damageClasses = {"status","physical","special"};
+        Cursor c = queryDatabase("moves", new String[] {"type_id","power","pp",
+                "accuracy","priority","target_id","damage_class_id","effect_id","effect_chance","id"}, //damage class = type of move, target id = single/double, ally/enemy
+                "id="+id, null, null, null, null);
+        c.moveToFirst();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("type",getTypeFromId(c.getInt(0)));
+        bundle.putInt("power",c.getInt(1));
+        bundle.putInt("pp",c.getInt(2));
+        bundle.putInt("accuracy",c.getInt(3));
+        bundle.putInt("priority",c.getInt(4));
+        bundle.putString("targets",getMoveTargetFromId(c.getInt(5)));
+        bundle.putString("damageType",damageClasses[c.getInt(6)-1]);
+        bundle.putString("effect",getMoveEffectFromId(c.getInt(7)));
+        bundle.putInt("effectChance", c.getInt(8));
+        bundle.putInt("id",c.getInt(9));
+
+        c.close();
+        return bundle;
+    }
+
+    public String getMoveEffectFromId(int id) {
+        Cursor c = queryDatabase("move_effect_prose", new String[] {"short_effect"},"move_effect_id="+id, null, null, null, null);
+        c.moveToFirst();
+        String effect = c.getString(0);
+        c.close();
+        return effect;
+    }
+
+    public String getMoveTargetFromId(int id) {
+        Cursor c = queryDatabase("move_targets", new String[] {"identifier"},"id="+id, null, null, null, null);
+        c.moveToFirst();
+        String target = c.getString(0);
+        c.close();
+        return target;
+    }
+
+    public String getTypeFromId(int id) {
+        Cursor c = queryDatabase("types", new String[] {"identifier"},"id="+id, null, null, null, null);
+        c.moveToFirst();
+        String typeName = c.getString(0);
+        c.close();
+        return typeName;
+    }
+
     public String getMoveLearnMethodFromId(int id) {
         Cursor c = queryDatabase("pokemon_move_methods", new String[] {"identifier"},"id="+id, null, null, null, null);
         c.moveToFirst();
