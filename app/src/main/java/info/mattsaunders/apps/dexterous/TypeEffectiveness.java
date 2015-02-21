@@ -52,6 +52,8 @@ public class TypeEffectiveness {
         int typeOneIndex = -1;
         int typeTwoIndex = -1;
 
+        int typeNamesListSize = typeNamesList.size();
+
         //Find position of types:
         typeOneIndex = typeNamesList.indexOf(typeOne);
         if (!typeTwo.equals("")) {
@@ -60,16 +62,16 @@ public class TypeEffectiveness {
 
         int[] typeOneEffectiveness = new int[typeNamesList.size()];
         //Iterate through all the types and get effectiveness against typeOne
-        for (int i = 0; i < typeNamesList.size(); i++) {
+        for (int i = 0; i < typeNamesListSize; i++) {
             typeOneEffectiveness[i] = typeArray[i][typeOneIndex];
         }
         if (typeTwoIndex != -1) {
             int[] typeTwoEffectiveness = new int[typeNamesList.size()];
             //Iterate through all the types and get effectiveness against typeTwo
-            for (int i = 0; i < typeNamesList.size(); i++) {
+            for (int i = 0; i < typeNamesListSize; i++) {
                 typeTwoEffectiveness[i] = typeArray[i][typeTwoIndex];
             }
-            for (int i = 0; i < typeNamesList.size(); i++) {
+            for (int i = 0; i < typeNamesListSize; i++) {
                 float multiplier = 1;
                 float multiplierOne = 1;
                 float multiplierTwo = 1;
@@ -100,7 +102,7 @@ public class TypeEffectiveness {
                 bundle.putFloat(typeNamesList.get(i),multiplier);
             }
         } else {
-            for (int i = 0; i < typeNamesList.size(); i++) {
+            for (int i = 0; i < typeNamesListSize; i++) {
                 float multiplier = 1;
                 switch (typeOneEffectiveness[i]) {
                     case 0:
@@ -126,6 +128,8 @@ public class TypeEffectiveness {
         int typeOneIndex = -1;
         int typeTwoIndex = -1;
 
+        int typeNamesListSize = typeNamesList.size();
+
         //Find position of types:
         typeOneIndex = typeNamesList.indexOf(typeOne);
         if (!typeTwo.equals("")) {
@@ -136,7 +140,7 @@ public class TypeEffectiveness {
         if (typeTwoIndex != -1) {
             int[] typeOneEffectiveness = typeArray[typeOneIndex];
             int[] typeTwoEffectiveness = typeArray[typeTwoIndex];
-            for (int i = 0; i < typeNamesList.size(); i++) {
+            for (int i = 0; i < typeNamesListSize; i++) {
                 float multiplier = 1;
                 float multiplierOne = 1;
                 float multiplierTwo = 1;
@@ -167,7 +171,7 @@ public class TypeEffectiveness {
             }
         } else {
             int[] typeOneEffectiveness = typeArray[typeOneIndex];
-            for (int i = 0; i < typeNamesList.size(); i++) {
+            for (int i = 0; i < typeNamesListSize; i++) {
                 float multiplier = 1;
                 switch (typeOneEffectiveness[i]) {
                     case 0:

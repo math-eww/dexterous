@@ -139,7 +139,8 @@ public class PokedexDatabase extends SQLiteAssetHelper {
         ArrayList<Ability> abilityArrayList = new ArrayList<Ability>();
         //Abilities query
         Cursor abilitiesQuery = queryDatabase("pokemon_abilities", new String[] {"ability_id","is_hidden"},"pokemon_id="+speciesId, null, null, null, null);
-        for (int z = 0; z < abilitiesQuery.getCount(); z++) {
+        int abilitiesQueryCount = abilitiesQuery.getCount();
+        for (int z = 0; z < abilitiesQueryCount; z++) {
             //Build a new ability object and add to arraylist
             abilityArrayList.add(new Ability(
                     getAbilityFromId(abilitiesQuery.getInt(0)),
@@ -155,7 +156,8 @@ public class PokedexDatabase extends SQLiteAssetHelper {
         ArrayList<EggGroup> eggGroupsArrayList = new ArrayList<EggGroup>();
         //Egg groups
         Cursor eggGroupQuery = queryDatabase("pokemon_egg_groups", new String[] {"egg_group_id"},"species_id="+speciesId, null, null, null, null);
-        for (int y = 0; y < eggGroupQuery.getCount(); y++) {
+        int eggGroupQueryCount = eggGroupQuery.getCount();
+        for (int y = 0; y < eggGroupQueryCount; y++) {
             //Build a new egg group object and add to arraylist
             eggGroupsArrayList.add(new EggGroup(
                     getEggGroupFromId(eggGroupQuery.getInt(0)),
@@ -172,7 +174,8 @@ public class PokedexDatabase extends SQLiteAssetHelper {
         //Moveset
         Cursor movesetQuery = queryDatabase("pokemon_moves", new String[] {"move_id","pokemon_move_method_id","level"},
                 "pokemon_id="+speciesId+" and version_group_id="+POKEMON_VERSION, null, null, null, null);
-        for (int x = 0; x < movesetQuery.getCount(); x++) {
+        int moveseQueryCount = movesetQuery.getCount();
+        for (int x = 0; x < moveseQueryCount; x++) {
             //Build a new move object and add to arraylist
             Move tempMove = new Move(
                     getMoveFromId(movesetQuery.getInt(0)),
@@ -198,7 +201,8 @@ public class PokedexDatabase extends SQLiteAssetHelper {
                 "evolves_from_species_id="+speciesId,
                 null, null, null, null
         );
-        for (int w = 0; w < evolutionQueryInto.getCount(); w++) {
+        int evolutionQueryIntoCount = evolutionQueryInto.getCount();
+        for (int w = 0; w < evolutionQueryIntoCount; w++) {
             int evolvesIntoId = evolutionQueryInto.getInt(0);
             Cursor evolutionQuery = queryDatabase(
                     "pokemon_evolution",
@@ -268,7 +272,8 @@ public class PokedexDatabase extends SQLiteAssetHelper {
 
         Cursor cursorTypes = getPokemonTypesTable();
         String[] typeNames = new String[cursorTypes.getCount()];
-        for (int t = 0; t < cursorTypes.getCount(); t++) {
+        int cursorTypesCount = cursorTypes.getCount();
+        for (int t = 0; t < cursorTypesCount; t++) {
             typeNames[t] = cursorTypes.getString(2);
             cursorTypes.moveToNext();
         }
@@ -278,7 +283,8 @@ public class PokedexDatabase extends SQLiteAssetHelper {
         Cursor cursorStats = getPokemonStatsTable();
         Log.i(TAG,"Stage 1 Complete: Beginning Stage 2: Entering main loop");
         //for (int i = 0; i < cursorPokemon.getCount(); i++) {
-        for (int i = 0; i < MainActivity.getTotalPokes(); i++) {
+        int totalPokes = MainActivity.getTotalPokes();
+        for (int i = 0; i < totalPokes; i++) {
 
             //Pokemon table
             String name = cursorPokemon.getString(1);
