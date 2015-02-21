@@ -273,6 +273,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:layout_below="@+id/linearLayout4"
+        android:id="@+id/linearLayout5"
         android:layout_centerHorizontal="true">
 
         <ToggleButton
@@ -326,6 +327,69 @@
             android:textOn=""
             android:textOff=""
             android:id="@+id/breedingtools_toggleButtonDiamond5"
+            android:layout_marginLeft="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/linearLayout5"
+        android:id="@+id/linearLayout6"
+        android:layout_centerHorizontal="true">
+
+        <ToggleButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/circle1"
+            android:textOn=""
+            android:textOff=""
+            android:id="@+id/breedingtools_toggleButtonCircle6" />
+
+        <ToggleButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/triangle1"
+            android:textOn=""
+            android:textOff=""
+            android:id="@+id/breedingtools_toggleButtonTriangle6"
+            android:layout_marginLeft="10dp" />
+
+        <ToggleButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/square1"
+            android:textOn=""
+            android:textOff=""
+            android:id="@+id/breedingtools_toggleButtonSquare6"
+            android:layout_marginLeft="10dp" />
+
+        <ToggleButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/heart1"
+            android:textOn=""
+            android:textOff=""
+            android:id="@+id/breedingtools_toggleButtonHeart6"
+            android:layout_marginLeft="10dp" />
+
+        <ToggleButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/star1"
+            android:textOn=""
+            android:textOff=""
+            android:id="@+id/breedingtools_toggleButtonStar6"
+            android:layout_marginLeft="10dp" />
+
+        <ToggleButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/diamond1"
+            android:textOn=""
+            android:textOff=""
+            android:id="@+id/breedingtools_toggleButtonDiamond6"
             android:layout_marginLeft="10dp" />
     </LinearLayout>
 
