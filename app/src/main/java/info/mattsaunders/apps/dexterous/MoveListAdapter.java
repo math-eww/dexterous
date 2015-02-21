@@ -1,12 +1,19 @@
 package info.mattsaunders.apps.dexterous;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.app.FragmentManager;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -97,7 +104,9 @@ public class MoveListAdapter extends BaseAdapter implements Filterable {
             holder = new ViewHolder();
             holder.level = (TextView)view.findViewById(R.id.moveLearnLevel);
             holder.name = (TextView)view.findViewById(R.id.moveName);
-            holder.type = (TextView)view.findViewById(R.id.moveLearnType);
+            holder.type = (TextView)view.findViewById(R.id.moveType);
+
+            holder.container = (LinearLayout)view.findViewById(R.id.container);
 
             view.setTag(holder);
         } else {
@@ -108,15 +117,21 @@ public class MoveListAdapter extends BaseAdapter implements Filterable {
         final Move move = mMoves.get(position);
         //Set info from move bundle to list view item
         String name = move.getMoveName();
-        String learnType = move.getLearnMethod();
+        String moveType = move.getType();
         holder.name.setText(name);
-        holder.type.setText(learnType);
+        holder.type.setText(moveType);
 
         holder.level.setText("");
         if (move.getLevel() != 0) {
             holder.level.setText(String.valueOf(move.getLevel()));
         }
 
+        holder.container.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showMoveDetailsDialog(move);
+            }
+        });
 
         return view;
     }
@@ -128,5 +143,16 @@ public class MoveListAdapter extends BaseAdapter implements Filterable {
 
     private class ViewHolder {
         public TextView name, level, type;
+        public LinearLayout container;
+    }
+
+    private void showMoveDetailsDialog(Move move) {
+        Activity activity = (Activity) mContext;
+        FragmentManager fm = activity.getFragmentManager();
+        MoveDialogFragment moveDialogFragment = new MoveDialogFragment();
+        Bundle moveResource = new Bundle();
+        moveResource.putInt("resource",move.getResource());
+        moveDialogFragment.setArguments(moveResource);
+        moveDialogFragment.show(fm,"moveDialog");
     }
 }

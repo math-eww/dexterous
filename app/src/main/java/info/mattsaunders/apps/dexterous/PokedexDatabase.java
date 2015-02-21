@@ -102,10 +102,18 @@ public class PokedexDatabase extends SQLiteAssetHelper {
         return moveName;
     }
 
+    public String getMoveTypeFromId(int id) {
+        Cursor c = queryDatabase("moves", new String[] {"type_id"},"id="+id, null, null, null, null);
+        c.moveToFirst();
+        String moveType = getTypeFromId(c.getInt(0));
+        c.close();
+        return moveType;
+    }
+
     public Bundle getMoveDetailsFromId(int id) {
         String[] damageClasses = {"status","physical","special"};
         Cursor c = queryDatabase("moves", new String[] {"type_id","power","pp",
-                "accuracy","priority","target_id","damage_class_id","effect_id","effect_chance","id"}, //damage class = type of move, target id = single/double, ally/enemy
+                "accuracy","priority","target_id","damage_class_id","effect_id","effect_chance","identifier"},
                 "id="+id, null, null, null, null);
         c.moveToFirst();
 
@@ -119,7 +127,7 @@ public class PokedexDatabase extends SQLiteAssetHelper {
         bundle.putString("damageType",damageClasses[c.getInt(6)-1]);
         bundle.putString("effect",getMoveEffectFromId(c.getInt(7)));
         bundle.putInt("effectChance", c.getInt(8));
-        bundle.putInt("id",c.getInt(9));
+        bundle.putString("name",c.getString(9));
 
         c.close();
         return bundle;
@@ -227,7 +235,8 @@ public class PokedexDatabase extends SQLiteAssetHelper {
             Move tempMove = new Move(
                     getMoveFromId(movesetQuery.getInt(0)),
                     movesetQuery.getInt(0),
-                    getMoveLearnMethodFromId(movesetQuery.getInt(1))
+                    getMoveLearnMethodFromId(movesetQuery.getInt(1)),
+                    getMoveTypeFromId(movesetQuery.getInt(0))
             );
             if (movesetQuery.getInt(1) == 1) {
                 tempMove.setLevel(movesetQuery.getInt(2));
