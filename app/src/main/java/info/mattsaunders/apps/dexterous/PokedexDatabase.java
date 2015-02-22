@@ -86,6 +86,14 @@ public class PokedexDatabase extends SQLiteAssetHelper {
         return ability;
     }
 
+    public String getAbilityDetailsFromId(int id) {
+        Cursor c = queryDatabase("ability_prose", new String[] {"short_effect"},"ability_id="+id, null, null, null, null);
+        c.moveToFirst();
+        String ability = c.getString(0);
+        c.close();
+        return ability;
+    }
+
     public String getEggGroupFromId(int id) {
         Cursor c = queryDatabase("egg_groups", new String[] {"identifier"},"id="+id, null, null, null, null);
         c.moveToFirst();
@@ -199,7 +207,8 @@ public class PokedexDatabase extends SQLiteAssetHelper {
             //Build a new ability object and add to arraylist
             abilityArrayList.add(new Ability(
                     getAbilityFromId(abilitiesQuery.getInt(0)),
-                    abilitiesQuery.getInt(0)
+                    abilitiesQuery.getInt(0),
+                    abilitiesQuery.getInt(1)
             ));
             abilitiesQuery.moveToNext();
         }

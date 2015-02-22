@@ -465,7 +465,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
                 evoList.addView(rowLayout);
             }
 
-            ArrayList<Ability> abilities = poke.getAbilities();
+            final ArrayList<Ability> abilities = poke.getAbilities();
             //ArrayList<Ability> abilities = db.getAbilities(poke.getNumber());
             String abilitiesText = "Abilities: ";
             String middleSepText = "";
@@ -476,6 +476,24 @@ public class PokeDetailsTabs extends ActionBarActivity {
             }
             if (shouldSnip) abilitiesText = abilitiesText.substring(0,abilitiesText.length()-2);
             abilitiesListText.setText(abilitiesText);
+
+            abilitiesListText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Activity activity = (Activity) con;
+                    android.app.FragmentManager fm = activity.getFragmentManager();
+                    AbilityDialogFragment abilityDialogFragment = new AbilityDialogFragment();
+                    Bundle abilityResources = new Bundle();
+                    int z = 0;
+                    abilityResources.putInt("total", abilities.size());
+                    for (Ability abil : abilities) {
+                        abilityResources.putInt("ability" + z,abil.getResource());
+                        z++;
+                    }
+                    abilityDialogFragment.setArguments(abilityResources);
+                    abilityDialogFragment.show(fm,"abilityDialog");
+                }
+            });
 
             ArrayList<EggGroup> eggTypes = poke.getEggTypes();
             //ArrayList<EggGroup> eggTypes = db.getEggGroups(poke.getNumber());
