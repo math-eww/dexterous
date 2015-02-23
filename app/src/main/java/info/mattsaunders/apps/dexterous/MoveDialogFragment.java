@@ -3,6 +3,7 @@ package info.mattsaunders.apps.dexterous;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +53,7 @@ public class MoveDialogFragment extends DialogFragment {
 
 
         damageType.setText(details.getString("damageType"));
+
         type.setText(details.getString("type"));
 
         int powerInt = details.getInt("power");
@@ -69,7 +71,16 @@ public class MoveDialogFragment extends DialogFragment {
         else { topContainer.removeView(rootView.findViewById(R.id.dialog_priorityContainer)); }
 
         targets.setText(details.getString("targets"));
-        effects.setText(details.getString("effect"));
+
+        String effectsText = details.getString("effect");
+        if (effectsText.contains("$")) {
+            Log.i("Move Dialog","Replacing text in effect text: Original: " + effectsText);
+            effectsText = effectsText
+                    .replaceAll(" \\$effect_chance%","")
+                    .replaceAll("\\[|\\]","")
+                    .replaceAll("\\{mechanic:(.*?)\\}","");
+        }
+        effects.setText(effectsText);
 
         int effectChanceInt = details.getInt("effectChance");
         if (effectChanceInt != 0) { effectChance.setText(String.valueOf(effectChanceInt) + "%"); }
