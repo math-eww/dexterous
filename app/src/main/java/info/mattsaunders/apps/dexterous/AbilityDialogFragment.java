@@ -2,6 +2,7 @@ package info.mattsaunders.apps.dexterous;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +50,14 @@ public class AbilityDialogFragment extends DialogFragment {
             resource = getArguments().getInt("ability" + x);
             String abilityName = db.getAbilityFromId(resource);
             String abilityText = db.getAbilityDetailsFromId(resource);
+            if (abilityText.contains("[")) {
+                //Log.i("Ability Dialog","Cutting out extra text: Original: " + abilityText);
+                abilityText = abilityText
+                        .replaceAll("\\[|\\]","")
+                        .replaceAll("\\{mechanic:(.*?)\\}","")
+                        .replaceAll("\\{type:|\\}","")
+                        .replaceAll("\\{move:","");
+            }
             if (x == 0) { abilityOneName.setText(abilityName); abilityOneText.setText(abilityText); }
             else if (x == 1) { abilityTwoName.setText(abilityName); abilityTwoText.setText(abilityText); }
             else if (x == 2) { abilityThreeName.setText(abilityName); abilityThreeText.setText(abilityText); }
