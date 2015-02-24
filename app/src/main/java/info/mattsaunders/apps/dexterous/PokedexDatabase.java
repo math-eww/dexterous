@@ -238,8 +238,8 @@ public class PokedexDatabase extends SQLiteAssetHelper {
 
     public ArrayList<Move> getMoveset(int speciesId) {
         ArrayList<Move> movesArrayList = new ArrayList<Move>();
-        Cursor movesetQuery = queryDatabase("pokemon_moves_current", new String[] {"move_id","pokemon_move_method_id","level"},
-                "pokemon_id="+speciesId, null, null, null, null);
+        Cursor movesetQuery = queryDatabase("pokemon_moves_current", new String[]{"move_id", "pokemon_move_method_id", "level"},
+                "pokemon_id=" + speciesId, null, null, null, null);
         int moveseQueryCount = movesetQuery.getCount();
         int moveResource;
         int moveLearnType;
