@@ -20,10 +20,11 @@ public class PokedexDatabase extends SQLiteAssetHelper {
     private static final int POKEMON_VERSION = 15;
     private static final String TAG = "PokedexDatabase";
     private SQLiteDatabase db = getReadableDatabase();
+    private String[] typeNames;
 
     public PokedexDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        db.setMaxSqlCacheSize(50);
+        //db.setMaxSqlCacheSize(50);
     }
 
     public Cursor queryDatabase(
@@ -115,7 +116,7 @@ public class PokedexDatabase extends SQLiteAssetHelper {
     public String getMoveTypeFromId(int id) {
         Cursor c = queryDatabase("moves", new String[] {"type_id"},"id="+id, null, null, null, null);
         c.moveToFirst();
-        String moveType = getTypeFromId(c.getInt(0));
+        String moveType = typeNames[c.getInt(0)-1]; //getTypeFromId(c.getInt(0));
         c.close();
         return moveType;
     }
@@ -237,20 +238,23 @@ public class PokedexDatabase extends SQLiteAssetHelper {
 
     public ArrayList<Move> getMoveset(int speciesId) {
         ArrayList<Move> movesArrayList = new ArrayList<Move>();
-        //Moveset
-        Cursor movesetQuery = queryDatabase("pokemon_moves", new String[] {"move_id","pokemon_move_method_id","level"},
-                "pokemon_id="+speciesId+" and version_group_id="+POKEMON_VERSION, null, null, null, null);
+        Cursor movesetQuery = queryDatabase("pokemon_moves_current", new String[] {"move_id","pokemon_move_method_id","level"},
+                "pokemon_id="+speciesId, null, null, null, null);
         int moveseQueryCount = movesetQuery.getCount();
+        int moveResource;
+        int moveLearnType;
         for (int x = 0; x < moveseQueryCount; x++) {
             //Build a new move object and add to arraylist
+            moveResource = movesetQuery.getInt(0);
+            moveLearnType = movesetQuery.getInt(1);
             Move tempMove = new Move(
-                    getMoveFromId(movesetQuery.getInt(0)),
-                    movesetQuery.getInt(0),
-                    getMoveLearnMethodFromId(movesetQuery.getInt(1)),
-                    getMoveTypeFromId(movesetQuery.getInt(0))
+                    getMoveFromId(moveResource),
+                    moveResource,
+                    moveLearnType,
+                    getMoveTypeFromId(moveResource)
             );
-            if (movesetQuery.getInt(1) == 1) {
-                tempMove.setLevel(movesetQuery.getInt(2));
+            if (moveLearnType == 1) {
+                tempMove.level = movesetQuery.getInt(2);
             }
             movesArrayList.add(tempMove);
             movesetQuery.moveToNext();
@@ -338,7 +342,7 @@ public class PokedexDatabase extends SQLiteAssetHelper {
         Log.i(TAG,"Beginning Stage 1: Pokedex Load from DB");
 
         Cursor cursorTypes = getPokemonTypesTable();
-        String[] typeNames = new String[cursorTypes.getCount()];
+        typeNames = new String[cursorTypes.getCount()];
         int cursorTypesCount = cursorTypes.getCount();
         for (int t = 0; t < cursorTypesCount; t++) {
             typeNames[t] = cursorTypes.getString(2);

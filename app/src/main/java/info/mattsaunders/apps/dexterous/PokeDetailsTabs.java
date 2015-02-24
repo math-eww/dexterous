@@ -550,7 +550,8 @@ public class PokeDetailsTabs extends ActionBarActivity {
             //ArrayList<Move> movesList = db.getMoveset(poke.getNumber());
             ArrayList<Move> showMovesList = new ArrayList<Move>();
             for (Move move : movesList) {
-                if (move.getLearnMethod().equals("level-up")) {
+                if (move.getLearnMethod() == 1) {
+                //if (move.getLearnMethod().equals("level-up")) {
                     showMovesList.add(move);
                 }
             }
@@ -616,7 +617,8 @@ public class PokeDetailsTabs extends ActionBarActivity {
             //ArrayList<Move> movesList = db.getMoveset(poke.getNumber());
             ArrayList<Move> showMovesList = new ArrayList<Move>();
             for (Move move : movesList) {
-                if (move.getLearnMethod().equals("machine")) {
+                //if (move.getLearnMethod().equals("machine")) {
+                if (move.getLearnMethod() == 4) {
                     showMovesList.add(move);
                 }
             }
@@ -684,7 +686,8 @@ public class PokeDetailsTabs extends ActionBarActivity {
             //ArrayList<Move> movesList = db.getMoveset(poke.getNumber());
             ArrayList<Move> showMovesList = new ArrayList<Move>();
             for (Move move : movesList) {
-                if (move.getLearnMethod().equals("tutor")) {
+                //if (move.getLearnMethod().equals("tutor")) {
+                if (move.getLearnMethod() == 3) {
                     showMovesList.add(move);
                 }
             }
@@ -752,7 +755,8 @@ public class PokeDetailsTabs extends ActionBarActivity {
             //ArrayList<Move> movesList = db.getMoveset(poke.getNumber());
             ArrayList<Move> showMovesList = new ArrayList<Move>();
             for (Move move : movesList) {
-                if (move.getLearnMethod().equals("egg")) {
+                //if (move.getLearnMethod().equals("egg")) {
+                if (move.getLearnMethod() == 2) {
                     showMovesList.add(move);
                 }
             }
