@@ -41,7 +41,7 @@ public class MainActivity extends ActionBarActivity
     public static Bundle pokeballTog3States;
     public static int caughtDex = 0;
     public static int livingDex = 0;
-    private static int TOTAL_POKES = 719;
+    private static int TOTAL_POKES = 721;
 
     public static int getTotalPokes() { return TOTAL_POKES; }
     public static PokedexDatabase db;

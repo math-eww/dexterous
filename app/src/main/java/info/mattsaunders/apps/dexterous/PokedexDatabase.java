@@ -19,22 +19,24 @@ public class PokedexDatabase extends SQLiteAssetHelper {
     private static final int DATABASE_VERSION = 1;
     private static final int POKEMON_VERSION = 15;
     private static final String TAG = "PokedexDatabase";
+    private SQLiteDatabase db = getReadableDatabase();
 
     public PokedexDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        db.setMaxSqlCacheSize(50);
     }
 
     public Cursor queryDatabase(
             String table, String[] columnNames, String whereClause, String[] selectionArgs,
             String groupBy, String having, String orderBy) {
-        SQLiteDatabase db = getReadableDatabase();
+        //SQLiteDatabase db = getReadableDatabase();
         Cursor c = db.query(table, columnNames, whereClause, selectionArgs, groupBy, having, orderBy);
         c.moveToFirst();
         return c;
     }
 
     public Cursor getPokemonTable() {
-        SQLiteDatabase db = getReadableDatabase();
+        //SQLiteDatabase db = getReadableDatabase();
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
         String [] sqlSelect = {"0 _id", "identifier", "species_id", "height", "weight"};
@@ -49,7 +51,7 @@ public class PokedexDatabase extends SQLiteAssetHelper {
     }
 
     public Cursor getPokemonStatsTable() {
-        SQLiteDatabase db = getReadableDatabase();
+        //SQLiteDatabase db = getReadableDatabase();
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
         String [] sqlSelect = {"0 _id", "pokemon_id", "stat_id", "base_stat"};
@@ -64,7 +66,7 @@ public class PokedexDatabase extends SQLiteAssetHelper {
     }
 
     public Cursor getPokemonTypesTable() {
-        SQLiteDatabase db = getReadableDatabase();
+        //SQLiteDatabase db = getReadableDatabase();
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
         String [] sqlSelect = {"0 _id", "id", "identifier"};

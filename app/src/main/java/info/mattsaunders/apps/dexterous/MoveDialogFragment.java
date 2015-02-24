@@ -74,7 +74,7 @@ public class MoveDialogFragment extends DialogFragment {
 
         String effectsText = details.getString("effect");
         if (effectsText.contains("$")) {
-            Log.i("Move Dialog","Replacing text in effect text: Original: " + effectsText);
+            //Log.i("Move Dialog","Replacing text in effect text: Original: " + effectsText);
             effectsText = effectsText
                     .replaceAll(" \\$effect_chance%","")
                     .replaceAll("\\[|\\]","")
