@@ -87,6 +87,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
         if (poke.getAbilities() == null) { poke.setAbilities(db.getAbilities(pokemonNumber)); }
         if (poke.getEggTypes() == null) { poke.setEggTypes(db.getEggGroups(pokemonNumber)); }
         if (poke.getEvolutions() == null) { poke.setEvolutions(db.getEvolutions(pokemonNumber)); }
+        if (poke.getForms() == null) { poke.setForms(db.getForms(pokemonNumber)); }
         if (poke.getEvolvesFromNum() == 0) { db.setEvolvesFrom(pokemonNumber); }
 
         final Context c = MainActivity.c;
@@ -231,6 +232,12 @@ public class PokeDetailsTabs extends ActionBarActivity {
         public MainDetails() {
         }
 
+        private String gifNum = "";
+        private String gifMega = "";
+        private String getGifFile() { return gifNum + gifMega + ".gif"; }
+
+        private ArrayList<Ability> curAbilityList = new ArrayList<>();
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -238,26 +245,26 @@ public class PokeDetailsTabs extends ActionBarActivity {
 
             final GifImageView pokeSprite = (GifImageView) rootView.findViewById(R.id.pokeDetailsImage);
 
-            TextView pokeName = (TextView) rootView.findViewById(R.id.pokeDetailsName);
-            TextView pokeNum = (TextView) rootView.findViewById(R.id.pokeDetailsNum);
-            TextView pokeTypes = (TextView) rootView.findViewById(R.id.pokeDetailsTypes);
-            TextView pokeHeightWeight = (TextView) rootView.findViewById(R.id.pokeDetailsHeighWeight);
-            TextView pokeEggTypesList = (TextView) rootView.findViewById(R.id.pokeDetailsEggGroups);
+            final TextView pokeName = (TextView) rootView.findViewById(R.id.pokeDetailsName);
+            final TextView pokeNum = (TextView) rootView.findViewById(R.id.pokeDetailsNum);
+            final TextView pokeTypes = (TextView) rootView.findViewById(R.id.pokeDetailsTypes);
+            final TextView pokeHeightWeight = (TextView) rootView.findViewById(R.id.pokeDetailsHeighWeight);
+            final TextView pokeEggTypesList = (TextView) rootView.findViewById(R.id.pokeDetailsEggGroups);
 
-            TextView pokeHp = (TextView) rootView.findViewById(R.id.pokeDetailsHp);
-            TextView pokeAtk = (TextView) rootView.findViewById(R.id.pokeDetailsAtk);
-            TextView pokeDef = (TextView) rootView.findViewById(R.id.pokeDetailsDef);
-            TextView pokeSpAtk = (TextView) rootView.findViewById(R.id.pokeDetailsSpAtk);
-            TextView pokeSpDef = (TextView) rootView.findViewById(R.id.pokeDetailsSpDef);
-            TextView pokeSpd = (TextView) rootView.findViewById(R.id.pokeDetailsSpd);
-            TextView pokeTtl = (TextView)rootView.findViewById(R.id.pokeDetailsTotals);
+            final TextView pokeHp = (TextView) rootView.findViewById(R.id.pokeDetailsHp);
+            final TextView pokeAtk = (TextView) rootView.findViewById(R.id.pokeDetailsAtk);
+            final TextView pokeDef = (TextView) rootView.findViewById(R.id.pokeDetailsDef);
+            final TextView pokeSpAtk = (TextView) rootView.findViewById(R.id.pokeDetailsSpAtk);
+            final TextView pokeSpDef = (TextView) rootView.findViewById(R.id.pokeDetailsSpDef);
+            final TextView pokeSpd = (TextView) rootView.findViewById(R.id.pokeDetailsSpd);
+            final TextView pokeTtl = (TextView)rootView.findViewById(R.id.pokeDetailsTotals);
 
             LinearLayout evoList = (LinearLayout) rootView.findViewById(R.id.pokeDetailsEvoList);
-            TextView abilitiesListText = (TextView) rootView.findViewById(R.id.pokeDetailsAbilities);
+            final TextView abilitiesListText = (TextView) rootView.findViewById(R.id.pokeDetailsAbilities);
 
             final String subfolderNotShiny = "xy-animated";
             final String subfolderShiny = "xy-animated-shiny";
-            final String gifId = poke.getThreeDigitStringNumber() + ".gif";
+            gifNum = poke.getThreeDigitStringNumber();
             pokeSprite.setScaleType(ImageView.ScaleType.CENTER);
             pokeSprite.setScaleX(3.5f); pokeSprite.setScaleY(3.5f);
             pokeSprite.setClickable(true);
@@ -268,33 +275,39 @@ public class PokeDetailsTabs extends ActionBarActivity {
                     if (subfolder.equals(subfolderNotShiny)) {
                         subfolder = subfolderShiny;
                         try {
-                            GifDrawable gifFromAssets = new GifDrawable(con.getAssets(), subfolder + "/" + gifId);
+                            GifDrawable gifFromAssets = new GifDrawable(con.getAssets(), subfolder + "/" + getGifFile());
                             pokeSprite.setImageDrawable(gifFromAssets);
                         } catch (IOException e) {
-                            Log.e("Error in gif loading: " + gifId, e.toString());
+                            Log.e("Error in gif loading: " + getGifFile(), e.toString());
                         }
                     } else {
                         subfolder = subfolderNotShiny;
                         try {
-                            GifDrawable gifFromAssets = new GifDrawable(con.getAssets(), subfolderNotShiny + "/" + gifId);
+                            GifDrawable gifFromAssets = new GifDrawable(con.getAssets(), subfolderNotShiny + "/" + getGifFile());
                             pokeSprite.setImageDrawable(gifFromAssets);
                         } catch (IOException e) {
-                            Log.e("Error in gif loading: " + gifId, e.toString());
+                            Log.e("Error in gif loading: " + getGifFile(), e.toString());
                         }
                     }
                 }
             });
             try {
-                GifDrawable gifFromAssets = new GifDrawable(con.getAssets(), subfolderNotShiny + "/" + gifId);
+                GifDrawable gifFromAssets = new GifDrawable(con.getAssets(), subfolderNotShiny + "/" + getGifFile());
                 pokeSprite.setImageDrawable(gifFromAssets);
             } catch (IOException e) {
-                Log.e("Error in gif loading: " + gifId, e.toString());
+                Log.e("Error in gif loading: " + getGifFile(), e.toString());
             }
 
             String types = poke.getTypeOne();
             if (!poke.getTypeTwo().equals("")) { types = types + " | " + poke.getTypeTwo(); }
 
-            pokeName.setText(poke.getName());
+            String name = poke.getName();
+            if (name.contains("-")) {
+                if (!name.equals("Porygon-z")|!name.equals("Mime-jr")|!name.equals("Ho-oh")|!name.equals("Mr-mime")|!name.equals("Porygon-z")) {
+                    name = name.split("-")[0];
+                }
+            }
+            pokeName.setText(name);
             pokeNum.setText(poke.getThreeDigitStringNumber());
             pokeTypes.setText(types);
 
@@ -323,6 +336,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
             pokeSpd.setText(String.format("%-10s %3d","Speed:",stats[5]));
             pokeTtl.setText(String.format("%-10s %3d","Total:",total));
 
+            //Show evolves from if necessary -------------------------------------------------------
             if (!poke.getEvolvesFrom().equals("")) {
             //if (!db.getEvolvesFrom(poke.getNumber()).equals("")) {
                 TextView evoHeader = new TextView(con.getApplicationContext());
@@ -330,7 +344,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
                 evoHeader.setTextColor(Color.BLACK);
                 evoList.addView(evoHeader);
 
-                String to = poke.getEvolvesFrom();
+                //String to = poke.getEvolvesFrom();
                 String num = String.valueOf(poke.getEvolvesFromNum());
                 num = ("000" + num).substring(num.length());
 
@@ -344,9 +358,15 @@ public class PokeDetailsTabs extends ActionBarActivity {
                     tempImage.setMaxHeight(3);
                     tempImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                 } catch (IOException e) {
-                    Log.e("Error in gif loading (evolution): " + gifId, e.toString());
+                    Log.e("Error in gif loading (evolution): " + getGifFile(), e.toString());
                 }
 
+                String to = poke.getEvolvesFrom();
+                if (to.contains("-")) {
+                    if (!to.equals("Porygon-z")|!to.equals("Mime-jr")|!to.equals("Ho-oh")|!to.equals("Mr-mime")|!to.equals("Porygon-z")) {
+                        to = to.split("-")[0];
+                    }
+                }
                 String tempTextShow = num + " " + to;
 
                 TextView tempText = new TextView(con.getApplicationContext());
@@ -375,6 +395,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
                 evoList.addView(rowLayout);
             }
 
+            //Show evolutions if necessary ---------------------------------------------------------
             ArrayList<Evolution> evolutionList = poke.getEvolutions();
             //ArrayList<Evolution> evolutionList = db.getEvolutions(poke.getNumber());
             if (evolutionList.size() > 0) {
@@ -394,8 +415,6 @@ public class PokeDetailsTabs extends ActionBarActivity {
                 int level = 0;
                 String method = "";
                 String detail = "";
-                String mega = "";
-                boolean isMega = false;
                 String to = evoBundle.getEvolvesTo();
                 String num = evoBundle.getNum();
                 num = ("000" + num).substring(num.length());
@@ -409,17 +428,15 @@ public class PokeDetailsTabs extends ActionBarActivity {
                     detail = evoBundle.getDetail();
                 }
 
-                if (detail.equals("mega")) {
-                    isMega = true;
-                    //get substring at the end of to field
-                    mega = to.substring(poke.getName().length());
-                    //set num to current pokemon number
-                    num = poke.getThreeDigitStringNumber();
-                }
+                String tempTextShow = num + " " + to + "\n Method: " + method;
+                if (method.equals("level-up")) { tempTextShow = num + " - " + to + "\n" + "Level: " + level; }
+                else if (method.equals("use-item")) { tempTextShow = num + " - " + to + "\n" + "With item " + detail; }
+                else if (method.equals("trade")) { tempTextShow = num + " - " + to + "\n" + "Trade " + detail; }
+                else if (method.equals("shed")) { tempTextShow = num + " - " + to + "\n" + "Shed " + detail; }
 
                 ImageView tempImage = new ImageView(con.getApplicationContext());
                 try {
-                    GifDrawable tempGifFromAssets = new GifDrawable(con.getAssets(), "xy-animated" + "/" + num + mega + ".gif");
+                    GifDrawable tempGifFromAssets = new GifDrawable(con.getAssets(), "xy-animated" + "/" + num + ".gif");
                     tempImage.setImageDrawable(tempGifFromAssets);
                     tempImage.setMinimumWidth(3);
                     tempImage.setMaxWidth(3);
@@ -427,14 +444,8 @@ public class PokeDetailsTabs extends ActionBarActivity {
                     tempImage.setMaxHeight(3);
                     tempImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                 } catch (IOException e) {
-                    Log.e("Error in gif loading (evolution): " + gifId, e.toString());
+                    Log.e("Error in gif loading (evolution): " + getGifFile(), e.toString());
                 }
-
-                String tempTextShow = num + " " + to + " Method: " + method;
-                if (method.equals("level-up")) { tempTextShow = num + " - " + to + "\n" + "Level: " + level; }
-                if (method.equals("use-item")) { tempTextShow = num + " - " + to + "\n" + "With item " + detail; }
-                if (method.equals("trade")) { tempTextShow = num + " - " + to + "\n" + "Trade " + detail; }
-                if (method.equals("shed")) { tempTextShow = num + " - " + to + "\n" + "Shed " + detail; }
 
                 TextView tempText = new TextView(con.getApplicationContext());
                 tempText.setText(tempTextShow);
@@ -447,25 +458,202 @@ public class PokeDetailsTabs extends ActionBarActivity {
                 rowLayout.addView(tempImage);
                 rowLayout.addView(tempText);
 
-                if (!isMega) {
-                    rowLayout.setClickable(true);
-                    //final int newPokePosition = MainActivity.pokemonList.indexOf(poke);
-                    final int newPokePosition = Integer.parseInt(num) - 1;
-                    rowLayout.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(con,PokeDetailsTabs.class);
-                            intent.putExtra("pokemon",newPokePosition);
-                            con.startActivity(intent);
-                            activity.finish();
-                        }
-                    });
-                }
+                rowLayout.setClickable(true);
+                //final int newPokePosition = MainActivity.pokemonList.indexOf(poke);
+                final int newPokePosition = Integer.parseInt(num) - 1;
+                rowLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(con,PokeDetailsTabs.class);
+                        intent.putExtra("pokemon",newPokePosition);
+                        con.startActivity(intent);
+                        activity.finish();
+                    }
+                });
 
                 evoList.addView(rowLayout);
             }
 
-            final ArrayList<Ability> abilities = poke.getAbilities();
+            //Show forms if necessary --------------------------------------------------------------
+            //ArrayList<Evolution> formsList = poke.getForms();
+            ArrayList<Evolution> formsList = db.getForms(poke.getNumber());
+            if (formsList.size() > 0) {
+                TextView evoHeader = new TextView(con.getApplicationContext());
+                evoHeader.setText("Forms:");
+                evoHeader.setTextColor(Color.BLACK);
+                evoList.addView(evoHeader);
+            }
+            Collections.sort(formsList, new Comparator() {
+                public int compare(Object o1, Object o2) {
+                    Evolution p1 = (Evolution) o1;
+                    Evolution p2 = (Evolution) o2;
+                    return p1.getNum().compareTo(p2.getNum());
+                }
+            });
+            for (final Evolution form : formsList) {
+                int level = 0;
+                String method = "";
+                String detail = "";
+                String mega = "";
+                boolean isMega = false;
+                String to = form.getEvolvesTo();
+                String num = form.getNum();
+                num = ("000" + num).substring(num.length());
+                if (form.getLevel() != 0) {
+                    level = form.getLevel();
+                }
+                if (form.getMethod() != null) {
+                    method = form.getMethod();
+                }
+                if (form.getDetail() != null) {
+                    detail = form.getDetail();
+                }
+
+                String tempTextShow;
+                if (detail.equals("mega")) {
+                    isMega = true;
+                    //get substring at the end of to field
+                    mega = to.substring(poke.getName().length());
+                    //crop the extra off the name
+                    to = to.substring(0,poke.getName().length());
+                    to = to.substring(0, 1).toUpperCase() + to.substring(1);
+                    num = poke.getThreeDigitStringNumber();
+                    method = method.substring(0, 1).toUpperCase() + method.substring(1);
+                    tempTextShow = method + " " + to;
+                } else {
+                    mega = "-" + to.split("-")[1];
+                    to = to.split("-")[0];
+                    num = poke.getThreeDigitStringNumber();
+                    to = to.substring(0, 1).toUpperCase() + to.substring(1);
+                    method = method.substring(0, 1).toUpperCase() + method.substring(1);
+                    tempTextShow = to + "\n" + method;
+                }
+
+                ImageView tempImage = new ImageView(con.getApplicationContext());
+                try {
+                    GifDrawable tempGifFromAssets = new GifDrawable(con.getAssets(), "xy-animated" + "/" + num + mega + ".gif");
+                    tempImage.setImageDrawable(tempGifFromAssets);
+                    tempImage.setMinimumWidth(3);
+                    tempImage.setMaxWidth(3);
+                    tempImage.setMinimumHeight(3);
+                    tempImage.setMaxHeight(3);
+                    tempImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                } catch (IOException e) {
+                    Log.e("Error in gif loading (evolution): " + getGifFile(), e.toString());
+                }
+
+                TextView tempText = new TextView(con.getApplicationContext());
+                tempText.setText(tempTextShow);
+                tempText.setTextColor(Color.BLACK);
+                tempText.setGravity(Gravity.RIGHT);
+                tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+                LinearLayout rowLayout = new LinearLayout(con.getApplicationContext());
+                rowLayout.setOrientation(LinearLayout.HORIZONTAL);
+                rowLayout.addView(tempImage);
+                rowLayout.addView(tempText);
+
+                //Set clickable
+                //Set main image to form image
+                //Set stats to form stats - get from pokemon_stats table
+                //Set abilities to form abilities - get from pokemon_abilities table
+                //Set name to name + (detail)
+
+                rowLayout.setClickable(true);
+                rowLayout.setTag("off");
+                rowLayout.setOnClickListener(new View.OnClickListener() {
+                    ArrayList<Ability> abilities;
+                    int[] stats;
+                    int total;
+                    String types;
+                    String pokemonHeight;
+                    String pokemonWeight;
+                    @Override
+                    public void onClick(View v) {
+                        View vp = (View) v.getParent();
+                        for(int i=0; i<((ViewGroup)vp).getChildCount(); ++i) {
+                            View nextChild = ((ViewGroup)vp).getChildAt(i);
+                            if (nextChild != v) {
+                                nextChild.setBackgroundColor(0x00000000);
+                                nextChild.setTag("off");
+                            }
+                        }
+                        if (!v.getTag().equals("on")) {
+                            v.setBackgroundColor(getResources().getColor(R.color.evo_selected));
+                            v.setTag("on");
+                            //Change image to mega image - some forms don't have shiny gifs
+                            if (form.getDetail().equals("mega")) {
+                                gifMega = form.getEvolvesTo().substring(poke.getName().length());
+                            } else {
+                                gifMega = form.getEvolvesTo().substring(poke.getName().split("-")[0].length());
+                            }
+                            //Change abilities to ability for that form
+                            abilities = db.getAbilities(form.getLevel()); //get level returns the form id number
+                            //Change stats
+                            stats = db.getStats(form.getLevel());
+                            total = stats[0] + stats[1] + stats[2] + stats[3] + stats[4] + stats[5];
+                            //Change types
+                            types = db.getPokemonTypesStringFromId(form.getLevel());
+                            //Change height and weight
+                            String[] heightWeight = db.getPokemonHeightWeight(form.getLevel());
+                            pokemonHeight = heightWeight[0];
+                            pokemonWeight = heightWeight[1];
+                        } else {
+                            v.setTag("off");
+                            v.setBackgroundColor(0x00000000);
+                            gifMega = "";
+                            abilities = poke.getAbilities();
+                            stats = poke.getStats();
+                            total = stats[0] + stats[1] + stats[2] + stats[3] + stats[4] + stats[5];
+                            types = poke.getTypeOne();
+                            if (!poke.getTypeTwo().equals("")) { types = types + " | " + poke.getTypeTwo(); }
+                            pokemonHeight = poke.getHeight();
+                            pokemonWeight = poke.getWeight();
+                        }
+
+                        //Set picture
+                        try {
+                            GifDrawable gifFromAssets = new GifDrawable(con.getAssets(), subfolderNotShiny + "/" + getGifFile());
+                            pokeSprite.setImageDrawable(gifFromAssets);
+                        } catch (IOException e) {
+                            Log.e("Error in gif loading: " + getGifFile(), e.toString());
+                        }
+                        //Set abilities
+                        curAbilityList = abilities;
+                        String abilitiesText = "Abilities: ";
+                        String middleSepText = "";
+                        boolean shouldSnip = false;
+                        if (abilities.size() > 1) { middleSepText = ", "; shouldSnip = true; }
+                        for (Ability abil : abilities) {
+                            abilitiesText = abilitiesText + " " + abil.getAbilityName() + middleSepText;
+                        }
+                        if (shouldSnip) abilitiesText = abilitiesText.substring(0,abilitiesText.length()-2);
+                        abilitiesListText.setText(abilitiesText);
+                        //Set stats
+                        pokeHp.setText(String.format("%-10s %3d", "HP:", stats[0]));
+                        pokeAtk.setText(String.format("%-10s %3d","Attack:",stats[1]));
+                        pokeDef.setText(String.format("%-10s %3d","Defense:",stats[2]));
+                        pokeSpAtk.setText(String.format("%-10s %3d","Sp. Atk:",stats[3]));
+                        pokeSpDef.setText(String.format("%-10s %3d","Sp. Def:",stats[4]));
+                        pokeSpd.setText(String.format("%-10s %3d","Speed:",stats[5]));
+                        pokeTtl.setText(String.format("%-10s %3d","Total:",total));
+                        //Set types
+                        pokeTypes.setText(types);
+                        //Set height and weight
+                        if (pokemonHeight.length() < 2) { pokemonHeight = ("00" + pokemonHeight).substring(pokemonHeight.length()); }
+                        pokemonHeight = new StringBuilder(pokemonHeight).insert(pokemonHeight.length()-1, ".").toString();
+                        if (pokemonWeight.length() < 2) { pokemonWeight = ("00" + pokemonWeight).substring(pokemonWeight.length()); }
+                        pokemonWeight = new StringBuilder(pokemonWeight).insert(pokemonWeight.length()-1, ".").toString();
+                        pokeHeightWeight.setText("Height: " + pokemonHeight + " m" + "\n" + "Weight: " + pokemonWeight + " kg");
+                    }
+                });
+
+
+                evoList.addView(rowLayout);
+            }
+
+            ArrayList<Ability> abilities = poke.getAbilities();
+            curAbilityList = abilities;
             //ArrayList<Ability> abilities = db.getAbilities(poke.getNumber());
             String abilitiesText = "Abilities: ";
             String middleSepText = "";
@@ -485,8 +673,8 @@ public class PokeDetailsTabs extends ActionBarActivity {
                     AbilityDialogFragment abilityDialogFragment = new AbilityDialogFragment();
                     Bundle abilityResources = new Bundle();
                     int z = 0;
-                    abilityResources.putInt("total", abilities.size());
-                    for (Ability abil : abilities) {
+                    abilityResources.putInt("total", curAbilityList.size());
+                    for (Ability abil : curAbilityList) {
                         abilityResources.putInt("ability" + z,abil.getResource());
                         z++;
                     }

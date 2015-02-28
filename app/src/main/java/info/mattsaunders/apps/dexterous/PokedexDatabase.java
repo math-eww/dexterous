@@ -317,6 +317,60 @@ public class PokedexDatabase extends SQLiteAssetHelper {
         return evolutionsArrayList;
     }
 
+    public ArrayList<Evolution> getForms(int speciesId) {
+        ArrayList<Evolution> pokemonForms = new ArrayList<>();
+        //Add megas & forms
+        Cursor pokemonFormsQuery = queryDatabase("pokemon",new String[] {"id","identifier","species_id"},"species_id="+speciesId+" and id>"+10000,null,null,null,null);
+        for (int i = 0; i < pokemonFormsQuery.getCount()-1; i++) {
+            Cursor pokemonFormsIdQuery = queryDatabase("pokemon_forms", new String[] {"form_identifier","is_mega"},"pokemon_id="+pokemonFormsQuery.getInt(0),null,null,null,null);
+            String detail = "";
+            if (pokemonFormsIdQuery.getInt(1) == 1) { detail = "mega"; }
+            pokemonForms.add(new Evolution(
+                    pokemonFormsIdQuery.getString(0),
+                    pokemonFormsQuery.getString(1),
+                    pokemonFormsQuery.getString(2),
+                    detail,
+                    pokemonFormsQuery.getInt(0)
+            ));
+            pokemonFormsQuery.moveToNext();
+            pokemonFormsIdQuery.close();
+        }
+        pokemonFormsQuery.close();
+        return pokemonForms;
+    }
+
+    public int[] getStats(int speciesId) {
+        Cursor stats = queryDatabase("pokemon_stats", new String[] {"base_stat"}, "pokemon_id="+speciesId,null,null,null,null);
+        int statsCount = stats.getCount();
+        int[] pokemonStats = new int[statsCount];
+        for (int i = 0; i < statsCount; i++) {
+            pokemonStats[i] = stats.getInt(0);
+            stats.moveToNext();
+        }
+        stats.close();
+        return pokemonStats;
+    }
+
+    public String getPokemonTypesStringFromId(int speciesId) {
+        Cursor typesQuery = queryDatabase("pokemon_types", new String[] {"type_id"},"pokemon_id="+speciesId,null,null,null,null);
+        String types = typeNames[typesQuery.getInt(0)-1];
+        if (typesQuery.getCount() > 1) {
+            typesQuery.moveToNext();
+            types = types + " | " + typeNames[typesQuery.getInt(0)-1];
+        }
+        typesQuery.close();
+        return types;
+    }
+
+    public String[] getPokemonHeightWeight(int speciesId) {
+        Cursor pokemonHWQuery = queryDatabase("pokemon", new String[] {"height","weight"},"id="+speciesId,null,null,null,null);
+        String[] pokemonHW = new String[2];
+        pokemonHW[0] = pokemonHWQuery.getString(0);
+        pokemonHW[1] = pokemonHWQuery.getString(1);
+        pokemonHWQuery.close();
+        return pokemonHW;
+    }
+
     public String getEvolvesFrom(int speciesId) {
         Cursor evolvesFrom = queryDatabase("pokemon_species", new String[] {"evolves_from_species_id"},
                 "id="+speciesId, null, null, null, null);

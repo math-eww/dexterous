@@ -25,6 +25,7 @@ public class LoadInBackground {
                 if (poke.getEggTypes() == null) { poke.setEggTypes(db.getEggGroups(pokemonNumber)); }
                 if (poke.getEvolutions() == null) { poke.setEvolutions(db.getEvolutions(pokemonNumber)); }
                 if (poke.getEvolvesFromNum() == 0) { db.setEvolvesFrom(pokemonNumber); }
+                if (poke.getForms() == null) { db.getForms(pokemonNumber); }
                 //Log.i("Background Load", "Loaded: " + poke.getName() + "'s additional information");
             }
 

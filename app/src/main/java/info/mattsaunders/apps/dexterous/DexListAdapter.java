@@ -120,7 +120,13 @@ public class DexListAdapter extends BaseAdapter implements Filterable {
         final Pokemon poke = mPokes.get(position);
         //Set info from pokemon object to list view item
         holder.number.setText(poke.getThreeDigitStringNumber());
-        holder.name.setText(poke.getName());
+        String name = poke.getName();
+        if (name.contains("-")) {
+            if (!name.equals("Porygon-z")&&!name.equals("Mime-jr")&&!name.equals("Ho-oh")&&!name.equals("Mr-mime")&&!name.equals("Porygon-z")) {
+                name = name.split("-")[0];
+            }
+        }
+        holder.name.setText(name);
         holder.types.setText(poke.getTypeOne() + " " + poke.getTypeTwo());
 
         //Set sprite if available to image view

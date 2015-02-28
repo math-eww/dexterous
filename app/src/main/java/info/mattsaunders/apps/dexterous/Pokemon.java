@@ -21,6 +21,7 @@ public class Pokemon {
     private String height;
     private String weight;
     private ArrayList<Evolution> evolutions;
+    private ArrayList<Evolution> forms;
     private String evolvesFrom = "";
     private int evolvesFromNum;
     private ArrayList<Move> moveset;
@@ -80,10 +81,12 @@ public class Pokemon {
     public ArrayList<Ability> getAbilities() { return abilities; }
     public ArrayList<Move> getMoveset() { return moveset; }
     public ArrayList<EggGroup> getEggTypes() { return eggTypes; }
+    public ArrayList<Evolution> getForms() { return forms; }
     public void setMoveset(ArrayList<Move> moveset) { this.moveset = moveset; }
     public void setAbilities(ArrayList<Ability> abilities) { this.abilities = abilities; }
     public void setEvolutions(ArrayList<Evolution> evolutions) { this.evolutions = evolutions; }
     public void setEggTypes(ArrayList<EggGroup> eggTypes) { this.eggTypes = eggTypes; }
+    public void setForms(ArrayList<Evolution> forms) { this.forms = forms; }
 
     public void setEvolvesFrom(String evoFrom) { evolvesFrom = evoFrom; }
     public String getEvolvesFrom() { return evolvesFrom; }
