@@ -2,7 +2,7 @@ package info.mattsaunders.apps.dexterous;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
-import android.util.Log;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,13 +23,13 @@ public class AbilityDialogFragment extends DialogFragment {
         {
             textView.setGravity(Gravity.CENTER);
         }
-/*
+
         DisplayMetrics metrics = MainActivity.c.getResources().getDisplayMetrics();
-        int width = metrics.widthPixels;
-        int height = (int) Math.round(metrics.heightPixels * 0.8);
+        int width = (int) Math.round(metrics.widthPixels * 0.8);
+        int height = (int) Math.round(metrics.heightPixels * 0.7);
 
         getDialog().getWindow().setLayout(width,height);
-*/
+
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,7 +56,8 @@ public class AbilityDialogFragment extends DialogFragment {
                         .replaceAll("\\[|\\]","")
                         .replaceAll("\\{mechanic:(.*?)\\}","")
                         .replaceAll("\\{type:|\\}","")
-                        .replaceAll("\\{move:","");
+                        .replaceAll("\\{move:","")
+                        .replaceAll("\\{ability:", "");
             }
             if (x == 0) { abilityOneName.setText(abilityName); abilityOneText.setText(abilityText); }
             else if (x == 1) { abilityTwoName.setText(abilityName); abilityTwoText.setText(abilityText); }

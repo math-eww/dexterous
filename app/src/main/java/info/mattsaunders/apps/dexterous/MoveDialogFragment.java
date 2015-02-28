@@ -2,8 +2,6 @@ package info.mattsaunders.apps.dexterous;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,12 +71,13 @@ public class MoveDialogFragment extends DialogFragment {
         targets.setText(details.getString("targets"));
 
         String effectsText = details.getString("effect");
-        if (effectsText.contains("$")) {
+        if (effectsText.contains("[")|effectsText.contains("$")) {
             //Log.i("Move Dialog","Replacing text in effect text: Original: " + effectsText);
             effectsText = effectsText
                     .replaceAll(" \\$effect_chance%","")
                     .replaceAll("\\[|\\]","")
-                    .replaceAll("\\{mechanic:(.*?)\\}","");
+                    .replaceAll("\\{mechanic:(.*?)\\}","")
+                    .replaceAll("\\{move:(.*?)\\}","");
         }
         effects.setText(effectsText);
 

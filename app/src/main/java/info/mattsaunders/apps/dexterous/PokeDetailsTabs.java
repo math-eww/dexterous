@@ -55,7 +55,6 @@ public class PokeDetailsTabs extends ActionBarActivity {
     private static int pokePosition;
     private Menu menu;
     private static Pokemon poke;
-    private static Context c;
     private static Activity activity;
     private static PokedexDatabase db;
 
@@ -67,7 +66,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
         setContentView(R.layout.activity_poke_details_tabs);
 
 
-        // Create the adapter that will return a fragment for each of the three
+        // Create the adapter that will return a fragment for each of the
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
@@ -90,7 +89,6 @@ public class PokeDetailsTabs extends ActionBarActivity {
         if (poke.getForms() == null) { poke.setForms(db.getForms(pokemonNumber)); }
         if (poke.getEvolvesFromNum() == 0) { db.setEvolvesFrom(pokemonNumber); }
 
-        final Context c = MainActivity.c;
         con = this;
         activity = this;
     }
@@ -175,9 +173,6 @@ public class PokeDetailsTabs extends ActionBarActivity {
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            //return MainDetails.newInstance(position + 1);
-
             switch (position) {
                 case 0:
                     return PokemonTypeEffectivenessFragment.newInstance(position + 1);
@@ -198,7 +193,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
+            // Show 6 total pages.
             return 6;
         }
 
@@ -268,23 +263,23 @@ public class PokeDetailsTabs extends ActionBarActivity {
             pokeSprite.setScaleType(ImageView.ScaleType.CENTER);
             pokeSprite.setScaleX(3.5f); pokeSprite.setScaleY(3.5f);
             pokeSprite.setClickable(true);
+            pokeSprite.setTag("off");
             pokeSprite.setOnClickListener(new View.OnClickListener() {
-                String subfolder = subfolderNotShiny;
                 @Override
                 public void onClick(View v) {
-                    if (subfolder.equals(subfolderNotShiny)) {
-                        subfolder = subfolderShiny;
+                    if (v.getTag()=="off") {
                         try {
-                            GifDrawable gifFromAssets = new GifDrawable(con.getAssets(), subfolder + "/" + getGifFile());
+                            GifDrawable gifFromAssets = new GifDrawable(con.getAssets(), subfolderShiny + "/" + getGifFile());
                             pokeSprite.setImageDrawable(gifFromAssets);
+                            v.setTag("on");
                         } catch (IOException e) {
                             Log.e("Error in gif loading: " + getGifFile(), e.toString());
                         }
                     } else {
-                        subfolder = subfolderNotShiny;
                         try {
                             GifDrawable gifFromAssets = new GifDrawable(con.getAssets(), subfolderNotShiny + "/" + getGifFile());
                             pokeSprite.setImageDrawable(gifFromAssets);
+                            v.setTag("off");
                         } catch (IOException e) {
                             Log.e("Error in gif loading: " + getGifFile(), e.toString());
                         }
@@ -338,13 +333,11 @@ public class PokeDetailsTabs extends ActionBarActivity {
 
             //Show evolves from if necessary -------------------------------------------------------
             if (!poke.getEvolvesFrom().equals("")) {
-            //if (!db.getEvolvesFrom(poke.getNumber()).equals("")) {
                 TextView evoHeader = new TextView(con.getApplicationContext());
                 evoHeader.setText("Evolves from:");
                 evoHeader.setTextColor(Color.BLACK);
                 evoList.addView(evoHeader);
 
-                //String to = poke.getEvolvesFrom();
                 String num = String.valueOf(poke.getEvolvesFromNum());
                 num = ("000" + num).substring(num.length());
 
@@ -373,7 +366,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
                 tempText.setText(tempTextShow);
                 tempText.setTextColor(Color.BLACK);
                 tempText.setGravity(Gravity.RIGHT);
-                tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
                 LinearLayout rowLayout = new LinearLayout(con.getApplicationContext());
                 rowLayout.setOrientation(LinearLayout.HORIZONTAL);
@@ -397,7 +390,6 @@ public class PokeDetailsTabs extends ActionBarActivity {
 
             //Show evolutions if necessary ---------------------------------------------------------
             ArrayList<Evolution> evolutionList = poke.getEvolutions();
-            //ArrayList<Evolution> evolutionList = db.getEvolutions(poke.getNumber());
             if (evolutionList.size() > 0) {
                 TextView evoHeader = new TextView(con.getApplicationContext());
                 evoHeader.setText("Evolves into:");
@@ -429,10 +421,20 @@ public class PokeDetailsTabs extends ActionBarActivity {
                 }
 
                 String tempTextShow = num + " " + to + "\n Method: " + method;
-                if (method.equals("level-up")) { tempTextShow = num + " - " + to + "\n" + "Level: " + level; }
-                else if (method.equals("use-item")) { tempTextShow = num + " - " + to + "\n" + "With item " + detail; }
-                else if (method.equals("trade")) { tempTextShow = num + " - " + to + "\n" + "Trade " + detail; }
-                else if (method.equals("shed")) { tempTextShow = num + " - " + to + "\n" + "Shed " + detail; }
+                switch (method) {
+                    case "level-up":
+                        tempTextShow = num + " - " + to + "\n" + "Level: " + level;
+                        break;
+                    case "use-item":
+                        tempTextShow = num + " - " + to + "\n" + "With item " + detail;
+                        break;
+                    case "trade":
+                        tempTextShow = num + " - " + to + "\n" + "Trade " + detail;
+                        break;
+                    case "shed":
+                        tempTextShow = num + " - " + to + "\n" + "Shed " + detail;
+                        break;
+                }
 
                 ImageView tempImage = new ImageView(con.getApplicationContext());
                 try {
@@ -451,7 +453,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
                 tempText.setText(tempTextShow);
                 tempText.setTextColor(Color.BLACK);
                 tempText.setGravity(Gravity.RIGHT);
-                tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
                 LinearLayout rowLayout = new LinearLayout(con.getApplicationContext());
                 rowLayout.setOrientation(LinearLayout.HORIZONTAL);
@@ -459,7 +461,6 @@ public class PokeDetailsTabs extends ActionBarActivity {
                 rowLayout.addView(tempText);
 
                 rowLayout.setClickable(true);
-                //final int newPokePosition = MainActivity.pokemonList.indexOf(poke);
                 final int newPokePosition = Integer.parseInt(num) - 1;
                 rowLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -475,8 +476,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
             }
 
             //Show forms if necessary --------------------------------------------------------------
-            //ArrayList<Evolution> formsList = poke.getForms();
-            ArrayList<Evolution> formsList = db.getForms(poke.getNumber());
+            ArrayList<Evolution> formsList = poke.getForms();
             if (formsList.size() > 0) {
                 TextView evoHeader = new TextView(con.getApplicationContext());
                 evoHeader.setText("Forms:");
@@ -491,17 +491,11 @@ public class PokeDetailsTabs extends ActionBarActivity {
                 }
             });
             for (final Evolution form : formsList) {
-                int level = 0;
                 String method = "";
                 String detail = "";
-                String mega = "";
-                boolean isMega = false;
+                String mega;
                 String to = form.getEvolvesTo();
-                String num = form.getNum();
-                num = ("000" + num).substring(num.length());
-                if (form.getLevel() != 0) {
-                    level = form.getLevel();
-                }
+                String num = poke.getThreeDigitStringNumber();
                 if (form.getMethod() != null) {
                     method = form.getMethod();
                 }
@@ -511,19 +505,16 @@ public class PokeDetailsTabs extends ActionBarActivity {
 
                 String tempTextShow;
                 if (detail.equals("mega")) {
-                    isMega = true;
                     //get substring at the end of to field
                     mega = to.substring(poke.getName().length());
                     //crop the extra off the name
                     to = to.substring(0,poke.getName().length());
                     to = to.substring(0, 1).toUpperCase() + to.substring(1);
-                    num = poke.getThreeDigitStringNumber();
                     method = method.substring(0, 1).toUpperCase() + method.substring(1);
                     tempTextShow = method + " " + to;
                 } else {
                     mega = "-" + to.split("-")[1];
                     to = to.split("-")[0];
-                    num = poke.getThreeDigitStringNumber();
                     to = to.substring(0, 1).toUpperCase() + to.substring(1);
                     method = method.substring(0, 1).toUpperCase() + method.substring(1);
                     tempTextShow = to + "\n" + method;
@@ -546,19 +537,14 @@ public class PokeDetailsTabs extends ActionBarActivity {
                 tempText.setText(tempTextShow);
                 tempText.setTextColor(Color.BLACK);
                 tempText.setGravity(Gravity.RIGHT);
-                tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
                 LinearLayout rowLayout = new LinearLayout(con.getApplicationContext());
                 rowLayout.setOrientation(LinearLayout.HORIZONTAL);
                 rowLayout.addView(tempImage);
                 rowLayout.addView(tempText);
 
-                //Set clickable
-                //Set main image to form image
-                //Set stats to form stats - get from pokemon_stats table
-                //Set abilities to form abilities - get from pokemon_abilities table
-                //Set name to name + (detail)
-
+                //Show form on click
                 rowLayout.setClickable(true);
                 rowLayout.setTag("off");
                 rowLayout.setOnClickListener(new View.OnClickListener() {
@@ -615,6 +601,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
                         try {
                             GifDrawable gifFromAssets = new GifDrawable(con.getAssets(), subfolderNotShiny + "/" + getGifFile());
                             pokeSprite.setImageDrawable(gifFromAssets);
+                            pokeSprite.setTag("off");
                         } catch (IOException e) {
                             Log.e("Error in gif loading: " + getGifFile(), e.toString());
                         }
@@ -654,7 +641,6 @@ public class PokeDetailsTabs extends ActionBarActivity {
 
             ArrayList<Ability> abilities = poke.getAbilities();
             curAbilityList = abilities;
-            //ArrayList<Ability> abilities = db.getAbilities(poke.getNumber());
             String abilitiesText = "Abilities: ";
             String middleSepText = "";
             boolean shouldSnip = false;
@@ -684,7 +670,6 @@ public class PokeDetailsTabs extends ActionBarActivity {
             });
 
             ArrayList<EggGroup> eggTypes = poke.getEggTypes();
-            //ArrayList<EggGroup> eggTypes = db.getEggGroups(poke.getNumber());
             String eggTypesText = "Egg types: ";
             middleSepText = "";
             shouldSnip = false;
@@ -694,27 +679,16 @@ public class PokeDetailsTabs extends ActionBarActivity {
             }
             if (shouldSnip) eggTypesText = eggTypesText.substring(0,eggTypesText.length()-2);
             pokeEggTypesList.setText(eggTypesText);
-            //TODO: crop off extra bit of name (bit after a dash, like deoxys-attack) or show all forms in list
 
             return rootView;
 
         }
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
     public static class PokemonMoveFragment extends Fragment implements SearchView.OnQueryTextListener {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
+
         private static final String ARG_SECTION_NUMBER = "section_number";
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
         public static PokemonMoveFragment newInstance(int sectionNumber) {
             PokemonMoveFragment fragment = new PokemonMoveFragment();
             Bundle args = new Bundle();
@@ -735,11 +709,9 @@ public class PokeDetailsTabs extends ActionBarActivity {
             TextView header = (TextView)rootView.findViewById(R.id.moveListHeader);
             header.setText("MOVES: LEVEL UP");
             ArrayList<Move> movesList = poke.getMoveset();
-            //ArrayList<Move> movesList = db.getMoveset(poke.getNumber());
-            ArrayList<Move> showMovesList = new ArrayList<Move>();
+            ArrayList<Move> showMovesList = new ArrayList<>();
             for (Move move : movesList) {
                 if (move.getLearnMethod() == 1) {
-                //if (move.getLearnMethod().equals("level-up")) {
                     showMovesList.add(move);
                 }
             }
@@ -768,20 +740,10 @@ public class PokeDetailsTabs extends ActionBarActivity {
         }
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
     public static class PokemonMoveTMFragment extends Fragment implements SearchView.OnQueryTextListener {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
+
         private static final String ARG_SECTION_NUMBER = "section_number";
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
         public static PokemonMoveTMFragment newInstance(int sectionNumber) {
             PokemonMoveTMFragment fragment = new PokemonMoveTMFragment();
             Bundle args = new Bundle();
@@ -802,10 +764,8 @@ public class PokeDetailsTabs extends ActionBarActivity {
             TextView header = (TextView)rootView.findViewById(R.id.moveListHeader);
             header.setText("MOVES: TM");
             ArrayList<Move> movesList = poke.getMoveset();
-            //ArrayList<Move> movesList = db.getMoveset(poke.getNumber());
-            ArrayList<Move> showMovesList = new ArrayList<Move>();
+            ArrayList<Move> showMovesList = new ArrayList<>();
             for (Move move : movesList) {
-                //if (move.getLearnMethod().equals("machine")) {
                 if (move.getLearnMethod() == 4) {
                     showMovesList.add(move);
                 }
@@ -837,20 +797,10 @@ public class PokeDetailsTabs extends ActionBarActivity {
         }
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
     public static class PokemonMoveTutorFragment extends Fragment implements SearchView.OnQueryTextListener {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
+
         private static final String ARG_SECTION_NUMBER = "section_number";
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
         public static PokemonMoveTutorFragment newInstance(int sectionNumber) {
             PokemonMoveTutorFragment fragment = new PokemonMoveTutorFragment();
             Bundle args = new Bundle();
@@ -871,10 +821,8 @@ public class PokeDetailsTabs extends ActionBarActivity {
             TextView header = (TextView)rootView.findViewById(R.id.moveListHeader);
             header.setText("MOVES: TUTOR");
             ArrayList<Move> movesList = poke.getMoveset();
-            //ArrayList<Move> movesList = db.getMoveset(poke.getNumber());
-            ArrayList<Move> showMovesList = new ArrayList<Move>();
+            ArrayList<Move> showMovesList = new ArrayList<>();
             for (Move move : movesList) {
-                //if (move.getLearnMethod().equals("tutor")) {
                 if (move.getLearnMethod() == 3) {
                     showMovesList.add(move);
                 }
@@ -906,20 +854,10 @@ public class PokeDetailsTabs extends ActionBarActivity {
         }
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
     public static class PokemonMoveEggFragment extends Fragment implements SearchView.OnQueryTextListener {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
+
         private static final String ARG_SECTION_NUMBER = "section_number";
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
         public static PokemonMoveEggFragment newInstance(int sectionNumber) {
             PokemonMoveEggFragment fragment = new PokemonMoveEggFragment();
             Bundle args = new Bundle();
@@ -940,10 +878,8 @@ public class PokeDetailsTabs extends ActionBarActivity {
             TextView header = (TextView)rootView.findViewById(R.id.moveListHeader);
             header.setText("MOVES: EGG");
             ArrayList<Move> movesList = poke.getMoveset();
-            //ArrayList<Move> movesList = db.getMoveset(poke.getNumber());
-            ArrayList<Move> showMovesList = new ArrayList<Move>();
+            ArrayList<Move> showMovesList = new ArrayList<>();
             for (Move move : movesList) {
-                //if (move.getLearnMethod().equals("egg")) {
                 if (move.getLearnMethod() == 2) {
                     showMovesList.add(move);
                 }
@@ -975,20 +911,10 @@ public class PokeDetailsTabs extends ActionBarActivity {
         }
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
     public static class PokemonTypeEffectivenessFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
+
         private static final String ARG_SECTION_NUMBER = "section_number";
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
         public static PokemonTypeEffectivenessFragment newInstance(int sectionNumber) {
             PokemonTypeEffectivenessFragment fragment = new PokemonTypeEffectivenessFragment();
             Bundle args = new Bundle();
@@ -1018,19 +944,19 @@ public class PokeDetailsTabs extends ActionBarActivity {
                 typeTwo = typeTwo.substring(0, 1).toUpperCase() + typeTwo.substring(1).toLowerCase();
             }
 
-            ArrayList<String> supereffective = new ArrayList<String>();
-            ArrayList<String> notveryeffective = new ArrayList<String>();
-            ArrayList<String> doesnoteffect = new ArrayList<String>();
-            ArrayList<Float> supereffectivenum = new ArrayList<Float>();
-            ArrayList<Float> notveryeffectivenum = new ArrayList<Float>();
-            ArrayList<Float> doesnoteffectnum = new ArrayList<Float>();
+            ArrayList<String> supereffective = new ArrayList<>();
+            ArrayList<String> notveryeffective = new ArrayList<>();
+            ArrayList<String> doesnoteffect = new ArrayList<>();
+            ArrayList<Float> supereffectivenum = new ArrayList<>();
+            ArrayList<Float> notveryeffectivenum = new ArrayList<>();
+            ArrayList<Float> doesnoteffectnum = new ArrayList<>();
 
-            ArrayList<String> def_supereffective = new ArrayList<String>();
-            ArrayList<String> def_notveryeffective = new ArrayList<String>();
-            ArrayList<String> def_doesnoteffect = new ArrayList<String>();
-            ArrayList<Float> def_supereffectivenum = new ArrayList<Float>();
-            ArrayList<Float> def_notveryeffectivenum = new ArrayList<Float>();
-            ArrayList<Float> def_doesnoteffectnum = new ArrayList<Float>();
+            ArrayList<String> def_supereffective = new ArrayList<>();
+            ArrayList<String> def_notveryeffective = new ArrayList<>();
+            ArrayList<String> def_doesnoteffect = new ArrayList<>();
+            ArrayList<Float> def_supereffectivenum = new ArrayList<>();
+            ArrayList<Float> def_notveryeffectivenum = new ArrayList<>();
+            ArrayList<Float> def_doesnoteffectnum = new ArrayList<>();
 
             //Get offensive type effectiveness
             Bundle typeEffectiveness = TypeEffectiveness.getTypeEffectiveness(typeOne, typeTwo);
@@ -1056,7 +982,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
                 tempText.setText(supereffective.get(i) + " (" + supereffectivenum.get(i) + ")");
                 tempText.setTextColor(Color.BLACK);
                 tempText.setGravity(Gravity.CENTER);
-                tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                 offensiveSuper.addView(tempText);
             }
             for (int i = 0; i < notveryeffective.size(); i++) {
@@ -1064,7 +990,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
                 tempText.setText(notveryeffective.get(i) + " (" + notveryeffectivenum.get(i) + ")");
                 tempText.setTextColor(Color.BLACK);
                 tempText.setGravity(Gravity.CENTER);
-                tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                 offensiveNotvery.addView(tempText);
             }
             for (int i = 0; i < doesnoteffect.size(); i++) {
@@ -1072,7 +998,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
                 tempText.setText(doesnoteffect.get(i) + " (" + doesnoteffectnum.get(i) + ")");
                 tempText.setTextColor(Color.BLACK);
                 tempText.setGravity(Gravity.CENTER);
-                tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                 offensiveDoesnot.addView(tempText);
             }
 
@@ -1099,7 +1025,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
                 tempText.setText(def_supereffective.get(i) + " (" + def_supereffectivenum.get(i) + ")");
                 tempText.setTextColor(Color.BLACK);
                 tempText.setGravity(Gravity.CENTER);
-                tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                 defensiveSuper.addView(tempText);
             }
             for (int i = 0; i < def_notveryeffective.size(); i++) {
@@ -1107,7 +1033,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
                 tempText.setText(def_notveryeffective.get(i) + " (" + def_notveryeffectivenum.get(i) + ")");
                 tempText.setTextColor(Color.BLACK);
                 tempText.setGravity(Gravity.CENTER);
-                tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                 defensiveNotvery.addView(tempText);
             }
             for (int i = 0; i < def_doesnoteffect.size(); i++) {
@@ -1115,7 +1041,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
                 tempText.setText(def_doesnoteffect.get(i) + " (" + def_doesnoteffectnum.get(i) + ")");
                 tempText.setTextColor(Color.BLACK);
                 tempText.setGravity(Gravity.CENTER);
-                tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                tempText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                 defensiveDoesnot.addView(tempText);
             }
 
