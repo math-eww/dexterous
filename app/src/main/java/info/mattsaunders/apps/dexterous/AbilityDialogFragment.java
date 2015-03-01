@@ -49,6 +49,7 @@ public class AbilityDialogFragment extends DialogFragment {
         for (int x = 0; x < totalAbilities; x++) {
             resource = getArguments().getInt("ability" + x);
             String abilityName = db.getAbilityFromId(resource);
+            if (getArguments().getBoolean("isHidden" + x)) { abilityName = abilityName + " (hidden)"; }
             String abilityText = db.getAbilityDetailsFromId(resource);
             if (abilityText.contains("[")) {
                 //Log.i("Ability Dialog","Cutting out extra text: Original: " + abilityText);
@@ -57,7 +58,8 @@ public class AbilityDialogFragment extends DialogFragment {
                         .replaceAll("\\{mechanic:(.*?)\\}","")
                         .replaceAll("\\{type:|\\}","")
                         .replaceAll("\\{move:","")
-                        .replaceAll("\\{ability:", "");
+                        .replaceAll("\\{ability:", "")
+                        .replaceAll("\\{pokemon:","");
             }
             if (x == 0) { abilityOneName.setText(abilityName); abilityOneText.setText(abilityText); }
             else if (x == 1) { abilityTwoName.setText(abilityName); abilityTwoText.setText(abilityText); }

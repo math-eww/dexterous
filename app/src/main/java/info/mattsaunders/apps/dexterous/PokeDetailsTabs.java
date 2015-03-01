@@ -662,6 +662,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
                     abilityResources.putInt("total", curAbilityList.size());
                     for (Ability abil : curAbilityList) {
                         abilityResources.putInt("ability" + z,abil.getResource());
+                        abilityResources.putBoolean("isHidden" + z,abil.getIsHidden());
                         z++;
                     }
                     abilityDialogFragment.setArguments(abilityResources);

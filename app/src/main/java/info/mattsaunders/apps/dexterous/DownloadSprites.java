@@ -18,11 +18,13 @@ import java.net.URL;
  */
 public class DownloadSprites {
 
-    private static String API_URL = "http://pokeapi.co";
-    private static String POKE = "/media/img/";
-    private static String FILE_EXT = ".png";
-    private static int TOTAL_POKES = 718;
-    private static String FILEDIR = "/Dexterous/SPRITES/";
+    //private static String API_URL = "http://pokeapi.co";
+    //private static String POKE = "/media/img/";
+    private static final String API_URL = "http://www.serebii.net";
+    private static final String POKE = "/xy/pokemon/";
+    private static final String FILE_EXT = ".png";
+    private static final int TOTAL_POKES = MainActivity.getTotalPokes(); //718;
+    private static final String FILEDIR = "/Dexterous/SPRITES/";
 
 
     public static class CallAPI extends AsyncTask<String, String, String> {
@@ -53,7 +55,8 @@ public class DownloadSprites {
             }
 
             for (int i = 1; i <= TOTAL_POKES; i++ ) {
-                String urlString = API_URL + POKE + String.valueOf(i) + FILE_EXT;
+                String iCur = String.valueOf(i);
+                String urlString = API_URL + POKE + ("000" + iCur).substring(iCur.length()) + FILE_EXT;
                 HttpURLConnection urlConnection;
                 InputStream input;
                 Log.i("Executing background API task", "URL is " + urlString);
