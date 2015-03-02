@@ -201,6 +201,14 @@ public class PokedexDatabase extends SQLiteAssetHelper {
         return itemName;
     }
 
+    public String getLocationFromId(int id) {
+        Cursor c = queryDatabase("location_names", new String[] {"name"},"location_id="+id, null, null, null, null);
+        c.moveToFirst();
+        String placeName = c.getString(0);
+        c.close();
+        return placeName;
+    }
+
     public ArrayList<Ability> getAbilities(int speciesId) {
         ArrayList<Ability> abilityArrayList = new ArrayList<Ability>();
         //Abilities query
@@ -272,18 +280,19 @@ public class PokedexDatabase extends SQLiteAssetHelper {
                 "evolves_from_species_id="+speciesId,
                 null, null, null, null
         );
+        String[] columns = new String[] {
+                "evolved_species_id","evolution_trigger_id","minimum_level","trigger_item_id",
+                "gender_id","location_id","held_item_id","time_of_day","known_move_id","known_move_type_id",
+                "minimum_happiness","minimum_beauty","minimum_affection","relative_physical_stats",
+                "party_species_id","party_type_id","trade_species_id",
+                "needs_overworld_rain","turn_upside_down"
+        };
         int evolutionQueryIntoCount = evolutionQueryInto.getCount();
         for (int w = 0; w < evolutionQueryIntoCount; w++) {
             int evolvesIntoId = evolutionQueryInto.getInt(0);
             Cursor evolutionQuery = queryDatabase(
                     "pokemon_evolution",
-                    new String[] {
-                            "evolved_species_id","evolution_trigger_id","trigger_item_id","minimum_level",
-                            //                "gender_id","location_id","held_item_id","time_of_day","known_move_id","known_move_type_id",
-                            //                "minimum_happiness","minimum_beauty","minimum_affection","relative_physical_stats",
-                            //                "party_species_id","party_type_id","trade_species_id",
-                            //                "needs_overworld_rain","turn_upside_down"
-                    },
+                    columns,
                     "evolved_species_id="+evolvesIntoId,
                     null, null, null, null
             );
@@ -291,16 +300,25 @@ public class PokedexDatabase extends SQLiteAssetHelper {
             String detail = "";
             int level = 0;
             switch (evolutionQuery.getInt(1)) {
-                case 1:
-                    level = evolutionQuery.getInt(3);
+                case 1: //level up
+                    level = evolutionQuery.getInt(2);
+                    if (level == 0) {
+                        detail = "levelUp=Other,";
+                        //Level up but no specific level - get specific condition
+                    }
                     break;
-                case 2:
+                case 2: //trade
                     break;
-                case 3:
-                    detail = getItemFromId(evolutionQuery.getInt(2));
+                case 3: //use item
+                    //detail = getItemFromId(evolutionQuery.getInt(2));
                     break;
-                case 4:
+                case 4: //shed
                     break;
+            }
+            for (int i = 3; i < columns.length; i++) {
+                if (!evolutionQuery.getString(i).equals("") && !evolutionQuery.getString(i).equals("0")) {
+                    detail = detail + columns[i] + "=" + evolutionQuery.getString(i) + ","; // Can be separated with split "," and then value extracted with split "="
+                }
             }
             evolutionsArrayList.add(new Evolution(
                     getEvolutionTriggerFromId(evolutionQuery.getInt(1)),

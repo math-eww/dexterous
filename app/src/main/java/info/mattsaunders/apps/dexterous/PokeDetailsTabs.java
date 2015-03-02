@@ -404,15 +404,13 @@ public class PokeDetailsTabs extends ActionBarActivity {
                 }
             });
             for (Evolution evoBundle : evolutionList) {
-                int level = 0;
+                int level;
                 String method = "";
                 String detail = "";
                 String to = evoBundle.getEvolvesTo();
                 String num = evoBundle.getNum();
                 num = ("000" + num).substring(num.length());
-                if (evoBundle.getLevel() != 0) {
-                    level = evoBundle.getLevel();
-                }
+                level = evoBundle.getLevel();
                 if (evoBundle.getMethod() != null) {
                     method = evoBundle.getMethod();
                 }
@@ -423,17 +421,101 @@ public class PokeDetailsTabs extends ActionBarActivity {
                 String tempTextShow = num + " " + to + "\n Method: " + method;
                 switch (method) {
                     case "level-up":
-                        tempTextShow = num + " - " + to + "\n" + "Level: " + level;
+                        if (level != 0) {
+                            tempTextShow = num + " - " + to + "\n" + "Level: " + level;
+                        } else {
+                            tempTextShow = num + " - " + to + "\n" + "Level up";
+                        }
                         break;
                     case "use-item":
-                        tempTextShow = num + " - " + to + "\n" + "With item " + detail;
+                        tempTextShow = num + " - " + to + "\n";
                         break;
                     case "trade":
-                        tempTextShow = num + " - " + to + "\n" + "Trade " + detail;
+                        tempTextShow = num + " - " + to + "\n" + "Trade";
                         break;
                     case "shed":
-                        tempTextShow = num + " - " + to + "\n" + "Shed " + detail;
+                        tempTextShow = num + " - " + to + "\n" + "Shed - empty slot in party on level up";
                         break;
+                }
+
+                Log.i("DETAILS","Evo details: " + detail);
+                String [] details = detail.split(",");
+                String category;
+                String value;
+                if (!detail.equals("")) {
+                    for (String det : details) {
+                        category = det.split("=")[0];
+                        value = det.split("=")[1];
+                        switch (category) {
+                            case "gender_id":
+                                switch (value) {
+                                    case "1":
+                                        tempTextShow = tempTextShow + " (Female only)";
+                                        break;
+                                    case "2":
+                                        tempTextShow = tempTextShow + " (Male only)";
+                                        break;
+                                    default:
+                                        tempTextShow = tempTextShow + " (Genderless only)";
+                                        break;
+                                }
+                                break;
+                            case "location_id":
+                                tempTextShow = tempTextShow + " near " + db.getLocationFromId(Integer.parseInt(value));
+                                break;
+                            case "held_item_id":
+                                tempTextShow = tempTextShow + " holding " + db.getItemFromId(Integer.parseInt(value));
+                                break;
+                            case "time_of_day":
+                                tempTextShow = tempTextShow + " during " + value;
+                                break;
+                            case "known_move_id":
+                                tempTextShow = tempTextShow + " with " + db.getMoveFromId(Integer.parseInt(value)) + " move";
+                                break;
+                            case "known_move_type_id":
+                                tempTextShow = tempTextShow + " with a " + db.getTypeFromId(Integer.parseInt(value)) + " move";
+                                break;
+                            case "minimum_happiness":
+                                tempTextShow = tempTextShow + " with " + value + " happiness";
+                                break;
+                            case "minimum_beauty":
+                                tempTextShow = tempTextShow + " with " + value + " beauty";
+                                break;
+                            case "minimum_affection":
+                                tempTextShow = tempTextShow + " with " + value + " affection";
+                                break;
+                            case "relative_physical_stats":
+                                switch (value) {
+                                    case "1":
+                                        tempTextShow = tempTextShow + " with Attack higher than Defense";
+                                        break;
+                                    case "0":
+                                        tempTextShow = tempTextShow + " with Attack equal to Defense";
+                                        break;
+                                    case "-1":
+                                        tempTextShow = tempTextShow + " with Attack lower than Defense";
+                                        break;
+                                }
+                                break;
+                            case "party_species_id":
+                                tempTextShow = tempTextShow + " with a " + db.getPokemonFromId(Integer.parseInt(value)) + " in the party";
+                                break;
+                            case "party_type_id":
+                                tempTextShow = tempTextShow + " with a " + db.getTypeFromId(Integer.parseInt(value)) + " type in the party";
+                                break;
+                            case "trade_species_id":
+                                tempTextShow = tempTextShow + " for a " + db.getPokemonFromId(Integer.parseInt(value));
+                                break;
+                            case "needs_overworld_rain":
+                                tempTextShow = tempTextShow + " in the rain";
+                                break;
+                            case "turn_upside_down":
+                                tempTextShow = tempTextShow + " while holding the device upside down";
+                                break;
+                            case "trigger_item_id":
+                                tempTextShow = tempTextShow + "With item " + db.getItemFromId(Integer.parseInt(value));
+                        }
+                    }
                 }
 
                 ImageView tempImage = new ImageView(con.getApplicationContext());
