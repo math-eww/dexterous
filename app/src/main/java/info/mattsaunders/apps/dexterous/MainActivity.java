@@ -77,7 +77,6 @@ public class MainActivity extends ActionBarActivity
         } else {
             new LoadData.CallAPI(false).execute(pokeballTog1States,pokeballTog2States,pokeballTog3States);
         }
-        //TODO: download and load mega evolution's data, then allow clicking to mega from pokemon detail page evolution section
     }
 
     @Override
