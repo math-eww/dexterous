@@ -22,6 +22,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -238,6 +239,59 @@ public class PokeDetailsTabs extends ActionBarActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_poke_details_tabs, container, false);
 
+            final LinearLayout statsBox = (LinearLayout) rootView.findViewById(R.id.statsBox);
+            statsBox.setOnTouchListener(new View.OnTouchListener() {
+                float initialY;
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    int action = event.getActionMasked();
+                    switch (action) {
+                        case MotionEvent.ACTION_DOWN:
+                            initialY = event.getY();
+                            break;
+                        case MotionEvent.ACTION_MOVE:
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            float finalY = event.getY();
+                            if (initialY < finalY) {
+                                //Swipe down - so go up one in list
+                                //Get index of current pokemon in curPokeList
+                                int curIndex = MainActivity.curPokeList.indexOf(poke.getNumber() - 1);
+                                if (curIndex == -1) curIndex = 1; //so that if user goes to evolution not in list, it defaults on swipe to index 0 - same as swipe up
+                                if (curIndex > 0) {
+                                    //Get index of pokemon one up from this one in main pokemon list
+                                    int pokeToGet = MainActivity.curPokeList.get(curIndex - 1);
+                                    //Start activity to display
+                                    Intent intent = new Intent(con, PokeDetailsTabs.class);
+                                    intent.putExtra("pokemon", pokeToGet);
+                                    con.startActivity(intent);
+                                    activity.finish();
+                                }
+                            }
+                            if (initialY > finalY) {
+                                //Swipe up - so go down one in list
+                                //Get index of current pokemon in curPokeList
+                                int curIndex = MainActivity.curPokeList.indexOf(poke.getNumber() - 1);
+                                if (curIndex < MainActivity.curPokeList.size() - 1) {
+                                    //Get index of pokemon one up from this one in main pokemon list
+                                    int pokeToGet = MainActivity.curPokeList.get(curIndex + 1);
+                                    //Start activity to display
+                                    Intent intent = new Intent(con, PokeDetailsTabs.class);
+                                    intent.putExtra("pokemon", pokeToGet);
+                                    con.startActivity(intent);
+                                    activity.finish();
+                                }
+                            }
+                            break;
+                        case MotionEvent.ACTION_CANCEL:
+                            break;
+                        case MotionEvent.ACTION_OUTSIDE:
+                            break;
+                    }
+                    return true;
+                }
+            });
+
             final GifImageView pokeSprite = (GifImageView) rootView.findViewById(R.id.pokeDetailsImage);
 
             final TextView pokeName = (TextView) rootView.findViewById(R.id.pokeDetailsName);
@@ -438,7 +492,6 @@ public class PokeDetailsTabs extends ActionBarActivity {
                         break;
                 }
 
-                Log.i("DETAILS","Evo details: " + detail);
                 String [] details = detail.split(",");
                 String category;
                 String value;

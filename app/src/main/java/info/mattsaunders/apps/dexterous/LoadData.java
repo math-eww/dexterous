@@ -37,6 +37,7 @@ public class LoadData {
             for (Pokemon poke : MainActivity.pokemonList) {
                 if (poke.getPokeballToggle1()) { MainActivity.caughtDex++; }
                 if (poke.getPokeballToggle2()) { MainActivity.livingDex++; }
+                MainActivity.curPokeList.add(poke.getNumber() - 1);
             }
 
             if (!firstLoad) {

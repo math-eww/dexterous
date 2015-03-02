@@ -34,13 +34,14 @@ public class MainActivity extends ActionBarActivity
     private CharSequence mTitle;
 
     public static Context c;
-    public static ArrayList<Pokemon> pokemonList = new ArrayList();
+    public static ArrayList<Pokemon> pokemonList = new ArrayList<>();
     public static DexListAdapter dexAdapter;
     public static Bundle pokeballTog1States;
     public static Bundle pokeballTog2States;
     public static Bundle pokeballTog3States;
     public static int caughtDex = 0;
     public static int livingDex = 0;
+    public static ArrayList<Integer> curPokeList = new ArrayList<>();
     private static int TOTAL_POKES = 721;
 
     public static int getTotalPokes() { return TOTAL_POKES; }
@@ -272,6 +273,10 @@ public class MainActivity extends ActionBarActivity
             dexAdapter = new DexListAdapter(c,pokemonList);
             l1.setAdapter(dexAdapter);
             searchView.setOnQueryTextListener(this);
+            curPokeList.clear();
+            for (Pokemon poke : pokemonList) {
+                curPokeList.add(poke.getNumber() - 1);
+            }
             return rootView;
         }
 
@@ -324,10 +329,12 @@ public class MainActivity extends ActionBarActivity
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_pokelist, container, false);
             ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
-            ArrayList<Pokemon> pokemonListMissing = new ArrayList();
+            ArrayList<Pokemon> pokemonListMissing = new ArrayList<>();
+            curPokeList.clear();
             for (Pokemon poke : pokemonList) {
                 if (!poke.getPokeballToggle1()) {
                     pokemonListMissing.add(poke);
+                    curPokeList.add(poke.getNumber() - 1);
                 }
             }
             dexAdapter = new DexListAdapter(c,pokemonListMissing);
@@ -386,10 +393,12 @@ public class MainActivity extends ActionBarActivity
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_pokelist, container, false);
             ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
-            ArrayList<Pokemon> pokemonListCaught = new ArrayList();
+            ArrayList<Pokemon> pokemonListCaught = new ArrayList<>();
+            curPokeList.clear();
             for (Pokemon poke : pokemonList) {
                 if (poke.getPokeballToggle1()) {
                     pokemonListCaught.add(poke);
+                    curPokeList.add(poke.getNumber() - 1);
                 }
             }
             dexAdapter = new DexListAdapter(c,pokemonListCaught);
@@ -448,10 +457,12 @@ public class MainActivity extends ActionBarActivity
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_pokelist, container, false);
             ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
-            ArrayList<Pokemon> pokemonListLDMissing = new ArrayList();
+            ArrayList<Pokemon> pokemonListLDMissing = new ArrayList<>();
+            curPokeList.clear();
             for (Pokemon poke : pokemonList) {
                 if (!poke.getPokeballToggle2()) {
                     pokemonListLDMissing.add(poke);
+                    curPokeList.add(poke.getNumber() - 1);
                 }
             }
             dexAdapter = new DexListAdapter(c,pokemonListLDMissing);
@@ -510,10 +521,12 @@ public class MainActivity extends ActionBarActivity
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_pokelist, container, false);
             ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
-            ArrayList<Pokemon> pokemonListLDCaught = new ArrayList();
+            ArrayList<Pokemon> pokemonListLDCaught = new ArrayList<>();
+            curPokeList.clear();
             for (Pokemon poke : pokemonList) {
                 if (poke.getPokeballToggle2()) {
                     pokemonListLDCaught.add(poke);
+                    curPokeList.add(poke.getNumber() - 1);
                 }
             }
             dexAdapter = new DexListAdapter(c,pokemonListLDCaught);
@@ -572,10 +585,12 @@ public class MainActivity extends ActionBarActivity
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_pokelist, container, false);
             ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
-            ArrayList<Pokemon> pokemonListTeam = new ArrayList();
+            ArrayList<Pokemon> pokemonListTeam = new ArrayList<>();
+            curPokeList.clear();
             for (Pokemon poke : pokemonList) {
                 if (poke.getPokeballToggle3()) {
                     pokemonListTeam.add(poke);
+                    curPokeList.add(poke.getNumber() - 1);
                 }
             }
             dexAdapter = new DexListAdapter(c,pokemonListTeam);
