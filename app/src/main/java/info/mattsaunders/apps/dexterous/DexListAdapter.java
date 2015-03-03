@@ -48,7 +48,7 @@ public class DexListAdapter extends BaseAdapter implements Filterable {
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
             if (constraint != null && constraint.length() > 0) {
-                ArrayList<Pokemon> filterList = new ArrayList<Pokemon>();
+                ArrayList<Pokemon> filterList = new ArrayList<>();
                 for (int i = 0; i < mPokesFilterList.size(); i++) {
                     if ( (mPokesFilterList.get(i).getName().toUpperCase() )
                             .contains(constraint.toString().toUpperCase())) {
@@ -110,6 +110,7 @@ public class DexListAdapter extends BaseAdapter implements Filterable {
             holder.pokeballTog2 = (ToggleButton)view.findViewById(R.id.toggle2);
             holder.pokeballTog3 = (ToggleButton)view.findViewById(R.id.toggle3);
             holder.linearLayout = (LinearLayout)view.findViewById(R.id.pokemonItem);
+            holder.linearLayout2 = (LinearLayout)view.findViewById(R.id.pokemonSprite);
 
             view.setTag(holder);
         } else {
@@ -192,6 +193,14 @@ public class DexListAdapter extends BaseAdapter implements Filterable {
                 mContext.startActivity(intent);
             }
         });
+        holder.linearLayout2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext,PokeDetailsTabs.class);
+                intent.putExtra("pokemon",pokePosition);
+                mContext.startActivity(intent);
+            }
+        });
 
 
         return view;
@@ -203,7 +212,7 @@ public class DexListAdapter extends BaseAdapter implements Filterable {
     }
 
     private class ViewHolder {
-        public LinearLayout linearLayout;
+        public LinearLayout linearLayout, linearLayout2;
         public TextView number, name, types;
         public ImageView image;
         public ToggleButton pokeballTog1, pokeballTog2, pokeballTog3;

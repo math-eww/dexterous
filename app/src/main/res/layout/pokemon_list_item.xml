@@ -55,7 +55,8 @@
         android:orientation="horizontal"
         android:layout_width="0dp"
         android:layout_height="fill_parent"
-        android:layout_weight="0.2">
+        android:layout_weight="0.2"
+        android:id="@+id/pokemonSprite">
 
         <ImageView
             android:layout_width="match_parent"
