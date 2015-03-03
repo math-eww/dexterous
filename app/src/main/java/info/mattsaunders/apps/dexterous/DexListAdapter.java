@@ -123,7 +123,7 @@ public class DexListAdapter extends BaseAdapter implements Filterable {
         holder.number.setText(poke.getThreeDigitStringNumber());
         String name = poke.getName();
         if (name.contains("-")) {
-            if (!name.equals("Porygon-z")&&!name.equals("Mime-jr")&&!name.equals("Ho-oh")&&!name.equals("Mr-mime")&&!name.equals("Porygon-z")) {
+            if (!name.equals("Porygon-z")&&!name.equals("Mime-jr")&&!name.equals("Ho-oh")&&!name.equals("Mr-mime")) {
                 name = name.split("-")[0];
             }
         }

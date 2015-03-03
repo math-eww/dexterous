@@ -81,6 +81,13 @@ public class PokeDetailsTabs extends ActionBarActivity {
         pokePosition = intent.getIntExtra("pokemon", 0);
         poke = MainActivity.pokemonList.get(pokePosition);
         int pokemonNumber = poke.getNumber();
+        String name = poke.getName();
+        if (name.contains("-")) {
+            if (!name.equals("Porygon-z")&&!name.equals("Mime-jr")&&!name.equals("Ho-oh")&&!name.equals("Mr-mime")) {
+                name = name.split("-")[0];
+            }
+        }
+        getSupportActionBar().setTitle(name);
 
         db = MainActivity.db;
         if (poke.getMoveset() == null) { poke.setMoveset(db.getMoveset(pokemonNumber)); }
@@ -352,7 +359,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
 
             String name = poke.getName();
             if (name.contains("-")) {
-                if (!name.equals("Porygon-z")|!name.equals("Mime-jr")|!name.equals("Ho-oh")|!name.equals("Mr-mime")|!name.equals("Porygon-z")) {
+                if (!name.equals("Porygon-z")&&!name.equals("Mime-jr")&&!name.equals("Ho-oh")&&!name.equals("Mr-mime")) {
                     name = name.split("-")[0];
                 }
             }
