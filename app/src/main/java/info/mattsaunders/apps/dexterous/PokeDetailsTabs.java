@@ -495,7 +495,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
                         tempTextShow = num + " - " + to + "\n" + "Trade";
                         break;
                     case "shed":
-                        tempTextShow = num + " - " + to + "\n" + "Shed - empty slot in party on level up";
+                        tempTextShow = num + " - " + to + "\n" + "Shed - level up with empty slot in party";
                         break;
                 }
 
@@ -521,19 +521,19 @@ public class PokeDetailsTabs extends ActionBarActivity {
                                 }
                                 break;
                             case "location_id":
-                                tempTextShow = tempTextShow + " near " + db.getLocationFromId(Integer.parseInt(value));
+                                tempTextShow = tempTextShow + "\n Near " + db.getLocationFromId(Integer.parseInt(value));
                                 break;
                             case "held_item_id":
-                                tempTextShow = tempTextShow + " holding " + db.getItemFromId(Integer.parseInt(value));
+                                tempTextShow = tempTextShow + " holding " + db.getItemNameFromId(Integer.parseInt(value));
                                 break;
                             case "time_of_day":
                                 tempTextShow = tempTextShow + " during " + value;
                                 break;
                             case "known_move_id":
-                                tempTextShow = tempTextShow + " with " + db.getMoveFromId(Integer.parseInt(value)) + " move";
+                                tempTextShow = tempTextShow + " knowing " + db.getMoveFromId(Integer.parseInt(value));
                                 break;
                             case "known_move_type_id":
-                                tempTextShow = tempTextShow + " with a " + db.getTypeFromId(Integer.parseInt(value)) + " move";
+                                tempTextShow = tempTextShow + " knowing a " + db.getTypeFromId(Integer.parseInt(value)) + " type move";
                                 break;
                             case "minimum_happiness":
                                 tempTextShow = tempTextShow + " with " + value + " happiness";
@@ -573,7 +573,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
                                 tempTextShow = tempTextShow + " while holding the device upside down";
                                 break;
                             case "trigger_item_id":
-                                tempTextShow = tempTextShow + "With item " + db.getItemFromId(Integer.parseInt(value));
+                                tempTextShow = tempTextShow + "Use a " + db.getItemNameFromId(Integer.parseInt(value));
                         }
                     }
                 }

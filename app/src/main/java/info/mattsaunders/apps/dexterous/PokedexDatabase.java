@@ -106,7 +106,7 @@ public class PokedexDatabase extends SQLiteAssetHelper {
     }
 
     public String getMoveFromId(int id) {
-        Cursor c = queryDatabase("moves", new String[] {"identifier"},"id="+id, null, null, null, null);
+        Cursor c = queryDatabase("move_names_english", new String[] {"name"},"move_id="+id, null, null, null, null);
         c.moveToFirst();
         String moveName = c.getString(0);
         c.close();
@@ -201,8 +201,16 @@ public class PokedexDatabase extends SQLiteAssetHelper {
         return itemName;
     }
 
+    public String getItemNameFromId(int id) {
+        Cursor c = queryDatabase("item_names_english", new String[] {"name"},"item_id="+id, null, null, null, null);
+        c.moveToFirst();
+        String itemName = c.getString(0);
+        c.close();
+        return itemName;
+    }
+
     public String getLocationFromId(int id) {
-        Cursor c = queryDatabase("location_names", new String[] {"name"},"location_id="+id, null, null, null, null);
+        Cursor c = queryDatabase("location_names_english", new String[] {"name"},"location_id="+id+" and local_language_id=9", null, null, null, null);
         c.moveToFirst();
         String placeName = c.getString(0);
         c.close();
@@ -210,7 +218,7 @@ public class PokedexDatabase extends SQLiteAssetHelper {
     }
 
     public ArrayList<Ability> getAbilities(int speciesId) {
-        ArrayList<Ability> abilityArrayList = new ArrayList<Ability>();
+        ArrayList<Ability> abilityArrayList = new ArrayList<>();
         //Abilities query
         Cursor abilitiesQuery = queryDatabase("pokemon_abilities", new String[] {"ability_id","is_hidden"},"pokemon_id="+speciesId, null, null, null, null);
         int abilitiesQueryCount = abilitiesQuery.getCount();
@@ -228,7 +236,7 @@ public class PokedexDatabase extends SQLiteAssetHelper {
     }
 
     public ArrayList<EggGroup> getEggGroups(int speciesId){
-        ArrayList<EggGroup> eggGroupsArrayList = new ArrayList<EggGroup>();
+        ArrayList<EggGroup> eggGroupsArrayList = new ArrayList<>();
         //Egg groups
         Cursor eggGroupQuery = queryDatabase("pokemon_egg_groups", new String[] {"egg_group_id"},"species_id="+speciesId, null, null, null, null);
         int eggGroupQueryCount = eggGroupQuery.getCount();
@@ -245,7 +253,7 @@ public class PokedexDatabase extends SQLiteAssetHelper {
     }
 
     public ArrayList<Move> getMoveset(int speciesId) {
-        ArrayList<Move> movesArrayList = new ArrayList<Move>();
+        ArrayList<Move> movesArrayList = new ArrayList<>();
         Cursor movesetQuery = queryDatabase("pokemon_moves_current", new String[]{"move_id", "pokemon_move_method_id", "level"},
                 "pokemon_id=" + speciesId, null, null, null, null);
         int moveseQueryCount = movesetQuery.getCount();
@@ -272,7 +280,7 @@ public class PokedexDatabase extends SQLiteAssetHelper {
     }
 
     public ArrayList<Evolution> getEvolutions(int speciesId) {
-        ArrayList<Evolution> evolutionsArrayList = new ArrayList<Evolution>();
+        ArrayList<Evolution> evolutionsArrayList = new ArrayList<>();
         //Evolutions
         Cursor evolutionQueryInto = queryDatabase(
                 "pokemon_species",
@@ -315,11 +323,15 @@ public class PokedexDatabase extends SQLiteAssetHelper {
                 case 4: //shed
                     break;
             }
-            for (int i = 3; i < columns.length; i++) {
-                if (!evolutionQuery.getString(i).equals("") && !evolutionQuery.getString(i).equals("0")) {
-                    detail = detail + columns[i] + "=" + evolutionQuery.getString(i) + ","; // Can be separated with split "," and then value extracted with split "="
+            for (int j = 0; j < evolutionQuery.getCount(); j++) {
+                for (int i = 3; i < columns.length; i++) {
+                    if (!evolutionQuery.getString(i).equals("") && !evolutionQuery.getString(i).equals("0")) {
+                        detail = detail + columns[i] + "=" + evolutionQuery.getString(i) + ","; // Can be separated with split "," and then value extracted with split "="
+                    }
                 }
+                evolutionQuery.moveToNext();
             }
+            evolutionQuery.moveToFirst();
             evolutionsArrayList.add(new Evolution(
                     getEvolutionTriggerFromId(evolutionQuery.getInt(1)),
                     getPokemonFromId(evolutionQuery.getInt(0)),
@@ -409,7 +421,7 @@ public class PokedexDatabase extends SQLiteAssetHelper {
     }
 
     public ArrayList<Pokemon> getPokemonList(Bundle pokeball1, Bundle pokeball2, Bundle pokeball3) {
-        ArrayList<Pokemon> pokemonArrayList = new ArrayList<Pokemon>();
+        ArrayList<Pokemon> pokemonArrayList = new ArrayList<>();
 
         Log.i(TAG,"Beginning Stage 1: Pokedex Load from DB");
 
