@@ -64,7 +64,7 @@ public class IVCalculator extends ActionBarActivity {
 
         Intent intent = getIntent();
         int pokePosition = intent.getIntExtra("pokemon", 0);
-        poke = MainActivity.pokemonList.get(pokePosition);
+        poke = Global.pokemonList.get(pokePosition);
 
         TextView pokeNameText = (TextView) findViewById(R.id.pokeIVname);
         TextView pokeBaseStatsText = (TextView) findViewById(R.id.pokeIVbasestats);

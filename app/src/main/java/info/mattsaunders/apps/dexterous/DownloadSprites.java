@@ -23,7 +23,7 @@ public class DownloadSprites {
     private static final String API_URL = "http://www.serebii.net";
     private static final String POKE = "/xy/pokemon/";
     private static final String FILE_EXT = ".png";
-    private static final int TOTAL_POKES = MainActivity.getTotalPokes(); //718;
+    private static final int TOTAL_POKES = Global.TOTAL_POKES;
     private static final String FILEDIR = "/Dexterous/SPRITES/";
 
 
@@ -99,7 +99,7 @@ public class DownloadSprites {
         protected void onPostExecute(String result) {
             LoadSprites.loadSprites();
             progress.dismiss();
-            MainActivity.dexAdapter.setList(MainActivity.pokemonList);
+            MainActivity.dexAdapter.setList(Global.pokemonList);
             MainActivity.dexAdapter.notifyDataSetChanged();
             Log.i("API call complete", "Result = " + result);
         }

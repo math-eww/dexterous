@@ -15,7 +15,7 @@ public class LoadSprites {
         File sdcard = Environment.getExternalStorageDirectory();
         File dir = new File(sdcard.getAbsolutePath() + FILEDIR);
         //Loop through pokemon list
-        for (Pokemon poke : MainActivity.pokemonList) {
+        for (Pokemon poke : Global.pokemonList) {
             //Check if sprite file exists
             File file = new File(dir, poke.getStringNumber() + FILE_EXT );
             if (file.exists()) {

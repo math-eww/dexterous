@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class PokedexDatabase extends SQLiteAssetHelper {
     private static final String DATABASE_NAME = "pokedex.db";
     private static final int DATABASE_VERSION = 1;
-    private static final int POKEMON_VERSION = 15;
+    //private static final int POKEMON_VERSION = 15;
     private static final String TAG = "PokedexDatabase";
     private SQLiteDatabase db = getReadableDatabase();
     private String[] typeNames;
@@ -30,7 +30,6 @@ public class PokedexDatabase extends SQLiteAssetHelper {
     public Cursor queryDatabase(
             String table, String[] columnNames, String whereClause, String[] selectionArgs,
             String groupBy, String having, String orderBy) {
-        //SQLiteDatabase db = getReadableDatabase();
         Cursor c = db.query(table, columnNames, whereClause, selectionArgs, groupBy, having, orderBy);
         c.moveToFirst();
         return c;
@@ -167,7 +166,7 @@ public class PokedexDatabase extends SQLiteAssetHelper {
         c.close();
         return typeName;
     }
-
+/*
     public String getMoveLearnMethodFromId(int id) {
         Cursor c = queryDatabase("pokemon_move_methods", new String[] {"identifier"},"id="+id, null, null, null, null);
         c.moveToFirst();
@@ -175,7 +174,7 @@ public class PokedexDatabase extends SQLiteAssetHelper {
         c.close();
         return moveLearn;
     }
-
+*/
     public String getEvolutionTriggerFromId(int id) {
         Cursor c = queryDatabase("evolution_triggers", new String[] {"identifier"},"id="+id, null, null, null, null);
         c.moveToFirst();
@@ -192,7 +191,7 @@ public class PokedexDatabase extends SQLiteAssetHelper {
         c.close();
         return output;
     }
-
+/*
     public String getItemFromId(int id) {
         Cursor c = queryDatabase("items", new String[] {"identifier"},"id="+id, null, null, null, null);
         c.moveToFirst();
@@ -200,7 +199,7 @@ public class PokedexDatabase extends SQLiteAssetHelper {
         c.close();
         return itemName;
     }
-
+*/
     public String getItemNameFromId(int id) {
         Cursor c = queryDatabase("item_names_english", new String[] {"name"},"item_id="+id, null, null, null, null);
         c.moveToFirst();
@@ -400,7 +399,7 @@ public class PokedexDatabase extends SQLiteAssetHelper {
         pokemonHWQuery.close();
         return pokemonHW;
     }
-
+/*
     public String getEvolvesFrom(int speciesId) {
         Cursor evolvesFrom = queryDatabase("pokemon_species", new String[] {"evolves_from_species_id"},
                 "id="+speciesId, null, null, null, null);
@@ -409,12 +408,12 @@ public class PokedexDatabase extends SQLiteAssetHelper {
         }
         return "";
     }
-
+*/
     public void setEvolvesFrom(int speciesId) {
         Cursor evolvesFrom = queryDatabase("pokemon_species", new String[] {"evolves_from_species_id"},
                 "id="+speciesId, null, null, null, null);
         if (evolvesFrom.getCount() > 0 && evolvesFrom.getInt(0) != 0) {
-            Pokemon poke = MainActivity.pokemonList.get(speciesId-1);
+            Pokemon poke = Global.pokemonList.get(speciesId-1);
             poke.setEvolvesFrom(getPokemonFromId(evolvesFrom.getInt(0)));
             poke.setEvolvesFromNum(evolvesFrom.getInt(0));
         }
@@ -438,7 +437,7 @@ public class PokedexDatabase extends SQLiteAssetHelper {
         Cursor cursorStats = getPokemonStatsTable();
         Log.i(TAG,"Stage 1 Complete: Beginning Stage 2: Entering main loop");
         //for (int i = 0; i < cursorPokemon.getCount(); i++) {
-        int totalPokes = MainActivity.getTotalPokes();
+        int totalPokes = Global.TOTAL_POKES;
         for (int i = 0; i < totalPokes; i++) {
 
             //Pokemon table
@@ -489,6 +488,8 @@ public class PokedexDatabase extends SQLiteAssetHelper {
         cursorPokemon.close();
         cursorStats.close();
 
+        MainActivity.caughtDex = 0;
+        MainActivity.livingDex = 0;
         for (Pokemon poke : pokemonArrayList) {
             //Set toggle states here
             String pokeNum = poke.getStringNumber();
@@ -509,6 +510,7 @@ public class PokedexDatabase extends SQLiteAssetHelper {
                     poke.setPokeballToggle3(true);
                 }
             }
+            Global.curPokeList.add(poke.getNumber() - 1);
         }
         Log.i(TAG, "Stage 3 Complete: Load Completed: Returning Array");
 

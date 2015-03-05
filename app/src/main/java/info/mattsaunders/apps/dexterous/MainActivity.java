@@ -34,18 +34,12 @@ public class MainActivity extends ActionBarActivity
     private CharSequence mTitle;
 
     public static Context c;
-    public static ArrayList<Pokemon> pokemonList = new ArrayList<>();
     public static DexListAdapter dexAdapter;
     public static Bundle pokeballTog1States;
     public static Bundle pokeballTog2States;
     public static Bundle pokeballTog3States;
     public static int caughtDex = 0;
     public static int livingDex = 0;
-    public static ArrayList<Integer> curPokeList = new ArrayList<>();
-    private static int TOTAL_POKES = 721;
-
-    public static int getTotalPokes() { return TOTAL_POKES; }
-    public static PokedexDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,23 +54,27 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-        c = this;
-        db = new PokedexDatabase(this);
-        //Load 3 bundles with pokemon pokeball toggles
-        Utilities.FILENAME = "pokeball_1_states";
-        pokeballTog1States = Utilities.JsonObjectToBundle(Utilities.readJsonFile());
-        Utilities.FILENAME = "pokeball_2_states";
-        pokeballTog2States = Utilities.JsonObjectToBundle(Utilities.readJsonFile());
-        Utilities.FILENAME = "pokeball_3_states";
-        pokeballTog3States = Utilities.JsonObjectToBundle(Utilities.readJsonFile());
 
-        //Check if pokemon files already downloaded
-        if (!Utilities.readSettingsFile().equals("1")) {
-            new LoadData.CallAPI(true).execute(pokeballTog1States,pokeballTog2States,pokeballTog3States);
-            new DownloadSprites.CallAPI().execute();
-            Utilities.writeSettingsFile("1");
-        } else {
-            new LoadData.CallAPI(false).execute(pokeballTog1States,pokeballTog2States,pokeballTog3States);
+        c = this;
+
+        if (Global.pokemonList.size() < Global.TOTAL_POKES) {
+            Global.db = new PokedexDatabase(this);
+            //Load 3 bundles with pokemon pokeball toggles
+            Utilities.FILENAME = "pokeball_1_states";
+            pokeballTog1States = Utilities.JsonObjectToBundle(Utilities.readJsonFile());
+            Utilities.FILENAME = "pokeball_2_states";
+            pokeballTog2States = Utilities.JsonObjectToBundle(Utilities.readJsonFile());
+            Utilities.FILENAME = "pokeball_3_states";
+            pokeballTog3States = Utilities.JsonObjectToBundle(Utilities.readJsonFile());
+
+            //Check if pokemon files already downloaded
+            if (!Utilities.readSettingsFile().equals("1")) {
+                new LoadData.CallAPI(true).execute(pokeballTog1States, pokeballTog2States, pokeballTog3States);
+                new DownloadSprites.CallAPI().execute();
+                Utilities.writeSettingsFile("1");
+            } else {
+                new LoadData.CallAPI(false).execute(pokeballTog1States, pokeballTog2States, pokeballTog3States);
+            }
         }
     }
 
@@ -91,7 +89,7 @@ public class MainActivity extends ActionBarActivity
         pokeballTog1States = new Bundle();
         pokeballTog2States = new Bundle();
         pokeballTog3States = new Bundle();
-        for (Pokemon poke : pokemonList) {
+        for (Pokemon poke : Global.pokemonList) {
             if (poke.getPokeballToggle1()) {
                 pokeballTog1States.putInt(poke.getStringNumber(),1);
             } else {
@@ -270,12 +268,12 @@ public class MainActivity extends ActionBarActivity
             View rootView = inflater.inflate(R.layout.fragment_pokelist, container, false);
             SearchView searchView = (SearchView) rootView.findViewById(R.id.searchView);
             ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
-            dexAdapter = new DexListAdapter(c,pokemonList);
+            dexAdapter = new DexListAdapter(c,Global.pokemonList);
             l1.setAdapter(dexAdapter);
             searchView.setOnQueryTextListener(this);
-            curPokeList.clear();
-            for (Pokemon poke : pokemonList) {
-                curPokeList.add(poke.getNumber() - 1);
+            Global.curPokeList.clear();
+            for (Pokemon poke : Global.pokemonList) {
+                Global.curPokeList.add(poke.getNumber() - 1);
             }
             return rootView;
         }
@@ -330,11 +328,11 @@ public class MainActivity extends ActionBarActivity
             View rootView = inflater.inflate(R.layout.fragment_pokelist, container, false);
             ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
             ArrayList<Pokemon> pokemonListMissing = new ArrayList<>();
-            curPokeList.clear();
-            for (Pokemon poke : pokemonList) {
+            Global.curPokeList.clear();
+            for (Pokemon poke : Global.pokemonList) {
                 if (!poke.getPokeballToggle1()) {
                     pokemonListMissing.add(poke);
-                    curPokeList.add(poke.getNumber() - 1);
+                    Global.curPokeList.add(poke.getNumber() - 1);
                 }
             }
             dexAdapter = new DexListAdapter(c,pokemonListMissing);
@@ -394,11 +392,11 @@ public class MainActivity extends ActionBarActivity
             View rootView = inflater.inflate(R.layout.fragment_pokelist, container, false);
             ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
             ArrayList<Pokemon> pokemonListCaught = new ArrayList<>();
-            curPokeList.clear();
-            for (Pokemon poke : pokemonList) {
+            Global.curPokeList.clear();
+            for (Pokemon poke : Global.pokemonList) {
                 if (poke.getPokeballToggle1()) {
                     pokemonListCaught.add(poke);
-                    curPokeList.add(poke.getNumber() - 1);
+                    Global.curPokeList.add(poke.getNumber() - 1);
                 }
             }
             dexAdapter = new DexListAdapter(c,pokemonListCaught);
@@ -458,11 +456,11 @@ public class MainActivity extends ActionBarActivity
             View rootView = inflater.inflate(R.layout.fragment_pokelist, container, false);
             ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
             ArrayList<Pokemon> pokemonListLDMissing = new ArrayList<>();
-            curPokeList.clear();
-            for (Pokemon poke : pokemonList) {
+            Global.curPokeList.clear();
+            for (Pokemon poke : Global.pokemonList) {
                 if (!poke.getPokeballToggle2()) {
                     pokemonListLDMissing.add(poke);
-                    curPokeList.add(poke.getNumber() - 1);
+                    Global.curPokeList.add(poke.getNumber() - 1);
                 }
             }
             dexAdapter = new DexListAdapter(c,pokemonListLDMissing);
@@ -522,11 +520,11 @@ public class MainActivity extends ActionBarActivity
             View rootView = inflater.inflate(R.layout.fragment_pokelist, container, false);
             ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
             ArrayList<Pokemon> pokemonListLDCaught = new ArrayList<>();
-            curPokeList.clear();
-            for (Pokemon poke : pokemonList) {
+            Global.curPokeList.clear();
+            for (Pokemon poke : Global.pokemonList) {
                 if (poke.getPokeballToggle2()) {
                     pokemonListLDCaught.add(poke);
-                    curPokeList.add(poke.getNumber() - 1);
+                    Global.curPokeList.add(poke.getNumber() - 1);
                 }
             }
             dexAdapter = new DexListAdapter(c,pokemonListLDCaught);
@@ -586,11 +584,11 @@ public class MainActivity extends ActionBarActivity
             View rootView = inflater.inflate(R.layout.fragment_pokelist, container, false);
             ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
             ArrayList<Pokemon> pokemonListTeam = new ArrayList<>();
-            curPokeList.clear();
-            for (Pokemon poke : pokemonList) {
+            Global.curPokeList.clear();
+            for (Pokemon poke : Global.pokemonList) {
                 if (poke.getPokeballToggle3()) {
                     pokemonListTeam.add(poke);
-                    curPokeList.add(poke.getNumber() - 1);
+                    Global.curPokeList.add(poke.getNumber() - 1);
                 }
             }
             dexAdapter = new DexListAdapter(c,pokemonListTeam);

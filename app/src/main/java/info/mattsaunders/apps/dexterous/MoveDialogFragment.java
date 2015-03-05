@@ -24,7 +24,7 @@ public class MoveDialogFragment extends DialogFragment {
             textView.setGravity(Gravity.CENTER);
         }
 /*
-        DisplayMetrics metrics = MainActivity.c.getResources().getDisplayMetrics();
+        DisplayMetrics metrics = PokeDetailsTabs.con.getResources().getDisplayMetrics();
         int width = metrics.widthPixels;
         int height = (int) Math.round(metrics.heightPixels * 0.8);
 
@@ -35,7 +35,7 @@ public class MoveDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.move_dialog_fragment, container, false);
-        Bundle details = MainActivity.db.getMoveDetailsFromId(getArguments().getInt("resource"));
+        Bundle details = Global.db.getMoveDetailsFromId(getArguments().getInt("resource"));
 
         TextView damageType = (TextView) rootView.findViewById(R.id.dialog_damagetype);
         TextView type = (TextView) rootView.findViewById(R.id.dialog_type);

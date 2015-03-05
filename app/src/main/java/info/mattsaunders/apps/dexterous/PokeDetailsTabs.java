@@ -52,7 +52,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
      */
     ViewPager mViewPager;
 
-    private static Context con;
+    public static Context con;
     private static int pokePosition;
     private Menu menu;
     private static Pokemon poke;
@@ -79,7 +79,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
 
         Intent intent = getIntent();
         pokePosition = intent.getIntExtra("pokemon", 0);
-        poke = MainActivity.pokemonList.get(pokePosition);
+        poke = Global.pokemonList.get(pokePosition);
         int pokemonNumber = poke.getNumber();
         String name = poke.getName();
         if (name.contains("-")) {
@@ -89,7 +89,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
         }
         getSupportActionBar().setTitle(name);
 
-        db = MainActivity.db;
+        db = Global.db;
         if (poke.getMoveset() == null) { poke.setMoveset(db.getMoveset(pokemonNumber)); }
         if (poke.getAbilities() == null) { poke.setAbilities(db.getAbilities(pokemonNumber)); }
         if (poke.getEggTypes() == null) { poke.setEggTypes(db.getEggGroups(pokemonNumber)); }
@@ -115,7 +115,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
             num = ("000" + num).substring(num.length());
             setOptionTitle(R.id.action_prev, num);
         } else { hideOption(R.id.action_prev); }
-        if (!(poke.getNumber() > MainActivity.pokemonList.size() - 1)) {
+        if (!(poke.getNumber() > Global.pokemonList.size() - 1)) {
             num = String.valueOf(poke.getNumber() + 1);
             num = ("000" + num).substring(num.length());
             setOptionTitle(R.id.action_next, num);
@@ -263,11 +263,11 @@ public class PokeDetailsTabs extends ActionBarActivity {
                             if (initialY < finalY) {
                                 //Swipe down - so go up one in list
                                 //Get index of current pokemon in curPokeList
-                                int curIndex = MainActivity.curPokeList.indexOf(poke.getNumber() - 1);
+                                int curIndex = Global.curPokeList.indexOf(poke.getNumber() - 1);
                                 if (curIndex == -1) curIndex = 1; //so that if user goes to evolution not in list, it defaults on swipe to index 0 - same as swipe up
                                 if (curIndex > 0) {
                                     //Get index of pokemon one up from this one in main pokemon list
-                                    int pokeToGet = MainActivity.curPokeList.get(curIndex - 1);
+                                    int pokeToGet = Global.curPokeList.get(curIndex - 1);
                                     //Start activity to display
                                     Intent intent = new Intent(con, PokeDetailsTabs.class);
                                     intent.putExtra("pokemon", pokeToGet);
@@ -278,10 +278,10 @@ public class PokeDetailsTabs extends ActionBarActivity {
                             if (initialY > finalY) {
                                 //Swipe up - so go down one in list
                                 //Get index of current pokemon in curPokeList
-                                int curIndex = MainActivity.curPokeList.indexOf(poke.getNumber() - 1);
-                                if (curIndex < MainActivity.curPokeList.size() - 1) {
+                                int curIndex = Global.curPokeList.indexOf(poke.getNumber() - 1);
+                                if (curIndex < Global.curPokeList.size() - 1) {
                                     //Get index of pokemon one up from this one in main pokemon list
-                                    int pokeToGet = MainActivity.curPokeList.get(curIndex + 1);
+                                    int pokeToGet = Global.curPokeList.get(curIndex + 1);
                                     //Start activity to display
                                     Intent intent = new Intent(con, PokeDetailsTabs.class);
                                     intent.putExtra("pokemon", pokeToGet);

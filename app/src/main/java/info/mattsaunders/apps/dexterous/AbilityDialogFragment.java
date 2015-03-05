@@ -24,7 +24,7 @@ public class AbilityDialogFragment extends DialogFragment {
             textView.setGravity(Gravity.CENTER);
         }
 
-        DisplayMetrics metrics = MainActivity.c.getResources().getDisplayMetrics();
+        DisplayMetrics metrics = PokeDetailsTabs.con.getResources().getDisplayMetrics();
         int width = (int) Math.round(metrics.widthPixels * 0.8);
         int height = (int) Math.round(metrics.heightPixels * 0.7);
 
@@ -43,7 +43,7 @@ public class AbilityDialogFragment extends DialogFragment {
         TextView abilityThreeName = (TextView) rootView.findViewById(R.id.dialog_AbilityThreeName);
         TextView abilityThreeText = (TextView) rootView.findViewById(R.id.dialog_AbilityThreeText);
 
-        PokedexDatabase db = MainActivity.db;
+        PokedexDatabase db = Global.db;
         int totalAbilities = getArguments().getInt("total");
         int resource;
         for (int x = 0; x < totalAbilities; x++) {

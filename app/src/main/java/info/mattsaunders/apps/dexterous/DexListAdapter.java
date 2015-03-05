@@ -184,7 +184,7 @@ public class DexListAdapter extends BaseAdapter implements Filterable {
             }
         });
 
-        final int pokePosition = MainActivity.pokemonList.indexOf(poke);
+        final int pokePosition = Global.pokemonList.indexOf(poke);
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

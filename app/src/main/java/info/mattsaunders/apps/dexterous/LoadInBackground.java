@@ -1,7 +1,6 @@
 package info.mattsaunders.apps.dexterous;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 /**
  * Loads additional info to Pokemon objects in main list - moveset, evolutions, abilities, & egg types
@@ -15,10 +14,9 @@ public class LoadInBackground {
         protected String doInBackground(String... params) {
             String resultToDisplay = "";
 
-            //Load data for each pokemon in background so user doesn't have to wait -
-            //-----moveset, evolutions, abilities, & egg types
-            PokedexDatabase db = MainActivity.db;
-            for (Pokemon poke : MainActivity.pokemonList) {
+            //Load data for each pokemon in background so user doesn't have to wait
+            PokedexDatabase db = Global.db;
+            for (Pokemon poke : Global.pokemonList) {
                 int pokemonNumber = poke.getNumber();
                 if (poke.getMoveset() == null) { poke.setMoveset(db.getMoveset(pokemonNumber)); }
                 if (poke.getAbilities() == null) { poke.setAbilities(db.getAbilities(pokemonNumber)); }
@@ -26,7 +24,6 @@ public class LoadInBackground {
                 if (poke.getEvolutions() == null) { poke.setEvolutions(db.getEvolutions(pokemonNumber)); }
                 if (poke.getEvolvesFromNum() == 0) { db.setEvolvesFrom(pokemonNumber); }
                 if (poke.getForms() == null) { db.getForms(pokemonNumber); }
-                //Log.i("Background Load", "Loaded: " + poke.getName() + "'s additional information");
             }
 
             return resultToDisplay;

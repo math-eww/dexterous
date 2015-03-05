@@ -171,7 +171,7 @@ public class Utilities {
         MainActivity.pokeballTog1States = new Bundle();
         MainActivity.pokeballTog2States = new Bundle();
         MainActivity.pokeballTog3States = new Bundle();
-        for (Pokemon poke : MainActivity.pokemonList) {
+        for (Pokemon poke : Global.pokemonList) {
             if (poke.getPokeballToggle1()) {
                 MainActivity.pokeballTog1States.putInt(poke.getStringNumber(),1);
             } else {
@@ -209,7 +209,7 @@ public class Utilities {
         SUBDIR = "";
         MainActivity.caughtDex = 0;
         MainActivity.livingDex = 0;
-        for (Pokemon poke : MainActivity.pokemonList) {
+        for (Pokemon poke : Global.pokemonList) {
             //System.out.println(poke.getSummary());
             //Set toggle states here
             if (MainActivity.pokeballTog1States != null) {
@@ -236,7 +236,7 @@ public class Utilities {
                 }
             }
         }
-        MainActivity.dexAdapter.setList(MainActivity.pokemonList);
+        MainActivity.dexAdapter.setList(Global.pokemonList);
         MainActivity.dexAdapter.notifyDataSetChanged();
         NavigationDrawerFragment.navDrawerAdapter.setList(new String[]{
                 MainActivity.c.getString(R.string.title_section1),

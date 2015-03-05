@@ -64,33 +64,33 @@ public class NavDrawerListAdapter extends ArrayAdapter<String> {
                 listCount.setText("");
                 break;
             case 1:
-                percentageCalcBottom = MainActivity.getTotalPokes();
-                percentageCalcTop = MainActivity.getTotalPokes() - MainActivity.getCaughtDex(); //number of missing pokemon from pokedex
-                displayPercetage = (float) ((float)percentageCalcTop / (float)percentageCalcBottom) * 100;
+                percentageCalcBottom = Global.TOTAL_POKES;
+                percentageCalcTop = Global.TOTAL_POKES - MainActivity.getCaughtDex(); //number of missing pokemon from pokedex
+                displayPercetage = (float)percentageCalcTop / (float)percentageCalcBottom * 100;
                 listPercentage.setText(String.valueOf(df.format(displayPercetage)) + "%");
                 pokeBallIcon.setImageResource(R.drawable.pokeball_deselect);
                 listCount.setText(String.valueOf(percentageCalcTop) + " / " + String.valueOf(percentageCalcBottom));
                 break;
             case 2:
-                percentageCalcBottom = MainActivity.getTotalPokes();
+                percentageCalcBottom = Global.TOTAL_POKES;
                 percentageCalcTop = MainActivity.getCaughtDex();
-                displayPercetage = (float) ((float)percentageCalcTop / (float)percentageCalcBottom) * 100;
+                displayPercetage = (float)percentageCalcTop / (float)percentageCalcBottom * 100;
                 listPercentage.setText(String.valueOf(df.format(displayPercetage)) + "%");
                 pokeBallIcon.setImageResource(R.drawable.pokeball);
                 listCount.setText(String.valueOf(percentageCalcTop) + " / " + String.valueOf(percentageCalcBottom));
                 break;
             case 3:
-                percentageCalcBottom = MainActivity.getTotalPokes();
-                percentageCalcTop = MainActivity.getTotalPokes() - MainActivity.getLivingDex(); //number of missing pokemon from living dex
-                displayPercetage = (float) ((float)percentageCalcTop / (float)percentageCalcBottom) * 100;
+                percentageCalcBottom = Global.TOTAL_POKES;
+                percentageCalcTop = Global.TOTAL_POKES - MainActivity.getLivingDex(); //number of missing pokemon from living dex
+                displayPercetage = (float)percentageCalcTop / (float)percentageCalcBottom * 100;
                 listPercentage.setText(String.valueOf(df.format(displayPercetage)) + "%");
                 pokeBallIcon.setImageResource(R.drawable.premierball_deselect);
                 listCount.setText(String.valueOf(percentageCalcTop) + " / " + String.valueOf(percentageCalcBottom));
                 break;
             case 4:
-                percentageCalcBottom = MainActivity.getTotalPokes();
+                percentageCalcBottom = Global.TOTAL_POKES;
                 percentageCalcTop = MainActivity.getLivingDex();
-                displayPercetage = (float) ((float)percentageCalcTop / (float)percentageCalcBottom) * 100;
+                displayPercetage = (float)percentageCalcTop / (float)percentageCalcBottom * 100;
                 listPercentage.setText(String.valueOf(df.format(displayPercetage)) + "%");
                 pokeBallIcon.setImageResource(R.drawable.premierball);
                 listCount.setText(String.valueOf(percentageCalcTop) + " / " + String.valueOf(percentageCalcBottom));

@@ -29,16 +29,8 @@ public class LoadData {
             Bundle pokeballindicator3 = params[2];
             String resultToDisplay = "";
 
-            PokedexDatabase db = MainActivity.db;
-            MainActivity.pokemonList = db.getPokemonList(pokeballindicator1, pokeballindicator2, pokeballindicator3);
-
-            MainActivity.caughtDex = 0;
-            MainActivity.livingDex = 0;
-            for (Pokemon poke : MainActivity.pokemonList) {
-                if (poke.getPokeballToggle1()) { MainActivity.caughtDex++; }
-                if (poke.getPokeballToggle2()) { MainActivity.livingDex++; }
-                MainActivity.curPokeList.add(poke.getNumber() - 1);
-            }
+            PokedexDatabase db = Global.db;
+            Global.pokemonList = db.getPokemonList(pokeballindicator1, pokeballindicator2, pokeballindicator3);
 
             if (!firstLoad) {
                 LoadSprites.loadSprites();
@@ -48,7 +40,7 @@ public class LoadData {
         }
         protected void onPostExecute(String result) {
             progress.dismiss();
-            MainActivity.dexAdapter.setList(MainActivity.pokemonList);
+            MainActivity.dexAdapter.setList(Global.pokemonList);
             MainActivity.dexAdapter.notifyDataSetChanged();
             NavigationDrawerFragment.navDrawerAdapter.setList(new String[]{
                     MainActivity.c.getString(R.string.title_section1),
