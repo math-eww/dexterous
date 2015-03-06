@@ -20,7 +20,9 @@
     <string name="action_prev">Previous</string>
     <string name="action_next">Next</string>
     <string name="action_breedingtools">Breeding Tools</string>
+    <string name="action_battletools">Battle Tools</string>
     <string name="title_activity_poke_details_tabs">Dexterous</string>
     <string name="title_activity_breeding_tools">Breeding Tools</string>
+    <string name="title_activity_battle_tools">Battle Tools</string>
 
 </resources>

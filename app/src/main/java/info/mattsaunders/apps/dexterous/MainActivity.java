@@ -230,6 +230,11 @@ public class MainActivity extends ActionBarActivity
             startActivity(intent);
             return true;
         }
+        if (id == R.id.action_openBattleTools) {
+            Intent intent = new Intent(this, BattleToolsActivity.class);
+            startActivity(intent);
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }

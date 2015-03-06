@@ -36,6 +36,11 @@
             android:label="@string/title_activity_breeding_tools"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".BattleToolsActivity"
+            android:label="@string/title_activity_battle_tools"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>
