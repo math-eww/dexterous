@@ -1,0 +1,69 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="info.mattsaunders.apps.dexterous.TeamBuilder$PlaceholderFragment"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.33"
+        android:id="@+id/teamViewSprite12">
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/teamViewGif1"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/plainball" />
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/teamViewGif2"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/plainball" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.33"
+        android:id="@+id/teamViewSprite34">
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/teamViewGif3"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/plainball" />
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/teamViewGif4"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/plainball" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.33"
+        android:id="@+id/teamViewSprite56">
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/teamViewGif5"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/plainball" />
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/teamViewGif6"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/plainball" />
+
+    </LinearLayout>
+</LinearLayout>

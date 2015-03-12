@@ -41,6 +41,10 @@
             android:label="@string/title_activity_battle_tools"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".TeamBuilder"
+            android:label="@string/title_activity_team_builder" >
+        </activity>
     </application>
 
 </manifest>

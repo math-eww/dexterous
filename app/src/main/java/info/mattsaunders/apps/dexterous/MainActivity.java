@@ -106,6 +106,7 @@ public class MainActivity extends ActionBarActivity
                 pokeballTog3States.putInt(poke.getStringNumber(),0);
             }
         }
+        Utilities.SUBDIR = "";
         Utilities.FILENAME = "pokeball_1_states";
         Utilities.writeJsonFile(Utilities.bundleToJsonObject(pokeballTog1States));
         Utilities.FILENAME = "pokeball_2_states";
@@ -119,6 +120,7 @@ public class MainActivity extends ActionBarActivity
     protected void onResume() {
         super.onResume();
         //Load 3 bundles with pokemon pokeball toggles
+        Utilities.SUBDIR = "";
         Utilities.FILENAME = "pokeball_1_states";
         pokeballTog1States = Utilities.JsonObjectToBundle(Utilities.readJsonFile());
         Utilities.FILENAME = "pokeball_2_states";
@@ -232,6 +234,11 @@ public class MainActivity extends ActionBarActivity
         }
         if (id == R.id.action_openBattleTools) {
             Intent intent = new Intent(this, BattleToolsActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        if (id == R.id.action_openTeamBuilder) {
+            Intent intent = new Intent(this, TeamBuilder.class);
             startActivity(intent);
             return true;
         }
@@ -600,7 +607,6 @@ public class MainActivity extends ActionBarActivity
             l1.setAdapter(dexAdapter);
             SearchView searchView = (SearchView) rootView.findViewById(R.id.searchView);
             searchView.setOnQueryTextListener(this);
-            //TODO: activity to launch from here to show type coverages (defensive and offensive - with move selector for team pokemon)
             return rootView;
         }
 

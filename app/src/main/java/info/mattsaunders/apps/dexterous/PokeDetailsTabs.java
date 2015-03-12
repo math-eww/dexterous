@@ -79,7 +79,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
 
         Intent intent = getIntent();
         pokePosition = intent.getIntExtra("pokemon", 0);
-        poke = Global.pokemonList.get(pokePosition);
+        poke = Global.pokemonList.get(pokePosition); //This is causing a crash still - index out of bounds, probably because Global is being unloaded still
         int pokemonNumber = poke.getNumber();
         String name = poke.getName();
         if (name.contains("-")) {

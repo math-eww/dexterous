@@ -13,4 +13,6 @@
         android:orderInCategory="100" android:showAsAction="never" />
     <item android:id="@+id/action_openBattleTools" android:title="@string/action_battletools"
         android:orderInCategory="100" android:showAsAction="never" />
+    <item android:id="@+id/action_openTeamBuilder" android:title="@string/action_teambuilder"
+        android:orderInCategory="100" android:showAsAction="never" />
 </menu>
