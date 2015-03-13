@@ -164,6 +164,12 @@ public class IVCalculator extends ActionBarActivity {
                 }
             }
         });
+        natureEntered.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                natureEntered.showDropDown();
+            }
+        });
 
         Button calcButton = (Button) findViewById(R.id.pokeIVcalcIVsButton);
         calcButton.setOnClickListener(new Button.OnClickListener() {

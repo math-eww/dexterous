@@ -52,7 +52,6 @@ public class TeamBuilder extends ActionBarActivity {
     String curTeam;
     Bundle teamList;
     static Bundle teamDetails;
-    static boolean validTeam = false;
 
     static final String[] NATURES = {
             "Adamant", "Bashful", "Bold", "Brave", "Calm", "Careful",
@@ -89,12 +88,7 @@ public class TeamBuilder extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_builder);
 
-
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-        // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOffscreenPageLimit(7);
@@ -136,11 +130,10 @@ public class TeamBuilder extends ActionBarActivity {
         super.onPause();
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_team_builder, menu);
+
         MenuItem item = menu.findItem(R.id.action_spinnerChangeTeam);
         item.setActionView(R.layout.team_spinner);
         spinner = (Spinner) item.getActionView().findViewById(R.id.team_spinner);
@@ -149,7 +142,6 @@ public class TeamBuilder extends ActionBarActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println(parent.getItemAtPosition(position));
                 if (parent.getItemAtPosition(position).equals("New Team")) {
                     saveData();
                     curTeam = (String) parent.getItemAtPosition(position);
@@ -158,28 +150,25 @@ public class TeamBuilder extends ActionBarActivity {
                 } else if (parent.getItemAtPosition(position).equals("-----")){
                     curTeam = (String) parent.getItemAtPosition(position);
                     teamDetails = null;
-                    validTeam = false;
+                    mViewPager.setCurrentItem(0);
                     pagesToShow = 1;
                     resetFragments();
                 } else {
                     saveData();
                     curTeam = (String) parent.getItemAtPosition(position);
                     Utilities.SUBDIR = "Teams";
-                    Utilities.FILENAME = (String) parent.getItemAtPosition(position);
+                    Utilities.FILENAME = curTeam;
                     teamDetails = null;
                     teamDetails = Utilities.JsonObjectToBundle(Utilities.readJsonFile());
                     if (teamDetails == null) {
                         initTeamDetails();
                     }
-                    validTeam = true;
                     pagesToShow = 7;
                     resetFragments();
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 
@@ -188,52 +177,10 @@ public class TeamBuilder extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         if (id == R.id.action_delete) {
-            if (!curTeam.equals("New Team") && !curTeam.equals("-----")) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(
-                        TeamBuilder.this);
-                alert.setTitle("Delete Team");
-                alert.setMessage("Are you sure to delete this team?");
-                alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Utilities.SUBDIR = "Teams";
-                        Utilities.FILENAME = curTeam;
-                        Utilities.deleteFile();
-                        teamDetails = null;
-                        teamCount--;
-                        teamNamesList.remove(curTeam);
-                        System.out.println("teamNamesList.size() = " + teamNamesList.size());
-                        if (teamNamesList.size() < 2) {
-                            teamNamesList.add(0, "-----");
-                        } else {
-                            teamList = new Bundle();
-                            teamList.putInt("teamCount",teamCount);
-                            for (int i = 1; i < teamCount + 1; i++) {
-                                teamList.putString(String.valueOf(i), teamNamesList.get(i - 1));
-                            }
-                        }
-                        teamNamesListAdapter = new ArrayAdapter<>(con, R.layout.action_bar_spinner_item, teamNamesList);
-                        spinner.setAdapter(teamNamesListAdapter);
-                        spinner.setSelection(0);
-                        saveData();
-                        dialog.dismiss();
-                    }
-                });
-                alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                alert.show();
-            }
-
+            deleteTeam();
             return true;
         }
 
@@ -274,6 +221,51 @@ public class TeamBuilder extends ActionBarActivity {
         alert.show();
     }
 
+    private void deleteTeam() {
+        if (!curTeam.equals("New Team") && !curTeam.equals("-----")) {
+            AlertDialog.Builder alert = new AlertDialog.Builder(TeamBuilder.this);
+
+            alert.setTitle("Delete Team");
+            alert.setMessage("Are you sure you want to delete this team?");
+
+            alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Utilities.SUBDIR = "Teams";
+                    Utilities.FILENAME = curTeam;
+                    Utilities.deleteFile();
+                    teamDetails = null;
+                    teamCount--;
+                    teamNamesList.remove(curTeam);
+                    if (teamNamesList.size() < 2) {
+                        teamList = new Bundle();
+                        teamList.putInt("teamCount",teamCount);
+                        teamNamesList.add(0, "-----");
+                    } else {
+                        teamList = new Bundle();
+                        teamList.putInt("teamCount",teamCount);
+                        for (int i = 1; i < teamCount + 1; i++) {
+                            teamList.putString(String.valueOf(i), teamNamesList.get(i - 1));
+                        }
+                    }
+                    teamNamesListAdapter = new ArrayAdapter<>(con, R.layout.action_bar_spinner_item, teamNamesList);
+                    spinner.setAdapter(teamNamesListAdapter);
+                    spinner.setSelection(0);
+                    saveData(); //Somehow this is saving a team with the name ----- even though teamDetails should be null
+                    dialog.dismiss();
+                }
+            });
+
+            alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            alert.show();
+        }
+    }
+
     private void initTeamDetails() {
         teamDetails = new Bundle();
         for (int i = 0; i < 6; i++) {
@@ -289,7 +281,6 @@ public class TeamBuilder extends ActionBarActivity {
 
     private void resetFragments() {
         mSectionsPagerAdapter.notifyDataSetChanged();
-
         for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
             Object f = getFragment(i);
             if (f instanceof TeamPokemonMember) {
@@ -436,7 +427,7 @@ public class TeamBuilder extends ActionBarActivity {
             GifImageView teamViewGif4 = (GifImageView) rootView.findViewById(R.id.teamViewGif4);
             GifImageView teamViewGif5 = (GifImageView) rootView.findViewById(R.id.teamViewGif5);
             GifImageView teamViewGif6 = (GifImageView) rootView.findViewById(R.id.teamViewGif6);
-            //Get appropiate width
+            //Get appropriate width
             DisplayMetrics metrics = con.getResources().getDisplayMetrics();
             int width = metrics.widthPixels / 2;
             //Set gif views to correct width - half of screen size
@@ -459,7 +450,7 @@ public class TeamBuilder extends ActionBarActivity {
             teamViewGif5.setScaleX(3.5f); teamViewGif5.setScaleY(3.5f);
             teamViewGif6.setScaleType(ImageView.ScaleType.CENTER);
             teamViewGif6.setScaleX(3.5f); teamViewGif6.setScaleY(3.5f);
-            //Make gifview array
+            //Make gif view array
             gifList = new ArrayList<>();
             gifList.add(teamViewGif1);
             gifList.add(teamViewGif2);
@@ -468,28 +459,6 @@ public class TeamBuilder extends ActionBarActivity {
             gifList.add(teamViewGif5);
             gifList.add(teamViewGif6);
 
-            //Check if valid team has been selected
-            if (teamDetails != null) {
-                //Get current team pokemon
-                for (int i = 0; i < 6; i++) {
-                    //Build gif sprites for current team and show them
-                    int pokemonIndex = teamDetails.getInt(String.valueOf(i));
-                    if (pokemonIndex != -1) {
-                        try {
-                            if (teamDetails.getInt(i + "shiny",0) == 1) {
-                                subfolder = subfolderShiny;
-                            } else {
-                                subfolder = subfolderNotShiny;
-                            }
-                            GifDrawable gifFromAssets = new GifDrawable(con.getAssets(), subfolder + "/" +
-                                    pokemonListTeam.get(pokemonIndex).getThreeDigitStringNumber() + ".gif");
-                            gifList.get(i).setImageDrawable(gifFromAssets);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
             return rootView;
         }
     }
@@ -539,6 +508,10 @@ public class TeamBuilder extends ActionBarActivity {
                 }
                 //Nature
                 //TODO: set nature from loaded bundle
+                //Moves
+                //TODO: set moves from loaded bundle
+                //IV/EVs
+                //TODO: set IV/EVs from loaded bundle
             }
         }
 
@@ -548,68 +521,55 @@ public class TeamBuilder extends ActionBarActivity {
             View rootView = inflater.inflate(R.layout.fragment_team_builder_pokemon, container, false);
 
             position = getArguments().getInt(ARG_SECTION_NUMBER) - 2;
-            System.out.println("Position: " + position);
 
-            if (validTeam) {
-                //Shiny toggle setup
-                shinyToggle = (CheckBox) rootView.findViewById(R.id.teamBuilderPokemonIsShiny);
-                shinyToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        isShiny = isChecked;
-                        if (poke != null) {
-                            resetGif();
-                        }
-                        int toStore = 0;
-                        if (isChecked) { toStore = 1; }
-                        teamDetails.putInt(position+"shiny",toStore);
-                    }
-                });
-                //Shiny toggle load data
-                if (teamDetails.getInt(position+"shiny",0) == 1) {
-                    shinyToggle.setChecked(true);
-                }
-
-                //Nature Spinner setup
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                        getActivity(), android.R.layout.simple_dropdown_item_1line, NATURES
-                );
-                natureEntered = (Spinner) rootView.findViewById(R.id.teamBuilderPokemonNature);
-                natureEntered.setAdapter(adapter);
-                //Nature spinner load data
-                //TODO: set nature from loaded bundle
-
-                //Pokemon & Name AutoCompleteEditText setup
-                adapter = new ArrayAdapter<>(
-                        getActivity(), android.R.layout.simple_dropdown_item_1line, pokemonNameListTeam
-                );
-                pokemonEntered = (AutoCompleteTextView) rootView.findViewById(R.id.teamBuilderPokemonName);
-                pokemonEntered.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        pokemonEntered.setText("");
-                    }
-                });
-                pokemonEntered.setAdapter(adapter);
-                pokemonEntered.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    public void onItemClick(AdapterView<?> parent, View view, int pos, long rowId) {
-                        //Set Pokemon object
-                        int pokePosition = pokemonNameListTeam.indexOf(pokemonEntered.getEditableText().toString());
-                        poke = pokemonListTeam.get(pokePosition);
-                        //Set gif
+            //Shiny toggle setup
+            shinyToggle = (CheckBox) rootView.findViewById(R.id.teamBuilderPokemonIsShiny);
+            shinyToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    isShiny = isChecked;
+                    if (poke != null) {
                         resetGif();
-                        teamDetails.putInt(String.valueOf(position),pokePosition);
                     }
-                });
-                if (teamDetails.getInt(String.valueOf(position)) != -1) {
-                    poke = pokemonListTeam.get(teamDetails.getInt(String.valueOf(position)));
-                    pokemonEntered.setText(poke.getName());
+                    int toStore = 0;
+                    if (isChecked) { toStore = 1; }
+                    teamDetails.putInt(position+"shiny",toStore);
                 }
+            });
 
-                //TODO: move list AutoCompleteTextView & loading/saving
+            //Nature Spinner setup
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                    getActivity(), android.R.layout.simple_dropdown_item_1line, NATURES
+            );
+            natureEntered = (Spinner) rootView.findViewById(R.id.teamBuilderPokemonNature);
+            natureEntered.setAdapter(adapter);
 
-                //TODO: show stats - user enter EVs, IVs - and use nature to calc stats
-            }
+            //Pokemon & Name AutoCompleteEditText setup
+            adapter = new ArrayAdapter<>(
+                    getActivity(), android.R.layout.simple_dropdown_item_1line, pokemonNameListTeam
+            );
+            pokemonEntered = (AutoCompleteTextView) rootView.findViewById(R.id.teamBuilderPokemonName);
+            pokemonEntered.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    pokemonEntered.showDropDown();
+                }
+            });
+            pokemonEntered.setAdapter(adapter);
+            pokemonEntered.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View view, int pos, long rowId) {
+                    //Set Pokemon object
+                    int pokePosition = pokemonNameListTeam.indexOf(pokemonEntered.getEditableText().toString());
+                    poke = pokemonListTeam.get(pokePosition);
+                    //Set gif
+                    resetGif();
+                    teamDetails.putInt(String.valueOf(position),pokePosition);
+                }
+            });
+
+            //TODO: move list AutoCompleteTextView init
+
+            //TODO: stats, IVs, EVs EditText init
 
             return rootView;
         }

@@ -43,7 +43,8 @@
         </activity>
         <activity
             android:name=".TeamBuilder"
-            android:label="@string/title_activity_team_builder" >
+            android:label="@string/title_activity_team_builder"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 
