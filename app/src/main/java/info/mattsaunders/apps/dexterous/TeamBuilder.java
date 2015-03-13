@@ -198,17 +198,38 @@ public class TeamBuilder extends ActionBarActivity {
 
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                //TODO: prevent user from creating a new team with the same name as another team
-                if (teamNamesList.contains("-----")) {
-                    teamNamesList.remove("-----");
+                String inputText = input.getText().toString();
+                if (teamNamesList.contains(inputText)) {
+                    dialog.cancel();
+                    String msgText;
+                    if (inputText.equals("New Team") | inputText.equals("-----")) {
+                        msgText = "You can't name your team that!";
+                    } else {
+                        msgText = "You already have a team named that!";
+                    }
+                    new AlertDialog.Builder(TeamBuilder.this)
+                            .setTitle("Error")
+                            .setMessage(msgText)
+                            .setCancelable(false)
+                            .setPositiveButton("Dismiss", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogTwo, int which) {
+                                    //Relaunch create new team
+                                    createNewTeam();
+                                }
+                            }).create().show();
+                } else {
+                    if (teamNamesList.contains("-----")) {
+                        teamNamesList.remove("-----");
+                    }
+                    teamList.putString(String.valueOf(teamCount + 1), input.getText().toString());
+                    teamNamesList.add(teamNamesList.size() - 1, input.getText().toString());
+                    teamNamesListAdapter = new ArrayAdapter<>(con, R.layout.action_bar_spinner_item, teamNamesList);
+                    spinner.setAdapter(teamNamesListAdapter);
+                    spinner.setSelection(teamNamesListAdapter.getPosition(input.getText().toString()));
+                    teamCount++;
+                    teamList.putInt("teamCount", teamCount);
                 }
-                teamList.putString(String.valueOf(teamCount + 1), input.getText().toString());
-                teamNamesList.add(teamNamesList.size() - 1, input.getText().toString());
-                teamNamesListAdapter = new ArrayAdapter<>(con, R.layout.action_bar_spinner_item, teamNamesList);
-                spinner.setAdapter(teamNamesListAdapter);
-                spinner.setSelection(teamNamesListAdapter.getPosition(input.getText().toString()));
-                teamCount++;
-                teamList.putInt("teamCount",teamCount);
             }
         });
 
