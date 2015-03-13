@@ -44,6 +44,8 @@ public class BattleToolsActivity extends ActionBarActivity {
         defensiveNotvery = (LinearLayout) findViewById(R.id.defensiveNotVeryEffective);
         defensiveDoesnot = (LinearLayout) findViewById(R.id.defensiveDoesNotEffect);
 
+        //TODO: text may be getting cut off if list is too long (ie steel and water)
+
         Spinner typeOneSelector = (Spinner) findViewById(R.id.typeOneSpinner);
         Spinner typeTwoSelector = (Spinner) findViewById(R.id.typeTwoSpinner);
 

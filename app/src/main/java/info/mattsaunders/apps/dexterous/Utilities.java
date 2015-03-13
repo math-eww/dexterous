@@ -249,4 +249,11 @@ public class Utilities {
         NavigationDrawerFragment.navDrawerAdapter.notifyDataSetChanged();
     }
 
+    public static void deleteFile() {
+        File sdcard = Environment.getExternalStorageDirectory();
+        File dir = new File(sdcard.getAbsolutePath() + FILEDIR + SUBDIR);
+        File file = new File(dir, FILENAME);
+        file.delete();
+    }
+
 }

@@ -27,5 +27,6 @@
     <string name="title_activity_battle_tools">Battle Tools</string>
     <string name="title_activity_team_builder">Team Builder</string>
     <string name="empty"> </string>
+    <string name="action_delete">Delete Team</string>
 
 </resources>
