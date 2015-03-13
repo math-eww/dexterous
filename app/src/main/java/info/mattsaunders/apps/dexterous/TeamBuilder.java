@@ -270,7 +270,7 @@ public class TeamBuilder extends ActionBarActivity {
         teamDetails = new Bundle();
         for (int i = 0; i < 6; i++) {
             //init Pokemon details for each pokemon
-            teamDetails.putInt(String.valueOf(i), -1); //Pokemon index
+            teamDetails.putString(String.valueOf(i), ""); //Pokemon index
             teamDetails.putInt(i + "shiny", 0); //Shiny toggle
             teamDetails.putInt(i+"move"+"0",-1); //Move 1 index
             teamDetails.putInt(i+"move"+"1",-1); //Move 2 index
@@ -388,19 +388,27 @@ public class TeamBuilder extends ActionBarActivity {
             if (teamDetails != null) {
                 for (int i = 0; i < 6; i++) {
                     //Build gif sprites for current team and show them
-                    int pokemonIndex = teamDetails.getInt(String.valueOf(i));
-                    if (pokemonIndex != -1) {
-                        try {
-                            if (teamDetails.getInt(i + "shiny", 0) == 1) {
-                                subfolder = subfolderShiny;
-                            } else {
-                                subfolder = subfolderNotShiny;
+                    String pokemonName = teamDetails.getString(String.valueOf(i));
+                    if (!pokemonName.equals("")) {
+                        Pokemon tempPoke = null;
+                        for (Pokemon temp : pokemonListTeam) {
+                            if (temp.getName().equals(pokemonName)) {
+                                tempPoke = temp;
                             }
-                            GifDrawable gifFromAssets = new GifDrawable(con.getAssets(), subfolder + "/" +
-                                    pokemonListTeam.get(pokemonIndex).getThreeDigitStringNumber() + ".gif");
-                            gifList.get(i).setImageDrawable(gifFromAssets);
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                        }
+                        if (tempPoke != null) {
+                            try {
+                                if (teamDetails.getInt(i + "shiny", 0) == 1) {
+                                    subfolder = subfolderShiny;
+                                } else {
+                                    subfolder = subfolderNotShiny;
+                                }
+                                GifDrawable gifFromAssets = new GifDrawable(con.getAssets(), subfolder + "/" +
+                                        tempPoke.getThreeDigitStringNumber() + ".gif");
+                                gifList.get(i).setImageDrawable(gifFromAssets);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                     } else {
                         gifList.get(i).setImageResource(R.drawable.plainball);
@@ -491,8 +499,13 @@ public class TeamBuilder extends ActionBarActivity {
 
             if (teamDetails != null) {
                 //Name & Poke
-                if (teamDetails.getInt(String.valueOf(position)) != -1) {
-                    poke = pokemonListTeam.get(teamDetails.getInt(String.valueOf(position)));
+                if (!teamDetails.getString(String.valueOf(position)).equals("")) {
+                    String savedName = teamDetails.getString(String.valueOf(position));
+                    for (Pokemon tempPoke : pokemonListTeam) {
+                        if (tempPoke.getName().equals(savedName)) {
+                            poke = tempPoke;
+                        }
+                    }
                     pokemonEntered.setText(poke.getName());
                 } else {
                     poke = null;
@@ -559,11 +572,15 @@ public class TeamBuilder extends ActionBarActivity {
             pokemonEntered.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int pos, long rowId) {
                     //Set Pokemon object
-                    int pokePosition = pokemonNameListTeam.indexOf(pokemonEntered.getEditableText().toString());
-                    poke = pokemonListTeam.get(pokePosition);
+                    String pokemonName = pokemonEntered.getEditableText().toString();
+                    for (Pokemon tempPoke : pokemonListTeam) {
+                        if (tempPoke.getName().equals(pokemonName)) {
+                            poke = tempPoke;
+                        }
+                    }
                     //Set gif
                     resetGif();
-                    teamDetails.putInt(String.valueOf(position),pokePosition);
+                    teamDetails.putString(String.valueOf(position),pokemonName);
                 }
             });
 
