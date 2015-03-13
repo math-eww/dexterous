@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.text.InputFilter;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -194,6 +195,7 @@ public class TeamBuilder extends ActionBarActivity {
         alert.setMessage("Enter a name for the new team");
 
         final EditText input = new EditText(this);
+        input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(15)});
         alert.setView(input);
 
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
