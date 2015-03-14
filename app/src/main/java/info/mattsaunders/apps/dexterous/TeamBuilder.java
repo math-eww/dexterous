@@ -601,7 +601,11 @@ public class TeamBuilder extends ActionBarActivity {
                 //IV/EVs
                 //TODO: set IV/EVs from loaded bundle
 
-                //TODO: set focus to empty text view on reset
+                pokemonEntered.dismissDropDown();
+                pokemonMovesSlot1.dismissDropDown();
+                pokemonMovesSlot2.dismissDropDown();
+                pokemonMovesSlot3.dismissDropDown();
+                pokemonMovesSlot4.dismissDropDown();
             }
         }
 
@@ -610,7 +614,7 @@ public class TeamBuilder extends ActionBarActivity {
             if (poke != null) {
                 //Add this pokemon's moveset, loading from DB if necessary
                 if (poke.getMoveset() == null) { poke.setMoveset(Global.db.getMoveset(poke.getNumber())); }
-                movesList = poke.getMoveset();
+                movesList = new ArrayList<>(poke.getMoveset());
                 //Check if this pokemon has a prior evolution, loading from DB if necessary
                 if (poke.getEvolvesFromNum() == 0) { Global.db.setEvolvesFrom(poke.getNumber()); }
                 if (poke.getEvolvesFromNum() != 0) {
