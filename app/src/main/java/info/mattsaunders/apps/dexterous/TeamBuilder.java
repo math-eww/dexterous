@@ -505,6 +505,17 @@ public class TeamBuilder extends ActionBarActivity {
         private CheckBox shinyToggle;
         private Spinner natureEntered;
         private AutoCompleteTextView pokemonEntered;
+        private AutoCompleteTextView pokemonMovesSlot1;
+        private AutoCompleteTextView pokemonMovesSlot2;
+        private AutoCompleteTextView pokemonMovesSlot3;
+        private AutoCompleteTextView pokemonMovesSlot4;
+
+        private ArrayList<Move> movesList = new ArrayList<>();
+
+        private Move moveOne;
+        private Move moveTwo;
+        private Move moveThree;
+        private Move moveFour;
 
         public static TeamPokemonMember newInstance(int sectionNumber) {
             TeamPokemonMember fragment = new TeamPokemonMember();
@@ -545,9 +556,101 @@ public class TeamBuilder extends ActionBarActivity {
                 //Nature
                 //TODO: set nature from loaded bundle
                 //Moves
-                //TODO: set moves from loaded bundle
+                setMoveList();
+                for (int i = 0; i < 5; i++) {
+                    if (teamDetails.getInt(position+"move"+i,-1) != -1) {
+                        switch (i) {
+                            case 0:
+                                moveOne = movesList.get(teamDetails.getInt(position+"move"+i));
+                                pokemonMovesSlot1.setText(moveOne.getMoveName());
+                                break;
+                            case 1:
+                                moveTwo = movesList.get(teamDetails.getInt(position+"move"+i));
+                                pokemonMovesSlot2.setText(moveTwo.getMoveName());
+                                break;
+                            case 2:
+                                moveThree = movesList.get(teamDetails.getInt(position+"move"+i));
+                                pokemonMovesSlot3.setText(moveThree.getMoveName());
+                                break;
+                            case 3:
+                                moveFour = movesList.get(teamDetails.getInt(position+"move"+i));
+                                pokemonMovesSlot4.setText(moveFour.getMoveName());
+                                break;
+                        }
+                    } else {
+                        switch (i) {
+                            case 0:
+                                moveOne = null;
+                                pokemonMovesSlot1.setText("");
+                                break;
+                            case 1:
+                                moveTwo = null;
+                                pokemonMovesSlot2.setText("");
+                                break;
+                            case 2:
+                                moveThree = null;
+                                pokemonMovesSlot3.setText("");
+                                break;
+                            case 3:
+                                moveFour = null;
+                                pokemonMovesSlot4.setText("");
+                                break;
+                        }
+                    }
+                }
                 //IV/EVs
                 //TODO: set IV/EVs from loaded bundle
+
+                //TODO: set focus to empty text view on reset
+            }
+        }
+
+        private void setMoveList() {
+            ArrayList<String> moveNames = new ArrayList<>();
+            if (poke != null) {
+                //Add this pokemon's moveset, loading from DB if necessary
+                if (poke.getMoveset() == null) { poke.setMoveset(Global.db.getMoveset(poke.getNumber())); }
+                movesList = poke.getMoveset();
+                //Check if this pokemon has a prior evolution, loading from DB if necessary
+                if (poke.getEvolvesFromNum() == 0) { Global.db.setEvolvesFrom(poke.getNumber()); }
+                if (poke.getEvolvesFromNum() != 0) {
+                    Pokemon evolvesFrom = Global.pokemonList.get(poke.getEvolvesFromNum()-1);
+                    //Get moveset for a prior evolution and add to the list
+                    if (evolvesFrom.getMoveset() == null) { evolvesFrom.setMoveset(Global.db.getMoveset(evolvesFrom.getNumber())); }
+                    movesList.addAll(evolvesFrom.getMoveset());
+                    //Check if the prior evolution has a further prior evolution, loading from DB if necessary
+                    if (evolvesFrom.getEvolvesFromNum() == 0) { Global.db.setEvolvesFrom(evolvesFrom.getNumber()); }
+                    if (evolvesFrom.getEvolvesFromNum() != 0) {
+                        Pokemon evolvesFromFrom = Global.pokemonList.get(evolvesFrom.getEvolvesFromNum()-1);
+                        //Finally, get the further prior evolution's moveset, loadingfrom DB if necessary
+                        if (evolvesFromFrom.getMoveset() == null) { evolvesFromFrom.setMoveset(Global.db.getMoveset(evolvesFromFrom.getNumber())); }
+                        movesList.addAll(evolvesFromFrom.getMoveset());
+                    }
+                }
+                //Add move names to moveNames array
+                for (Move move : movesList) {
+                    if (!moveNames.contains(move.getMoveName())) {
+                        moveNames.add(move.getMoveName());
+                    }
+                }
+                //TODO: sort move list
+                //Set move names to AutoCompleteEditTexts
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                        getActivity(), android.R.layout.simple_dropdown_item_1line, moveNames
+                );
+                pokemonMovesSlot1.setAdapter(adapter);
+                adapter = new ArrayAdapter<>(
+                        getActivity(), android.R.layout.simple_dropdown_item_1line, moveNames
+                );
+                pokemonMovesSlot2.setAdapter(adapter);
+                adapter = new ArrayAdapter<>(
+                        getActivity(), android.R.layout.simple_dropdown_item_1line, moveNames
+                );
+                pokemonMovesSlot3.setAdapter(adapter);
+                adapter = new ArrayAdapter<>(
+                        getActivity(), android.R.layout.simple_dropdown_item_1line, moveNames
+                );
+                pokemonMovesSlot4.setAdapter(adapter);
             }
         }
 
@@ -599,15 +702,102 @@ public class TeamBuilder extends ActionBarActivity {
                     for (Pokemon tempPoke : pokemonListTeam) {
                         if (tempPoke.getName().equals(pokemonName)) {
                             poke = tempPoke;
+                            break;
                         }
                     }
+                    //Set moves
+                    setMoveList();
                     //Set gif
                     resetGif();
                     teamDetails.putString(String.valueOf(position),pokemonName);
                 }
             });
 
-            //TODO: move list AutoCompleteTextView init
+            //Moves setup
+            pokemonMovesSlot1 = (AutoCompleteTextView) rootView.findViewById(R.id.teamBuilderPokeMove1);
+            pokemonMovesSlot1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    pokemonMovesSlot1.showDropDown();
+                }
+            });
+            pokemonMovesSlot1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View view, int pos, long rowId) {
+                    //Set Move to selected move, and save data
+                    String moveName = pokemonMovesSlot1.getEditableText().toString();
+                    for (Move tempMove : movesList) {
+                        if (tempMove.getMoveName().equals(moveName)) {
+                            moveOne = tempMove;
+                            teamDetails.putInt(position + "move0", movesList.indexOf(moveOne));
+                            break;
+                        }
+                    }
+                    //Calculate type effectiveness
+                }
+            });
+            pokemonMovesSlot2 = (AutoCompleteTextView) rootView.findViewById(R.id.teamBuilderPokeMove2);
+            pokemonMovesSlot2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    pokemonMovesSlot2.showDropDown();
+                }
+            });
+            pokemonMovesSlot2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View view, int pos, long rowId) {
+                    //Set Move to selected move, and save data
+                    String moveName = pokemonMovesSlot2.getEditableText().toString();
+                    for (Move tempMove : movesList) {
+                        if (tempMove.getMoveName().equals(moveName)) {
+                            moveTwo = tempMove;
+                            teamDetails.putInt(position + "move1",movesList.indexOf(moveTwo));
+                            break;
+                        }
+                    }
+                    //Calculate type effectiveness
+                }
+            });
+            pokemonMovesSlot3 = (AutoCompleteTextView) rootView.findViewById(R.id.teamBuilderPokeMove3);
+            pokemonMovesSlot3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    pokemonMovesSlot3.showDropDown();
+                }
+            });
+            pokemonMovesSlot3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View view, int pos, long rowId) {
+                    //Set Move to selected move, and save data
+                    String moveName = pokemonMovesSlot3.getEditableText().toString();
+                    for (Move tempMove : movesList) {
+                        if (tempMove.getMoveName().equals(moveName)) {
+                            moveThree = tempMove;
+                            teamDetails.putInt(position + "move2",movesList.indexOf(moveThree));
+                            break;
+                        }
+                    }
+                    //Calculate type effectiveness
+                }
+            });
+            pokemonMovesSlot4 = (AutoCompleteTextView) rootView.findViewById(R.id.teamBuilderPokeMove4);
+            pokemonMovesSlot4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    pokemonMovesSlot4.showDropDown();
+                }
+            });
+            pokemonMovesSlot4.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View view, int pos, long rowId) {
+                    //Set Move to selected move, and save data
+                    String moveName = pokemonMovesSlot4.getEditableText().toString();
+                    for (Move tempMove : movesList) {
+                        if (tempMove.getMoveName().equals(moveName)) {
+                            moveFour = tempMove;
+                            teamDetails.putInt(position + "move3",movesList.indexOf(moveFour));
+                            break;
+                        }
+                    }
+                    //Calculate type effectiveness
+                }
+            });
 
             //TODO: stats, IVs, EVs EditText init
 
