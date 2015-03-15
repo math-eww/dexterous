@@ -865,7 +865,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
                 }
             });
 
-            moveListAdapter = new MoveListAdapter(con,showMovesList);
+            moveListAdapter = new MoveListAdapter(con,showMovesList,false);
             l1.setAdapter(moveListAdapter);
             searchView.setOnQueryTextListener(this);
             return rootView;
@@ -922,7 +922,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
                 }
             });
 
-            moveListAdapter = new MoveListAdapter(con,showMovesList);
+            moveListAdapter = new MoveListAdapter(con,showMovesList,false);
             l1.setAdapter(moveListAdapter);
             searchView.setOnQueryTextListener(this);
             return rootView;
@@ -979,7 +979,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
                 }
             });
 
-            moveListAdapter = new MoveListAdapter(con,showMovesList);
+            moveListAdapter = new MoveListAdapter(con,showMovesList,false);
             l1.setAdapter(moveListAdapter);
             searchView.setOnQueryTextListener(this);
             return rootView;
@@ -1036,7 +1036,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
                 }
             });
 
-            moveListAdapter = new MoveListAdapter(con,showMovesList);
+            moveListAdapter = new MoveListAdapter(con,showMovesList,false);
             l1.setAdapter(moveListAdapter);
             searchView.setOnQueryTextListener(this);
             return rootView;

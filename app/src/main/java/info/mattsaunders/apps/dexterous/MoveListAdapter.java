@@ -26,11 +26,14 @@ public class MoveListAdapter extends BaseAdapter implements Filterable {
     private ValueFilter valueFilter;
     private List<Move> mMovesFilterList;
 
-    public MoveListAdapter(Context context, List<Move> moves) {
+    private boolean mIsTeamBuilder;
+
+    public MoveListAdapter(Context context, List<Move> moves, boolean isTeamBuilder) {
         mInflater = LayoutInflater.from(context);
         mMoves = moves;
         mContext = context;
         mMovesFilterList = moves;
+        mIsTeamBuilder = isTeamBuilder;
     }
 
     @Override
@@ -46,7 +49,7 @@ public class MoveListAdapter extends BaseAdapter implements Filterable {
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
             if (constraint != null && constraint.length() > 0) {
-                ArrayList<Move> filterList = new ArrayList<Move>();
+                ArrayList<Move> filterList = new ArrayList<>();
                 for (int i = 0; i < mMovesFilterList.size(); i++) {
                     if ( (mMovesFilterList.get(i).getMoveName().toUpperCase() )
                             .contains(constraint.toString().toUpperCase())) {
@@ -119,16 +122,18 @@ public class MoveListAdapter extends BaseAdapter implements Filterable {
         holder.type.setText(moveType);
 
         holder.level.setText("");
-        if (move.getLevel() != 0) {
+        if (move.getLevel() != 0 && !mIsTeamBuilder) {
             holder.level.setText(String.valueOf(move.getLevel()));
         }
 
-        holder.container.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showMoveDetailsDialog(move);
-            }
-        });
+        if (!mIsTeamBuilder) {
+            holder.container.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showMoveDetailsDialog(move);
+                }
+            });
+        }
 
         return view;
     }

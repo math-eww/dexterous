@@ -3,8 +3,13 @@ package info.mattsaunders.apps.dexterous;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.Set;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -610,7 +615,6 @@ public class TeamBuilder extends ActionBarActivity {
         }
 
         private void setMoveList() {
-            ArrayList<String> moveNames = new ArrayList<>();
             if (poke != null) {
                 //Add this pokemon's moveset, loading from DB if necessary
                 if (poke.getMoveset() == null) { poke.setMoveset(Global.db.getMoveset(poke.getNumber())); }
@@ -631,29 +635,29 @@ public class TeamBuilder extends ActionBarActivity {
                         movesList.addAll(evolvesFromFrom.getMoveset());
                     }
                 }
-                //Add move names to moveNames array
-                for (Move move : movesList) {
-                    if (!moveNames.contains(move.getMoveName())) {
-                        moveNames.add(move.getMoveName());
+                //Remove duplicate moves
+                Set<String> moveNames = new HashSet<>();
+                for (Iterator<Move> it = movesList.iterator(); it.hasNext(); ) {
+                    if (!moveNames.add(it.next().getMoveName())) {
+                        it.remove();
                     }
                 }
-                //TODO: sort move list
+                //Sort moves alphabetically
+                Collections.sort(movesList, new Comparator() {
+                    public int compare(Object o1, Object o2) {
+                        Move p1 = (Move) o1;
+                        Move p2 = (Move) o2;
+                        return p1.getMoveName().compareTo(p2.getMoveName());
+                    }
+                });
                 //Set move names to AutoCompleteEditTexts
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                        getActivity(), android.R.layout.simple_dropdown_item_1line, moveNames
-                );
+                MoveListAdapter adapter = new MoveListAdapter(getActivity(), movesList, true);
                 pokemonMovesSlot1.setAdapter(adapter);
-                adapter = new ArrayAdapter<>(
-                        getActivity(), android.R.layout.simple_dropdown_item_1line, moveNames
-                );
+                adapter = new MoveListAdapter(getActivity(), movesList, true);
                 pokemonMovesSlot2.setAdapter(adapter);
-                adapter = new ArrayAdapter<>(
-                        getActivity(), android.R.layout.simple_dropdown_item_1line, moveNames
-                );
+                adapter = new MoveListAdapter(getActivity(), movesList, true);
                 pokemonMovesSlot3.setAdapter(adapter);
-                adapter = new ArrayAdapter<>(
-                        getActivity(), android.R.layout.simple_dropdown_item_1line, moveNames
-                );
+                adapter = new MoveListAdapter(getActivity(), movesList, true);
                 pokemonMovesSlot4.setAdapter(adapter);
             }
         }
@@ -728,14 +732,9 @@ public class TeamBuilder extends ActionBarActivity {
             pokemonMovesSlot1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int pos, long rowId) {
                     //Set Move to selected move, and save data
-                    String moveName = pokemonMovesSlot1.getEditableText().toString();
-                    for (Move tempMove : movesList) {
-                        if (tempMove.getMoveName().equals(moveName)) {
-                            moveOne = tempMove;
-                            teamDetails.putInt(position + "move0", movesList.indexOf(moveOne));
-                            break;
-                        }
-                    }
+                    moveOne = (Move) parent.getAdapter().getItem(pos);
+                    pokemonMovesSlot1.setText(moveOne.getMoveName());
+                    teamDetails.putInt(position + "move0", movesList.indexOf(moveOne));
                     //Calculate type effectiveness
                 }
             });
@@ -749,14 +748,9 @@ public class TeamBuilder extends ActionBarActivity {
             pokemonMovesSlot2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int pos, long rowId) {
                     //Set Move to selected move, and save data
-                    String moveName = pokemonMovesSlot2.getEditableText().toString();
-                    for (Move tempMove : movesList) {
-                        if (tempMove.getMoveName().equals(moveName)) {
-                            moveTwo = tempMove;
-                            teamDetails.putInt(position + "move1",movesList.indexOf(moveTwo));
-                            break;
-                        }
-                    }
+                    moveTwo = (Move) parent.getAdapter().getItem(pos);
+                    pokemonMovesSlot2.setText(moveTwo.getMoveName());
+                    teamDetails.putInt(position + "move1", movesList.indexOf(moveTwo));
                     //Calculate type effectiveness
                 }
             });
@@ -770,14 +764,9 @@ public class TeamBuilder extends ActionBarActivity {
             pokemonMovesSlot3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int pos, long rowId) {
                     //Set Move to selected move, and save data
-                    String moveName = pokemonMovesSlot3.getEditableText().toString();
-                    for (Move tempMove : movesList) {
-                        if (tempMove.getMoveName().equals(moveName)) {
-                            moveThree = tempMove;
-                            teamDetails.putInt(position + "move2",movesList.indexOf(moveThree));
-                            break;
-                        }
-                    }
+                    moveThree = (Move) parent.getAdapter().getItem(pos);
+                    pokemonMovesSlot3.setText(moveThree.getMoveName());
+                    teamDetails.putInt(position + "move2", movesList.indexOf(moveThree));
                     //Calculate type effectiveness
                 }
             });
@@ -791,14 +780,9 @@ public class TeamBuilder extends ActionBarActivity {
             pokemonMovesSlot4.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int pos, long rowId) {
                     //Set Move to selected move, and save data
-                    String moveName = pokemonMovesSlot4.getEditableText().toString();
-                    for (Move tempMove : movesList) {
-                        if (tempMove.getMoveName().equals(moveName)) {
-                            moveFour = tempMove;
-                            teamDetails.putInt(position + "move3",movesList.indexOf(moveFour));
-                            break;
-                        }
-                    }
+                    moveFour = (Move) parent.getAdapter().getItem(pos);
+                    pokemonMovesSlot4.setText(moveFour.getMoveName());
+                    teamDetails.putInt(position + "move3", movesList.indexOf(moveFour));
                     //Calculate type effectiveness
                 }
             });
