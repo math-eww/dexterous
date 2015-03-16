@@ -59,8 +59,6 @@ public class PokeDetailsTabs extends ActionBarActivity {
     private static Activity activity;
     private static PokedexDatabase db;
 
-    private static MoveListAdapter moveListAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -831,6 +829,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
     public static class PokemonMoveFragment extends Fragment implements SearchView.OnQueryTextListener {
 
         private static final String ARG_SECTION_NUMBER = "section_number";
+        MoveListAdapter moveListAdapter;
 
         public static PokemonMoveFragment newInstance(int sectionNumber) {
             PokemonMoveFragment fragment = new PokemonMoveFragment();
@@ -886,6 +885,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
     public static class PokemonMoveTMFragment extends Fragment implements SearchView.OnQueryTextListener {
 
         private static final String ARG_SECTION_NUMBER = "section_number";
+        MoveListAdapter moveListAdapter;
 
         public static PokemonMoveTMFragment newInstance(int sectionNumber) {
             PokemonMoveTMFragment fragment = new PokemonMoveTMFragment();
@@ -943,6 +943,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
     public static class PokemonMoveTutorFragment extends Fragment implements SearchView.OnQueryTextListener {
 
         private static final String ARG_SECTION_NUMBER = "section_number";
+        MoveListAdapter moveListAdapter;
 
         public static PokemonMoveTutorFragment newInstance(int sectionNumber) {
             PokemonMoveTutorFragment fragment = new PokemonMoveTutorFragment();
@@ -1000,6 +1001,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
     public static class PokemonMoveEggFragment extends Fragment implements SearchView.OnQueryTextListener {
 
         private static final String ARG_SECTION_NUMBER = "section_number";
+        MoveListAdapter moveListAdapter;
 
         public static PokemonMoveEggFragment newInstance(int sectionNumber) {
             PokemonMoveEggFragment fragment = new PokemonMoveEggFragment();
