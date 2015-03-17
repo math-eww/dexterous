@@ -14,6 +14,7 @@ import java.util.Set;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,6 +26,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -177,6 +179,28 @@ public class TeamBuilder extends ActionBarActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+        final Handler actionHandler = new Handler();
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                editTeamName((String) spinner.getSelectedItem());
+            }
+        };
+
+        spinner.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    actionHandler.postDelayed(runnable, 500);
+                } else if(event.getAction() == MotionEvent.ACTION_UP){
+                    actionHandler.removeCallbacks(runnable);
+                }
+                return false;
+
+            }
+        });
+        spinner.setOnLongClickListener(null);
+        spinner.setLongClickable(false);
 
         return true;
     }
@@ -290,6 +314,71 @@ public class TeamBuilder extends ActionBarActivity {
                     dialog.dismiss();
                 }
             });
+            alert.show();
+        }
+    }
+
+    private void editTeamName(final String teamName) {
+        if (!curTeam.equals("New Team") && !curTeam.equals("-----")) {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+            alert.setTitle("Edit Team Name");
+            alert.setMessage("Enter a new name");
+
+            final EditText input = new EditText(this);
+            input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(15)});
+            input.setText(teamName);
+            alert.setView(input);
+
+            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    String inputText = input.getText().toString();
+                    //Check if there is already a team called that/User tries to enter New Team or -----/User enters the same name
+                    if (teamNamesList.contains(inputText)) {
+                        dialog.cancel();
+                        String msgText;
+                        if (inputText.equals("New Team") | inputText.equals("-----")) {
+                            msgText = "You can't name your team that!";
+                        } else if (inputText.equals(teamName)) {
+                            msgText = "New team name must be different from old team name";
+                        } else {
+                            msgText = "You already have a team named that!";
+                        }
+                        new AlertDialog.Builder(TeamBuilder.this)
+                                .setTitle("Error")
+                                .setMessage(msgText)
+                                .setCancelable(false)
+                                .setPositiveButton("Dismiss", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogTwo, int which) {
+                                        //Relaunch create new team
+                                        createNewTeam();
+                                    }
+                                }).create().show();
+                        //Else change team name
+                    } else {
+                        //Get index of team
+                        int indexOfTeam = teamNamesList.indexOf(teamName);
+                        //Remove name from teamNamesList and replace with new entered text
+                        teamNamesList.remove(teamName);
+                        teamNamesList.add(indexOfTeam, input.getText().toString());
+                        //Remove name from teamList bundle and replace with new entered text
+                        teamList.putString(String.valueOf(indexOfTeam + 1), input.getText().toString());
+                        //Change file name:
+                        Utilities.renameFile(teamName, input.getText().toString());
+                        //Reset spinner
+                        teamNamesListAdapter = new ArrayAdapter<>(con, R.layout.action_bar_spinner_item, teamNamesList);
+                        spinner.setAdapter(teamNamesListAdapter);
+                        spinner.setSelection(teamNamesListAdapter.getPosition(input.getText().toString()));
+                    }
+                }
+            });
+
+            alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                }
+            });
+
             alert.show();
         }
     }

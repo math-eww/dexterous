@@ -256,4 +256,13 @@ public class Utilities {
         file.delete();
     }
 
+    public static void renameFile(String oldName,String newName){
+        File sdcard = Environment.getExternalStorageDirectory();
+        File dir = new File(sdcard.getAbsolutePath() + FILEDIR + SUBDIR);
+        File from = new File(dir,oldName);
+        File to = new File(dir,newName);
+        if(from.exists())
+            from.renameTo(to);
+    }
+
 }
