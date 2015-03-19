@@ -143,6 +143,21 @@ public class PokedexDatabase extends SQLiteAssetHelper {
         return bundle;
     }
 
+    public Bundle getBasicMoveDetailsFromId(int id) {
+        String[] damageClasses = {"status","physical","special"};
+        Cursor c = queryDatabase("moves", new String[] {"power","accuracy","damage_class_id"},
+                "id="+id, null, null, null, null);
+        c.moveToFirst();
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("power",c.getInt(0));
+        bundle.putInt("accuracy",c.getInt(1));
+        bundle.putString("damageType",damageClasses[c.getInt(2)-1]);
+
+        c.close();
+        return bundle;
+    }
+
     public String getMoveEffectFromId(int id) {
         Cursor c = queryDatabase("move_effect_prose", new String[] {"short_effect"},"move_effect_id="+id, null, null, null, null);
         c.moveToFirst();

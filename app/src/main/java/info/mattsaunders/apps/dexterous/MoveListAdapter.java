@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -104,7 +105,9 @@ public class MoveListAdapter extends BaseAdapter implements Filterable {
             holder = new ViewHolder();
             holder.level = (TextView)view.findViewById(R.id.moveLearnLevel);
             holder.name = (TextView)view.findViewById(R.id.moveName);
-            holder.type = (TextView)view.findViewById(R.id.moveType);
+            holder.details = (TextView)view.findViewById(R.id.moveDetails);
+            holder.type = (ImageView)view.findViewById(R.id.moveType);
+            holder.category = (ImageView)view.findViewById(R.id.moveCategory);
 
             holder.container = (LinearLayout)view.findViewById(R.id.container);
 
@@ -115,11 +118,92 @@ public class MoveListAdapter extends BaseAdapter implements Filterable {
         }
 
         final Move move = mMoves.get(position);
-        //Set info from move bundle to list view item
+        Bundle basicMoveDetails = Global.db.getBasicMoveDetailsFromId(move.getResource());
+        //Set info from move & bundle to list view item
         String name = move.getMoveName();
         String moveType = move.getType();
+        //Set Name
         holder.name.setText(name);
-        holder.type.setText(moveType);
+        //Set Type
+        switch (moveType) {
+            case "bug":
+                holder.type.setImageResource(R.drawable.typebug);
+                break;
+            case "dark":
+                holder.type.setImageResource(R.drawable.typedark);
+                break;
+            case "dragon":
+                holder.type.setImageResource(R.drawable.typedragon);
+                break;
+            case "electric":
+                holder.type.setImageResource(R.drawable.typeelectric);
+                break;
+            case "fairy":
+                holder.type.setImageResource(R.drawable.typefairy);
+                break;
+            case "fighting":
+                holder.type.setImageResource(R.drawable.typefighting);
+                break;
+            case "fire":
+                holder.type.setImageResource(R.drawable.typefire);
+                break;
+            case "flying":
+                holder.type.setImageResource(R.drawable.typeflying);
+                break;
+            case "ghost":
+                holder.type.setImageResource(R.drawable.typeghost);
+                break;
+            case "grass":
+                holder.type.setImageResource(R.drawable.typegrass);
+                break;
+            case "ground":
+                holder.type.setImageResource(R.drawable.typeground);
+                break;
+            case "ice":
+                holder.type.setImageResource(R.drawable.typeice);
+                break;
+            case "normal":
+                holder.type.setImageResource(R.drawable.typenormal);
+                break;
+            case "poison":
+                holder.type.setImageResource(R.drawable.typepoison);
+                break;
+            case "psychic":
+                holder.type.setImageResource(R.drawable.typepsychic);
+                break;
+            case "rock":
+                holder.type.setImageResource(R.drawable.typerock);
+                break;
+            case "steel":
+                holder.type.setImageResource(R.drawable.typesteel);
+                break;
+            case "water":
+                holder.type.setImageResource(R.drawable.typewater);
+                break;
+        }
+        //Set Category
+        boolean status = false;
+        switch (basicMoveDetails.getString("damageType")) {
+            case "status":
+                holder.category.setImageResource(R.drawable.movetypestatus);
+                status = true;
+                break;
+            case "physical":
+                holder.category.setImageResource(R.drawable.movetypephysical);
+                break;
+            case "special":
+                holder.category.setImageResource(R.drawable.movetypespecial);
+                break;
+        }
+        //Set power and accuracy details
+        holder.details.setText("");
+        if (!status) {
+            String power = String.valueOf(basicMoveDetails.getInt("power"));
+            if (power.equals("0")) power = "--";
+            String accuracy = String.valueOf(basicMoveDetails.getInt("accuracy"));
+            if (accuracy.equals("0")) accuracy = "--";
+            holder.details.setText("Power: " + power + " | Acc.: " + accuracy);
+        }
 
         holder.level.setText("");
         if (move.getLevel() != 0 && !mIsTeamBuilder) {
@@ -137,14 +221,15 @@ public class MoveListAdapter extends BaseAdapter implements Filterable {
 
         return view;
     }
-
+/*
     public void setList(List<Move> newList) {
         mMoves = newList;
         mMovesFilterList = newList;
     }
-
+*/
     private class ViewHolder {
-        public TextView name, level, type;
+        public TextView name, level, details;
+        public ImageView type, category;
         public LinearLayout container;
     }
 

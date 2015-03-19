@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <View android:id="@+id/fakeView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true"/>
+
+    <TextView android:id="@+id/clickView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/toggle"
+        android:layout_alignBottom="@+id/pokemonTypes" />
+       <!-- android:background="#ffff914e" -->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="001"
+        android:id="@+id/pokemonNumber"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="5dp" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Bulbasaur"
+        android:id="@+id/pokemonName"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/pokemonNumber"
+        android:layout_alignRight="@+id/fakeView"
+        android:layout_marginLeft="5dp" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Grass"
+        android:id="@+id/pokemonTypes"
+        android:layout_below="@+id/pokemonName"
+        android:layout_toRightOf="@+id/pokemonNumber"
+        android:layout_alignRight="@+id/fakeView"
+        android:layout_marginLeft="5dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/pokemonImage"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/fakeView" />
+
+    <ToggleButton
+        android:id="@+id/toggle"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:background="@drawable/check1"
+        android:textOn=""
+        android:textOff=""
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:layout_margin="5dp"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/toggle2" />
+
+    <ToggleButton
+        android:id="@+id/toggle2"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:background="@drawable/check2"
+        android:textOn=""
+        android:textOff=""
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:layout_margin="5dp"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/toggle3" />
+
+    <ToggleButton
+        android:id="@+id/toggle3"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:background="@drawable/check3"
+        android:textOn=""
+        android:textOff=""
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:layout_margin="5dp"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true" />
+
+</RelativeLayout>
