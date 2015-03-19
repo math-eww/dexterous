@@ -213,18 +213,8 @@ public class MainActivity extends ActionBarActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
-        }
-        if (id == R.id.action_redownloadInfo) {
-            new DownloadSprites.CallAPI().execute();
-            return true;
-        }
-        if (id == R.id.action_backupPokeballs) {
-            Utilities.backupPokeballIndicators();
-            return true;
-        }
-        if (id == R.id.action_restorePokeballs) {
-            Utilities.restorePokeballIndicators();
+            Intent intent = new Intent(this, PreferencesActivity.class);
+            startActivity(intent);
             return true;
         }
         if (id == R.id.action_openBreedingTools) {

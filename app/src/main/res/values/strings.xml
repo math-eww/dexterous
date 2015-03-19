@@ -28,5 +28,6 @@
     <string name="title_activity_team_builder">Team Builder</string>
     <string name="empty"> </string>
     <string name="action_delete">Delete Team</string>
+    <string name="title_activity_preferences">Dexterous</string>
 
 </resources>
