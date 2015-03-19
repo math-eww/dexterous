@@ -393,6 +393,7 @@ public class TeamBuilder extends ActionBarActivity {
             teamDetails.putInt(i+"move"+"1",-1); //Move 2 index
             teamDetails.putInt(i+"move"+"2",-1); //Move 3 index
             teamDetails.putInt(i+"move"+"3",-1); //Move 4 index
+            teamDetails.putInt(i+"nature",-1);
         }
     }
 
@@ -408,6 +409,7 @@ public class TeamBuilder extends ActionBarActivity {
                 fTVF.reset();
             }
         }
+        mViewPager.setCurrentItem(0);
     }
 
     private void saveData() {
@@ -648,7 +650,9 @@ public class TeamBuilder extends ActionBarActivity {
                     isShiny = false;
                 }
                 //Nature
-                //TODO: set nature from loaded bundle
+                if (teamDetails.getInt(position + "nature",-1) != -1) {
+                    natureEntered.setSelection(teamDetails.getInt(position + "nature"));
+                }
                 //Moves
                 setMoveList();
                 for (int i = 0; i < 5; i++) {
@@ -779,6 +783,17 @@ public class TeamBuilder extends ActionBarActivity {
             );
             natureEntered = (Spinner) rootView.findViewById(R.id.teamBuilderPokemonNature);
             natureEntered.setAdapter(adapter);
+            natureEntered.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int positionOfItem, long id) {
+                    teamDetails.putInt(position + "nature",positionOfItem);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
 
             //Pokemon & Name AutoCompleteEditText setup
             adapter = new ArrayAdapter<>(
