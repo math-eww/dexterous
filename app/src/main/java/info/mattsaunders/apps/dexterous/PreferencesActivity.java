@@ -19,6 +19,7 @@ public class PreferencesActivity extends ActionBarActivity {
         Button redownloadSprites = (Button) findViewById(R.id.pref_redownloadSprites);
         Button backupMarkers = (Button) findViewById(R.id.pref_backupMarkers);
         Button restoreMarkers = (Button) findViewById(R.id.pref_restoreMarkers);
+        Button aboutApp = (Button) findViewById(R.id.pref_aboutApp);
         //Set button click listeners
         redownloadSprites.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,6 +37,12 @@ public class PreferencesActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 confirmationDialog("restore Pokedex markers",2);
+            }
+        });
+        aboutApp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAbout();
             }
         });
     }
@@ -62,5 +69,18 @@ public class PreferencesActivity extends ActionBarActivity {
                 })
                 .setNegativeButton("No", null)
                 .show();
+    }
+
+    private void showAbout() {
+        View messageView = getLayoutInflater().inflate(R.layout.about_dialog_fragment, null, false);
+        //TextView description = (TextView) messageView.findViewById(R.id.about_appDescription);
+        //TextView credits = (TextView) messageView.findViewById(R.id.about_appCredits);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setIcon(R.mipmap.ic_pokedex);
+        builder.setTitle(R.string.app_name);
+        builder.setView(messageView);
+        builder.create();
+        builder.show();
     }
 }

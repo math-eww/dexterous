@@ -30,4 +30,8 @@
     <string name="action_delete">Delete Team</string>
     <string name="title_activity_preferences">Dexterous</string>
 
+    <string name="app_descriptions"><a href="http://mattsaunders.info/dexterous">Dexterous</a> is a Pokedex and Pokemon tools app, built using a free database and resources from around the web\n - created by <a href="http://mattsaunders.info">Matt Saunders</a></string>
+    <string name="app_credits">Thanks to: \n<a href="https://veekun.com">Eevee/Alex (Veekun)</a> for the <a href="https://github.com/veekun/pokedex">database</a> \n<a href="http://gabmadrid.com/">Gab Madrid</a> for the <a href="http://gabmadrid.com/portfolio/pokemon-app-icon-set/">Pokedex icon</a> \n<a href="http://tamarinfrog.deviantart.com/">TamarinFrog</a> for the <a href="http://tamarinfrog.deviantart.com/art/All-Poke-Balls-Free-Icons-368996730">Pokeball icons</a></string>
+    <string name="app_copyright">App © 2014-2015 Matt Saunders. \n\nPokémon ©1995–2015 <a href="http://www.pokemon.com/">Pokémon</a>, <a href="http://www.nintendo.com/">Nintendo</a>, <a href="http://www.gamefreak.co.jp/">Game Freak</a>, <a href="http://www.creatures.co.jp/html/en/">Creatures</a></string>
+
 </resources>
