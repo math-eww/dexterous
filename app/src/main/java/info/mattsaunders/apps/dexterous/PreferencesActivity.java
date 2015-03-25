@@ -4,8 +4,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 
 public class PreferencesActivity extends ActionBarActivity {
@@ -73,8 +75,13 @@ public class PreferencesActivity extends ActionBarActivity {
 
     private void showAbout() {
         View messageView = getLayoutInflater().inflate(R.layout.about_dialog_fragment, null, false);
-        //TextView description = (TextView) messageView.findViewById(R.id.about_appDescription);
-        //TextView credits = (TextView) messageView.findViewById(R.id.about_appCredits);
+        TextView description = (TextView) messageView.findViewById(R.id.about_appDescription);
+        TextView credits = (TextView) messageView.findViewById(R.id.about_appCredits);
+        TextView copyright = (TextView) messageView.findViewById(R.id.about_appCopyright);
+
+        description.setMovementMethod(LinkMovementMethod.getInstance());
+        credits.setMovementMethod(LinkMovementMethod.getInstance());
+        copyright.setMovementMethod(LinkMovementMethod.getInstance());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setIcon(R.mipmap.ic_pokedex);
