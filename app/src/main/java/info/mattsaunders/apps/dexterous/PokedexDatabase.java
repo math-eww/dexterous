@@ -80,6 +80,30 @@ public class PokedexDatabase extends SQLiteAssetHelper {
         return c;
     }
 
+    public ArrayList<Move> getMovesList() {
+        ArrayList<Move> movesArrayList = new ArrayList<>();
+        Cursor movesetQuery = queryDatabase("moves", new String[]{"id"},
+                null, null, null, null, null);
+        int moveseQueryCount = movesetQuery.getCount();
+        int moveResource;
+        for (int x = 0; x < moveseQueryCount; x++) {
+            //Build a new move object and add to arraylist
+            moveResource = movesetQuery.getInt(0);
+            if (moveResource < 10000) {
+                Move tempMove = new Move(
+                        getMoveFromId(moveResource),
+                        moveResource,
+                        0,
+                        getMoveTypeFromId(moveResource)
+                );
+                movesArrayList.add(tempMove);
+            }
+            movesetQuery.moveToNext();
+        }
+        movesetQuery.close();
+        return movesArrayList;
+    }
+
     public String getAbilityFromId(int id) {
         Cursor c = queryDatabase("abilities", new String[] {"identifier"},"id="+id, null, null, null, null);
         c.moveToFirst();

@@ -245,6 +245,7 @@ public class Utilities {
                 MainActivity.c.getString(R.string.title_section4),
                 MainActivity.c.getString(R.string.title_section5),
                 MainActivity.c.getString(R.string.title_section6),
+                MainActivity.c.getString(R.string.title_section7)
         });
         NavigationDrawerFragment.navDrawerAdapter.notifyDataSetChanged();
     }

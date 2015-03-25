@@ -154,6 +154,9 @@ public class MainActivity extends ActionBarActivity
             case 5:
                 fragment = MyTeamFragment.newInstance(position + 1);
                 break;
+            case 6:
+                fragment = MovesFragment.newInstance(position + 1);
+                break;
         }
         fragmentManager.beginTransaction()
                 .replace(R.id.container, fragment)
@@ -179,6 +182,9 @@ public class MainActivity extends ActionBarActivity
                 break;
             case 6:
                 mTitle = getString(R.string.title_section6);
+                break;
+            case 7:
+                mTitle = getString(R.string.title_section7);
                 break;
         }
     }
@@ -610,6 +616,54 @@ public class MainActivity extends ActionBarActivity
         @Override
         public boolean onQueryTextChange(String newText) {
             dexAdapter.getFilter().filter(newText);
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            return false;
+        }
+    }
+
+    public static class MovesFragment extends Fragment implements SearchView.OnQueryTextListener {
+
+        private static final String ARG_SECTION_NUMBER = "section_number";
+        private MoveListAdapter moveListAdapter;
+
+        public static MovesFragment newInstance(int sectionNumber) {
+            MovesFragment fragment = new MovesFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        public MovesFragment() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_pokelist, container, false);
+            ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
+            ArrayList<Move> movesList = Global.db.getMovesList();
+            moveListAdapter = new MoveListAdapter(c,movesList,false);
+            l1.setAdapter(moveListAdapter);
+            SearchView searchView = (SearchView) rootView.findViewById(R.id.searchView);
+            searchView.setOnQueryTextListener(this);
+            return rootView;
+        }
+
+        @Override
+        public void onAttach(Activity activity) {
+            super.onAttach(activity);
+            ((MainActivity) activity).onSectionAttached(
+                    getArguments().getInt(ARG_SECTION_NUMBER));
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            moveListAdapter.getFilter().filter(newText);
             return false;
         }
 
