@@ -44,11 +44,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/moveType"
-        android:layout_weight="0.2" />
+        android:layout_weight="0.2"
+        android:layout_gravity="center_vertical" />
 
     <ImageView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/moveCategory"
-        android:layout_weight="0.2" />
+        android:layout_weight="0.2"
+        android:layout_gravity="center_vertical" />
 </LinearLayout>

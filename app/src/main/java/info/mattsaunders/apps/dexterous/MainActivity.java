@@ -18,6 +18,8 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 public class MainActivity extends ActionBarActivity
@@ -647,6 +649,13 @@ public class MainActivity extends ActionBarActivity
             View rootView = inflater.inflate(R.layout.fragment_pokelist, container, false);
             ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
             ArrayList<Move> movesList = Global.db.getMovesList();
+            Collections.sort(movesList, new Comparator() {
+                public int compare(Object o1, Object o2) {
+                    Move p1 = (Move) o1;
+                    Move p2 = (Move) o2;
+                    return p1.getMoveName().compareTo(p2.getMoveName());
+                }
+            });
             moveListAdapter = new MoveListAdapter(c,movesList,false);
             l1.setAdapter(moveListAdapter);
             SearchView searchView = (SearchView) rootView.findViewById(R.id.searchView);
