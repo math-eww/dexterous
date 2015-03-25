@@ -14,8 +14,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -256,6 +259,7 @@ public class MainActivity extends ActionBarActivity
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
+        private ArrayList<Pokemon> fragPokeList;
 
         /**
          * Returns a new instance of this fragment for the given section
@@ -277,14 +281,69 @@ public class MainActivity extends ActionBarActivity
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_pokelist, container, false);
             SearchView searchView = (SearchView) rootView.findViewById(R.id.searchView);
-            ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
-            dexAdapter = new DexListAdapter(c,Global.pokemonList);
-            l1.setAdapter(dexAdapter);
-            searchView.setOnQueryTextListener(this);
+            final ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
+            fragPokeList = new ArrayList<>();
             Global.curPokeList.clear();
             for (Pokemon poke : Global.pokemonList) {
+                fragPokeList.add(poke);
                 Global.curPokeList.add(poke.getNumber() - 1);
             }
+            dexAdapter = new DexListAdapter(c,fragPokeList);
+            l1.setAdapter(dexAdapter);
+            searchView.setOnQueryTextListener(this);
+            Spinner spinner = (Spinner) rootView.findViewById(R.id.sortSpinner);
+            ArrayAdapter<String> sortOptions = new ArrayAdapter<> (c,
+                    android.R.layout.simple_list_item_1, android.R.id.text1, new String[] {
+                    "Number", "Type One", "Type Two" } );
+            spinner.setAdapter(sortOptions);
+            spinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    if (fragPokeList.size() < Global.pokemonList.size()) {
+                        for (Pokemon poke : Global.pokemonList) { fragPokeList.add(poke); }
+                    }
+                    switch (parent.getItemAtPosition(position).toString()) {
+                        case "Number":
+                            Collections.sort(fragPokeList, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Pokemon p1 = (Pokemon) o1;
+                                    Pokemon p2 = (Pokemon) o2;
+                                    return p1.getThreeDigitStringNumber().compareTo(p2.getThreeDigitStringNumber());
+                                }
+                            });
+                            dexAdapter = new DexListAdapter(c,fragPokeList);
+                            l1.setAdapter(dexAdapter);
+                            break;
+                        case "Type One":
+                            Collections.sort(fragPokeList, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Pokemon p1 = (Pokemon) o1;
+                                    Pokemon p2 = (Pokemon) o2;
+                                    return p1.getTypeOne().compareTo(p2.getTypeOne());
+                                }
+                            });
+                            dexAdapter = new DexListAdapter(c,fragPokeList);
+                            l1.setAdapter(dexAdapter);
+                            break;
+                        case "Type Two":
+                            Collections.sort(fragPokeList, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Pokemon p1 = (Pokemon) o1;
+                                    Pokemon p2 = (Pokemon) o2;
+                                    return p1.getTypeTwo().compareTo(p2.getTypeTwo());
+                                }
+                            });
+                            dexAdapter = new DexListAdapter(c,fragPokeList);
+                            l1.setAdapter(dexAdapter);
+                            break;
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
             return rootView;
         }
 
@@ -316,6 +375,7 @@ public class MainActivity extends ActionBarActivity
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
+        private ArrayList<Pokemon> pokemonListMissing;
 
         /**
          * Returns a new instance of this fragment for the given section
@@ -336,8 +396,8 @@ public class MainActivity extends ActionBarActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_pokelist, container, false);
-            ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
-            ArrayList<Pokemon> pokemonListMissing = new ArrayList<>();
+            final ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
+            pokemonListMissing = new ArrayList<>();
             Global.curPokeList.clear();
             for (Pokemon poke : Global.pokemonList) {
                 if (!poke.getPokeballToggle1()) {
@@ -349,6 +409,56 @@ public class MainActivity extends ActionBarActivity
             l1.setAdapter(dexAdapter);
             SearchView searchView = (SearchView) rootView.findViewById(R.id.searchView);
             searchView.setOnQueryTextListener(this);
+            Spinner spinner = (Spinner) rootView.findViewById(R.id.sortSpinner);
+            ArrayAdapter<String> sortOptions = new ArrayAdapter<> (c,
+                    android.R.layout.simple_list_item_1, android.R.id.text1, new String[] {
+                    "Number", "Type One", "Type Two" } );
+            spinner.setAdapter(sortOptions);
+            spinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    switch (parent.getItemAtPosition(position).toString()) {
+                        case "Number":
+                            Collections.sort(pokemonListMissing, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Pokemon p1 = (Pokemon) o1;
+                                    Pokemon p2 = (Pokemon) o2;
+                                    return p1.getThreeDigitStringNumber().compareTo(p2.getThreeDigitStringNumber());
+                                }
+                            });
+                            dexAdapter = new DexListAdapter(c,pokemonListMissing);
+                            l1.setAdapter(dexAdapter);
+                            break;
+                        case "Type One":
+                            Collections.sort(pokemonListMissing, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Pokemon p1 = (Pokemon) o1;
+                                    Pokemon p2 = (Pokemon) o2;
+                                    return p1.getTypeOne().compareTo(p2.getTypeOne());
+                                }
+                            });
+                            dexAdapter = new DexListAdapter(c,pokemonListMissing);
+                            l1.setAdapter(dexAdapter);
+                            break;
+                        case "Type Two":
+                            Collections.sort(pokemonListMissing, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Pokemon p1 = (Pokemon) o1;
+                                    Pokemon p2 = (Pokemon) o2;
+                                    return p1.getTypeTwo().compareTo(p2.getTypeTwo());
+                                }
+                            });
+                            dexAdapter = new DexListAdapter(c,pokemonListMissing);
+                            l1.setAdapter(dexAdapter);
+                            break;
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
             return rootView;
         }
 
@@ -380,6 +490,7 @@ public class MainActivity extends ActionBarActivity
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
+        private ArrayList<Pokemon> pokemonListCaught;
 
         /**
          * Returns a new instance of this fragment for the given section
@@ -400,8 +511,8 @@ public class MainActivity extends ActionBarActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_pokelist, container, false);
-            ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
-            ArrayList<Pokemon> pokemonListCaught = new ArrayList<>();
+            final ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
+            pokemonListCaught = new ArrayList<>();
             Global.curPokeList.clear();
             for (Pokemon poke : Global.pokemonList) {
                 if (poke.getPokeballToggle1()) {
@@ -413,6 +524,56 @@ public class MainActivity extends ActionBarActivity
             l1.setAdapter(dexAdapter);
             SearchView searchView = (SearchView) rootView.findViewById(R.id.searchView);
             searchView.setOnQueryTextListener(this);
+            Spinner spinner = (Spinner) rootView.findViewById(R.id.sortSpinner);
+            ArrayAdapter<String> sortOptions = new ArrayAdapter<> (c,
+                    android.R.layout.simple_list_item_1, android.R.id.text1, new String[] {
+                    "Number", "Type One", "Type Two" } );
+            spinner.setAdapter(sortOptions);
+            spinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    switch (parent.getItemAtPosition(position).toString()) {
+                        case "Number":
+                            Collections.sort(pokemonListCaught, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Pokemon p1 = (Pokemon) o1;
+                                    Pokemon p2 = (Pokemon) o2;
+                                    return p1.getThreeDigitStringNumber().compareTo(p2.getThreeDigitStringNumber());
+                                }
+                            });
+                            dexAdapter = new DexListAdapter(c,pokemonListCaught);
+                            l1.setAdapter(dexAdapter);
+                            break;
+                        case "Type One":
+                            Collections.sort(pokemonListCaught, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Pokemon p1 = (Pokemon) o1;
+                                    Pokemon p2 = (Pokemon) o2;
+                                    return p1.getTypeOne().compareTo(p2.getTypeOne());
+                                }
+                            });
+                            dexAdapter = new DexListAdapter(c,pokemonListCaught);
+                            l1.setAdapter(dexAdapter);
+                            break;
+                        case "Type Two":
+                            Collections.sort(pokemonListCaught, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Pokemon p1 = (Pokemon) o1;
+                                    Pokemon p2 = (Pokemon) o2;
+                                    return p1.getTypeTwo().compareTo(p2.getTypeTwo());
+                                }
+                            });
+                            dexAdapter = new DexListAdapter(c,pokemonListCaught);
+                            l1.setAdapter(dexAdapter);
+                            break;
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
             return rootView;
         }
 
@@ -444,6 +605,7 @@ public class MainActivity extends ActionBarActivity
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
+        private ArrayList<Pokemon> pokemonListLDMissing;
 
         /**
          * Returns a new instance of this fragment for the given section
@@ -464,8 +626,8 @@ public class MainActivity extends ActionBarActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_pokelist, container, false);
-            ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
-            ArrayList<Pokemon> pokemonListLDMissing = new ArrayList<>();
+            final ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
+            pokemonListLDMissing = new ArrayList<>();
             Global.curPokeList.clear();
             for (Pokemon poke : Global.pokemonList) {
                 if (!poke.getPokeballToggle2()) {
@@ -477,6 +639,56 @@ public class MainActivity extends ActionBarActivity
             l1.setAdapter(dexAdapter);
             SearchView searchView = (SearchView) rootView.findViewById(R.id.searchView);
             searchView.setOnQueryTextListener(this);
+            Spinner spinner = (Spinner) rootView.findViewById(R.id.sortSpinner);
+            ArrayAdapter<String> sortOptions = new ArrayAdapter<> (c,
+                    android.R.layout.simple_list_item_1, android.R.id.text1, new String[] {
+                    "Number", "Type One", "Type Two" } );
+            spinner.setAdapter(sortOptions);
+            spinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    switch (parent.getItemAtPosition(position).toString()) {
+                        case "Number":
+                            Collections.sort(pokemonListLDMissing, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Pokemon p1 = (Pokemon) o1;
+                                    Pokemon p2 = (Pokemon) o2;
+                                    return p1.getThreeDigitStringNumber().compareTo(p2.getThreeDigitStringNumber());
+                                }
+                            });
+                            dexAdapter = new DexListAdapter(c,pokemonListLDMissing);
+                            l1.setAdapter(dexAdapter);
+                            break;
+                        case "Type One":
+                            Collections.sort(pokemonListLDMissing, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Pokemon p1 = (Pokemon) o1;
+                                    Pokemon p2 = (Pokemon) o2;
+                                    return p1.getTypeOne().compareTo(p2.getTypeOne());
+                                }
+                            });
+                            dexAdapter = new DexListAdapter(c,pokemonListLDMissing);
+                            l1.setAdapter(dexAdapter);
+                            break;
+                        case "Type Two":
+                            Collections.sort(pokemonListLDMissing, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Pokemon p1 = (Pokemon) o1;
+                                    Pokemon p2 = (Pokemon) o2;
+                                    return p1.getTypeTwo().compareTo(p2.getTypeTwo());
+                                }
+                            });
+                            dexAdapter = new DexListAdapter(c,pokemonListLDMissing);
+                            l1.setAdapter(dexAdapter);
+                            break;
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
             return rootView;
         }
 
@@ -508,6 +720,7 @@ public class MainActivity extends ActionBarActivity
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
+        private ArrayList<Pokemon> pokemonListLDCaught;
 
         /**
          * Returns a new instance of this fragment for the given section
@@ -528,8 +741,8 @@ public class MainActivity extends ActionBarActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_pokelist, container, false);
-            ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
-            ArrayList<Pokemon> pokemonListLDCaught = new ArrayList<>();
+            final ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
+            pokemonListLDCaught = new ArrayList<>();
             Global.curPokeList.clear();
             for (Pokemon poke : Global.pokemonList) {
                 if (poke.getPokeballToggle2()) {
@@ -541,6 +754,56 @@ public class MainActivity extends ActionBarActivity
             l1.setAdapter(dexAdapter);
             SearchView searchView = (SearchView) rootView.findViewById(R.id.searchView);
             searchView.setOnQueryTextListener(this);
+            Spinner spinner = (Spinner) rootView.findViewById(R.id.sortSpinner);
+            ArrayAdapter<String> sortOptions = new ArrayAdapter<> (c,
+                    android.R.layout.simple_list_item_1, android.R.id.text1, new String[] {
+                    "Number", "Type One", "Type Two" } );
+            spinner.setAdapter(sortOptions);
+            spinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    switch (parent.getItemAtPosition(position).toString()) {
+                        case "Number":
+                            Collections.sort(pokemonListLDCaught, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Pokemon p1 = (Pokemon) o1;
+                                    Pokemon p2 = (Pokemon) o2;
+                                    return p1.getThreeDigitStringNumber().compareTo(p2.getThreeDigitStringNumber());
+                                }
+                            });
+                            dexAdapter = new DexListAdapter(c,pokemonListLDCaught);
+                            l1.setAdapter(dexAdapter);
+                            break;
+                        case "Type One":
+                            Collections.sort(pokemonListLDCaught, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Pokemon p1 = (Pokemon) o1;
+                                    Pokemon p2 = (Pokemon) o2;
+                                    return p1.getTypeOne().compareTo(p2.getTypeOne());
+                                }
+                            });
+                            dexAdapter = new DexListAdapter(c,pokemonListLDCaught);
+                            l1.setAdapter(dexAdapter);
+                            break;
+                        case "Type Two":
+                            Collections.sort(pokemonListLDCaught, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Pokemon p1 = (Pokemon) o1;
+                                    Pokemon p2 = (Pokemon) o2;
+                                    return p1.getTypeTwo().compareTo(p2.getTypeTwo());
+                                }
+                            });
+                            dexAdapter = new DexListAdapter(c,pokemonListLDCaught);
+                            l1.setAdapter(dexAdapter);
+                            break;
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
             return rootView;
         }
 
@@ -572,6 +835,7 @@ public class MainActivity extends ActionBarActivity
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
+        private ArrayList<Pokemon> pokemonListTeam;
 
         /**
          * Returns a new instance of this fragment for the given section
@@ -592,8 +856,8 @@ public class MainActivity extends ActionBarActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_pokelist, container, false);
-            ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
-            ArrayList<Pokemon> pokemonListTeam = new ArrayList<>();
+            final ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
+            pokemonListTeam = new ArrayList<>();
             Global.curPokeList.clear();
             for (Pokemon poke : Global.pokemonList) {
                 if (poke.getPokeballToggle3()) {
@@ -605,6 +869,56 @@ public class MainActivity extends ActionBarActivity
             l1.setAdapter(dexAdapter);
             SearchView searchView = (SearchView) rootView.findViewById(R.id.searchView);
             searchView.setOnQueryTextListener(this);
+            Spinner spinner = (Spinner) rootView.findViewById(R.id.sortSpinner);
+            ArrayAdapter<String> sortOptions = new ArrayAdapter<> (c,
+                    android.R.layout.simple_list_item_1, android.R.id.text1, new String[] {
+                    "Number", "Type One", "Type Two" } );
+            spinner.setAdapter(sortOptions);
+            spinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    switch (parent.getItemAtPosition(position).toString()) {
+                        case "Number":
+                            Collections.sort(pokemonListTeam, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Pokemon p1 = (Pokemon) o1;
+                                    Pokemon p2 = (Pokemon) o2;
+                                    return p1.getThreeDigitStringNumber().compareTo(p2.getThreeDigitStringNumber());
+                                }
+                            });
+                            dexAdapter = new DexListAdapter(c,pokemonListTeam);
+                            l1.setAdapter(dexAdapter);
+                            break;
+                        case "Type One":
+                            Collections.sort(pokemonListTeam, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Pokemon p1 = (Pokemon) o1;
+                                    Pokemon p2 = (Pokemon) o2;
+                                    return p1.getTypeOne().compareTo(p2.getTypeOne());
+                                }
+                            });
+                            dexAdapter = new DexListAdapter(c,pokemonListTeam);
+                            l1.setAdapter(dexAdapter);
+                            break;
+                        case "Type Two":
+                            Collections.sort(pokemonListTeam, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Pokemon p1 = (Pokemon) o1;
+                                    Pokemon p2 = (Pokemon) o2;
+                                    return p1.getTypeTwo().compareTo(p2.getTypeTwo());
+                                }
+                            });
+                            dexAdapter = new DexListAdapter(c,pokemonListTeam);
+                            l1.setAdapter(dexAdapter);
+                            break;
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
             return rootView;
         }
 
@@ -631,6 +945,7 @@ public class MainActivity extends ActionBarActivity
 
         private static final String ARG_SECTION_NUMBER = "section_number";
         private MoveListAdapter moveListAdapter;
+        private ArrayList<Move> movesList;
 
         public static MovesFragment newInstance(int sectionNumber) {
             MovesFragment fragment = new MovesFragment();
@@ -647,8 +962,8 @@ public class MainActivity extends ActionBarActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_pokelist, container, false);
-            ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
-            ArrayList<Move> movesList = Global.db.getMovesList();
+            final ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
+            movesList = Global.db.getMovesList();
             Collections.sort(movesList, new Comparator() {
                 public int compare(Object o1, Object o2) {
                     Move p1 = (Move) o1;
@@ -660,6 +975,45 @@ public class MainActivity extends ActionBarActivity
             l1.setAdapter(moveListAdapter);
             SearchView searchView = (SearchView) rootView.findViewById(R.id.searchView);
             searchView.setOnQueryTextListener(this);
+            Spinner spinner = (Spinner) rootView.findViewById(R.id.sortSpinner);
+            ArrayAdapter<String> sortOptions = new ArrayAdapter<> (c,
+                    android.R.layout.simple_list_item_1, android.R.id.text1, new String[] {
+                    "Name", "Type" } );
+            spinner.setAdapter(sortOptions);
+            spinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    switch (parent.getItemAtPosition(position).toString()) {
+                        case "Name":
+                            Collections.sort(movesList, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Move p1 = (Move) o1;
+                                    Move p2 = (Move) o2;
+                                    return p1.getMoveName().compareTo(p2.getMoveName());
+                                }
+                            });
+                            moveListAdapter = new MoveListAdapter(c,movesList,false);
+                            l1.setAdapter(moveListAdapter);
+                            break;
+                        case "Type":
+                            Collections.sort(movesList, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Move p1 = (Move) o1;
+                                    Move p2 = (Move) o2;
+                                    return p1.getType().compareTo(p2.getType());
+                                }
+                            });
+                            moveListAdapter = new MoveListAdapter(c,movesList,false);
+                            l1.setAdapter(moveListAdapter);
+                            break;
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
             return rootView;
         }
 
