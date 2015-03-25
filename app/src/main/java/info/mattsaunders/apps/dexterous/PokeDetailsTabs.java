@@ -25,10 +25,13 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import pl.droidsonroids.gif.GifDrawable;
@@ -829,6 +832,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
     public static class PokemonMoveFragment extends Fragment implements SearchView.OnQueryTextListener {
 
         private static final String ARG_SECTION_NUMBER = "section_number";
+        private ArrayList<Move> showMovesList;
         MoveListAdapter moveListAdapter;
 
         public static PokemonMoveFragment newInstance(int sectionNumber) {
@@ -847,11 +851,11 @@ public class PokeDetailsTabs extends ActionBarActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_poke_details_tabs_moves, container, false);
             SearchView searchView = (SearchView) rootView.findViewById(R.id.searchViewMoves);
-            ListView l1=(ListView)rootView.findViewById(R.id.pokeMoveList);
+            final ListView l1=(ListView)rootView.findViewById(R.id.pokeMoveList);
             TextView header = (TextView)rootView.findViewById(R.id.moveListHeader);
             header.setText("MOVES: LEVEL UP");
             ArrayList<Move> movesList = poke.getMoveset();
-            ArrayList<Move> showMovesList = new ArrayList<>();
+            showMovesList = new ArrayList<>();
             for (Move move : movesList) {
                 if (move.getLearnMethod() == 1) {
                     showMovesList.add(move);
@@ -867,6 +871,46 @@ public class PokeDetailsTabs extends ActionBarActivity {
             moveListAdapter = new MoveListAdapter(con,showMovesList,false);
             l1.setAdapter(moveListAdapter);
             searchView.setOnQueryTextListener(this);
+
+            Spinner spinner = (Spinner) rootView.findViewById(R.id.sortSpinner);
+            ArrayAdapter<String> sortOptions = new ArrayAdapter<> (con,
+                    android.R.layout.simple_list_item_1, android.R.id.text1, new String[] {
+                    "Name", "Type" } );
+            spinner.setAdapter(sortOptions);
+            spinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    switch (parent.getItemAtPosition(position).toString()) {
+                        case "Name":
+                            Collections.sort(showMovesList, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Move p1 = (Move) o1;
+                                    Move p2 = (Move) o2;
+                                    return p1.getMoveName().compareTo(p2.getMoveName());
+                                }
+                            });
+                            moveListAdapter = new MoveListAdapter(con,showMovesList,false);
+                            l1.setAdapter(moveListAdapter);
+                            break;
+                        case "Type":
+                            Collections.sort(showMovesList, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Move p1 = (Move) o1;
+                                    Move p2 = (Move) o2;
+                                    return p1.getType().compareTo(p2.getType());
+                                }
+                            });
+                            moveListAdapter = new MoveListAdapter(con,showMovesList,false);
+                            l1.setAdapter(moveListAdapter);
+                            break;
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
             return rootView;
         }
 
@@ -885,6 +929,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
     public static class PokemonMoveTMFragment extends Fragment implements SearchView.OnQueryTextListener {
 
         private static final String ARG_SECTION_NUMBER = "section_number";
+        private ArrayList<Move> showMovesList;
         MoveListAdapter moveListAdapter;
 
         public static PokemonMoveTMFragment newInstance(int sectionNumber) {
@@ -903,11 +948,11 @@ public class PokeDetailsTabs extends ActionBarActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_poke_details_tabs_moves, container, false);
             SearchView searchView = (SearchView) rootView.findViewById(R.id.searchViewMoves);
-            ListView l1=(ListView)rootView.findViewById(R.id.pokeMoveList);
+            final ListView l1=(ListView)rootView.findViewById(R.id.pokeMoveList);
             TextView header = (TextView)rootView.findViewById(R.id.moveListHeader);
             header.setText("MOVES: TM");
             ArrayList<Move> movesList = poke.getMoveset();
-            ArrayList<Move> showMovesList = new ArrayList<>();
+            showMovesList = new ArrayList<>();
             for (Move move : movesList) {
                 if (move.getLearnMethod() == 4) {
                     showMovesList.add(move);
@@ -925,6 +970,46 @@ public class PokeDetailsTabs extends ActionBarActivity {
             moveListAdapter = new MoveListAdapter(con,showMovesList,false);
             l1.setAdapter(moveListAdapter);
             searchView.setOnQueryTextListener(this);
+
+            Spinner spinner = (Spinner) rootView.findViewById(R.id.sortSpinner);
+            ArrayAdapter<String> sortOptions = new ArrayAdapter<> (con,
+                    android.R.layout.simple_list_item_1, android.R.id.text1, new String[] {
+                    "Name", "Type" } );
+            spinner.setAdapter(sortOptions);
+            spinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    switch (parent.getItemAtPosition(position).toString()) {
+                        case "Name":
+                            Collections.sort(showMovesList, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Move p1 = (Move) o1;
+                                    Move p2 = (Move) o2;
+                                    return p1.getMoveName().compareTo(p2.getMoveName());
+                                }
+                            });
+                            moveListAdapter = new MoveListAdapter(con,showMovesList,false);
+                            l1.setAdapter(moveListAdapter);
+                            break;
+                        case "Type":
+                            Collections.sort(showMovesList, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Move p1 = (Move) o1;
+                                    Move p2 = (Move) o2;
+                                    return p1.getType().compareTo(p2.getType());
+                                }
+                            });
+                            moveListAdapter = new MoveListAdapter(con,showMovesList,false);
+                            l1.setAdapter(moveListAdapter);
+                            break;
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
             return rootView;
         }
 
@@ -943,6 +1028,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
     public static class PokemonMoveTutorFragment extends Fragment implements SearchView.OnQueryTextListener {
 
         private static final String ARG_SECTION_NUMBER = "section_number";
+        private ArrayList<Move> showMovesList;
         MoveListAdapter moveListAdapter;
 
         public static PokemonMoveTutorFragment newInstance(int sectionNumber) {
@@ -961,11 +1047,11 @@ public class PokeDetailsTabs extends ActionBarActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_poke_details_tabs_moves, container, false);
             SearchView searchView = (SearchView) rootView.findViewById(R.id.searchViewMoves);
-            ListView l1=(ListView)rootView.findViewById(R.id.pokeMoveList);
+            final ListView l1=(ListView)rootView.findViewById(R.id.pokeMoveList);
             TextView header = (TextView)rootView.findViewById(R.id.moveListHeader);
             header.setText("MOVES: TUTOR");
             ArrayList<Move> movesList = poke.getMoveset();
-            ArrayList<Move> showMovesList = new ArrayList<>();
+            showMovesList = new ArrayList<>();
             for (Move move : movesList) {
                 if (move.getLearnMethod() == 3) {
                     showMovesList.add(move);
@@ -983,6 +1069,46 @@ public class PokeDetailsTabs extends ActionBarActivity {
             moveListAdapter = new MoveListAdapter(con,showMovesList,false);
             l1.setAdapter(moveListAdapter);
             searchView.setOnQueryTextListener(this);
+
+            Spinner spinner = (Spinner) rootView.findViewById(R.id.sortSpinner);
+            ArrayAdapter<String> sortOptions = new ArrayAdapter<> (con,
+                    android.R.layout.simple_list_item_1, android.R.id.text1, new String[] {
+                    "Name", "Type" } );
+            spinner.setAdapter(sortOptions);
+            spinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    switch (parent.getItemAtPosition(position).toString()) {
+                        case "Name":
+                            Collections.sort(showMovesList, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Move p1 = (Move) o1;
+                                    Move p2 = (Move) o2;
+                                    return p1.getMoveName().compareTo(p2.getMoveName());
+                                }
+                            });
+                            moveListAdapter = new MoveListAdapter(con,showMovesList,false);
+                            l1.setAdapter(moveListAdapter);
+                            break;
+                        case "Type":
+                            Collections.sort(showMovesList, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Move p1 = (Move) o1;
+                                    Move p2 = (Move) o2;
+                                    return p1.getType().compareTo(p2.getType());
+                                }
+                            });
+                            moveListAdapter = new MoveListAdapter(con,showMovesList,false);
+                            l1.setAdapter(moveListAdapter);
+                            break;
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
             return rootView;
         }
 
@@ -1001,6 +1127,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
     public static class PokemonMoveEggFragment extends Fragment implements SearchView.OnQueryTextListener {
 
         private static final String ARG_SECTION_NUMBER = "section_number";
+        private ArrayList<Move> showMovesList;
         MoveListAdapter moveListAdapter;
 
         public static PokemonMoveEggFragment newInstance(int sectionNumber) {
@@ -1019,11 +1146,11 @@ public class PokeDetailsTabs extends ActionBarActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_poke_details_tabs_moves, container, false);
             SearchView searchView = (SearchView) rootView.findViewById(R.id.searchViewMoves);
-            ListView l1=(ListView)rootView.findViewById(R.id.pokeMoveList);
+            final ListView l1=(ListView)rootView.findViewById(R.id.pokeMoveList);
             TextView header = (TextView)rootView.findViewById(R.id.moveListHeader);
             header.setText("MOVES: EGG");
             ArrayList<Move> movesList = poke.getMoveset();
-            ArrayList<Move> showMovesList = new ArrayList<>();
+            showMovesList = new ArrayList<>();
             for (Move move : movesList) {
                 if (move.getLearnMethod() == 2) {
                     showMovesList.add(move);
@@ -1041,6 +1168,46 @@ public class PokeDetailsTabs extends ActionBarActivity {
             moveListAdapter = new MoveListAdapter(con,showMovesList,false);
             l1.setAdapter(moveListAdapter);
             searchView.setOnQueryTextListener(this);
+
+            Spinner spinner = (Spinner) rootView.findViewById(R.id.sortSpinner);
+            ArrayAdapter<String> sortOptions = new ArrayAdapter<> (con,
+                    android.R.layout.simple_list_item_1, android.R.id.text1, new String[] {
+                    "Name", "Type" } );
+            spinner.setAdapter(sortOptions);
+            spinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    switch (parent.getItemAtPosition(position).toString()) {
+                        case "Name":
+                            Collections.sort(showMovesList, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Move p1 = (Move) o1;
+                                    Move p2 = (Move) o2;
+                                    return p1.getMoveName().compareTo(p2.getMoveName());
+                                }
+                            });
+                            moveListAdapter = new MoveListAdapter(con,showMovesList,false);
+                            l1.setAdapter(moveListAdapter);
+                            break;
+                        case "Type":
+                            Collections.sort(showMovesList, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Move p1 = (Move) o1;
+                                    Move p2 = (Move) o2;
+                                    return p1.getType().compareTo(p2.getType());
+                                }
+                            });
+                            moveListAdapter = new MoveListAdapter(con,showMovesList,false);
+                            l1.setAdapter(moveListAdapter);
+                            break;
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
             return rootView;
         }
 
