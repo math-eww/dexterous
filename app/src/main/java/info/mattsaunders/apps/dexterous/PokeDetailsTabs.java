@@ -814,7 +814,7 @@ public class PokeDetailsTabs extends ActionBarActivity {
             });
 
             ArrayList<EggGroup> eggTypes = poke.getEggTypes();
-            String eggTypesText = "Egg types: ";
+            String eggTypesText = "Egg Groups: ";
             middleSepText = "";
             shouldSnip = false;
             if (eggTypes.size() > 1) { middleSepText = ", "; shouldSnip = true; }
