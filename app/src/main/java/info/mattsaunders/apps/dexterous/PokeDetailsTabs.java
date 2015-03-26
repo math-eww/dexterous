@@ -875,12 +875,21 @@ public class PokeDetailsTabs extends ActionBarActivity {
             Spinner spinner = (Spinner) rootView.findViewById(R.id.sortSpinner);
             ArrayAdapter<String> sortOptions = new ArrayAdapter<> (con,
                     android.R.layout.simple_list_item_1, android.R.id.text1, new String[] {
-                    "Name", "Type" } );
+                   "Number", "Name", "Type" } );
             spinner.setAdapter(sortOptions);
             spinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     switch (parent.getItemAtPosition(position).toString()) {
+                        case "Number":
+                            Collections.sort(showMovesList, new Comparator<Move>() {
+                                @Override public int compare(Move p1, Move p2) {
+                                    return p1.getLevel()- p2.getLevel();
+                                }
+                            });
+                            moveListAdapter = new MoveListAdapter(con,showMovesList,false);
+                            l1.setAdapter(moveListAdapter);
+                            break;
                         case "Name":
                             Collections.sort(showMovesList, new Comparator() {
                                 public int compare(Object o1, Object o2) {

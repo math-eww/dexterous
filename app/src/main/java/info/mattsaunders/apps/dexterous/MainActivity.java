@@ -294,7 +294,7 @@ public class MainActivity extends ActionBarActivity
             Spinner spinner = (Spinner) rootView.findViewById(R.id.sortSpinner);
             ArrayAdapter<String> sortOptions = new ArrayAdapter<> (c,
                     android.R.layout.simple_list_item_1, android.R.id.text1, new String[] {
-                    "Number", "Type One", "Type Two" } );
+                    "Number", "Name", "Type One", "Type Two" } );
             spinner.setAdapter(sortOptions);
             spinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
                 @Override
@@ -309,6 +309,17 @@ public class MainActivity extends ActionBarActivity
                                     Pokemon p1 = (Pokemon) o1;
                                     Pokemon p2 = (Pokemon) o2;
                                     return p1.getThreeDigitStringNumber().compareTo(p2.getThreeDigitStringNumber());
+                                }
+                            });
+                            dexAdapter = new DexListAdapter(c,fragPokeList);
+                            l1.setAdapter(dexAdapter);
+                            break;
+                        case "Name":
+                            Collections.sort(fragPokeList, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Pokemon p1 = (Pokemon) o1;
+                                    Pokemon p2 = (Pokemon) o2;
+                                    return p1.getName().compareTo(p2.getName());
                                 }
                             });
                             dexAdapter = new DexListAdapter(c,fragPokeList);
@@ -412,7 +423,7 @@ public class MainActivity extends ActionBarActivity
             Spinner spinner = (Spinner) rootView.findViewById(R.id.sortSpinner);
             ArrayAdapter<String> sortOptions = new ArrayAdapter<> (c,
                     android.R.layout.simple_list_item_1, android.R.id.text1, new String[] {
-                    "Number", "Type One", "Type Two" } );
+                    "Number", "Name", "Type One", "Type Two" } );
             spinner.setAdapter(sortOptions);
             spinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
                 @Override
@@ -424,6 +435,17 @@ public class MainActivity extends ActionBarActivity
                                     Pokemon p1 = (Pokemon) o1;
                                     Pokemon p2 = (Pokemon) o2;
                                     return p1.getThreeDigitStringNumber().compareTo(p2.getThreeDigitStringNumber());
+                                }
+                            });
+                            dexAdapter = new DexListAdapter(c,pokemonListMissing);
+                            l1.setAdapter(dexAdapter);
+                            break;
+                        case "Name":
+                            Collections.sort(pokemonListMissing, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Pokemon p1 = (Pokemon) o1;
+                                    Pokemon p2 = (Pokemon) o2;
+                                    return p1.getName().compareTo(p2.getName());
                                 }
                             });
                             dexAdapter = new DexListAdapter(c,pokemonListMissing);
@@ -527,7 +549,7 @@ public class MainActivity extends ActionBarActivity
             Spinner spinner = (Spinner) rootView.findViewById(R.id.sortSpinner);
             ArrayAdapter<String> sortOptions = new ArrayAdapter<> (c,
                     android.R.layout.simple_list_item_1, android.R.id.text1, new String[] {
-                    "Number", "Type One", "Type Two" } );
+                    "Number", "Name", "Type One", "Type Two" } );
             spinner.setAdapter(sortOptions);
             spinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
                 @Override
@@ -539,6 +561,17 @@ public class MainActivity extends ActionBarActivity
                                     Pokemon p1 = (Pokemon) o1;
                                     Pokemon p2 = (Pokemon) o2;
                                     return p1.getThreeDigitStringNumber().compareTo(p2.getThreeDigitStringNumber());
+                                }
+                            });
+                            dexAdapter = new DexListAdapter(c,pokemonListCaught);
+                            l1.setAdapter(dexAdapter);
+                            break;
+                        case "Name":
+                            Collections.sort(pokemonListCaught, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Pokemon p1 = (Pokemon) o1;
+                                    Pokemon p2 = (Pokemon) o2;
+                                    return p1.getName().compareTo(p2.getName());
                                 }
                             });
                             dexAdapter = new DexListAdapter(c,pokemonListCaught);
@@ -642,7 +675,7 @@ public class MainActivity extends ActionBarActivity
             Spinner spinner = (Spinner) rootView.findViewById(R.id.sortSpinner);
             ArrayAdapter<String> sortOptions = new ArrayAdapter<> (c,
                     android.R.layout.simple_list_item_1, android.R.id.text1, new String[] {
-                    "Number", "Type One", "Type Two" } );
+                    "Number", "Name", "Type One", "Type Two" } );
             spinner.setAdapter(sortOptions);
             spinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
                 @Override
@@ -654,6 +687,17 @@ public class MainActivity extends ActionBarActivity
                                     Pokemon p1 = (Pokemon) o1;
                                     Pokemon p2 = (Pokemon) o2;
                                     return p1.getThreeDigitStringNumber().compareTo(p2.getThreeDigitStringNumber());
+                                }
+                            });
+                            dexAdapter = new DexListAdapter(c,pokemonListLDMissing);
+                            l1.setAdapter(dexAdapter);
+                            break;
+                        case "Name":
+                            Collections.sort(pokemonListLDMissing, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Pokemon p1 = (Pokemon) o1;
+                                    Pokemon p2 = (Pokemon) o2;
+                                    return p1.getName().compareTo(p2.getName());
                                 }
                             });
                             dexAdapter = new DexListAdapter(c,pokemonListLDMissing);
@@ -757,7 +801,7 @@ public class MainActivity extends ActionBarActivity
             Spinner spinner = (Spinner) rootView.findViewById(R.id.sortSpinner);
             ArrayAdapter<String> sortOptions = new ArrayAdapter<> (c,
                     android.R.layout.simple_list_item_1, android.R.id.text1, new String[] {
-                    "Number", "Type One", "Type Two" } );
+                    "Number", "Name", "Type One", "Type Two" } );
             spinner.setAdapter(sortOptions);
             spinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
                 @Override
@@ -769,6 +813,17 @@ public class MainActivity extends ActionBarActivity
                                     Pokemon p1 = (Pokemon) o1;
                                     Pokemon p2 = (Pokemon) o2;
                                     return p1.getThreeDigitStringNumber().compareTo(p2.getThreeDigitStringNumber());
+                                }
+                            });
+                            dexAdapter = new DexListAdapter(c,pokemonListLDCaught);
+                            l1.setAdapter(dexAdapter);
+                            break;
+                        case "Name":
+                            Collections.sort(pokemonListLDCaught, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Pokemon p1 = (Pokemon) o1;
+                                    Pokemon p2 = (Pokemon) o2;
+                                    return p1.getName().compareTo(p2.getName());
                                 }
                             });
                             dexAdapter = new DexListAdapter(c,pokemonListLDCaught);
@@ -872,7 +927,7 @@ public class MainActivity extends ActionBarActivity
             Spinner spinner = (Spinner) rootView.findViewById(R.id.sortSpinner);
             ArrayAdapter<String> sortOptions = new ArrayAdapter<> (c,
                     android.R.layout.simple_list_item_1, android.R.id.text1, new String[] {
-                    "Number", "Type One", "Type Two" } );
+                    "Number", "Name", "Type One", "Type Two" } );
             spinner.setAdapter(sortOptions);
             spinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
                 @Override
@@ -884,6 +939,17 @@ public class MainActivity extends ActionBarActivity
                                     Pokemon p1 = (Pokemon) o1;
                                     Pokemon p2 = (Pokemon) o2;
                                     return p1.getThreeDigitStringNumber().compareTo(p2.getThreeDigitStringNumber());
+                                }
+                            });
+                            dexAdapter = new DexListAdapter(c,pokemonListTeam);
+                            l1.setAdapter(dexAdapter);
+                            break;
+                        case "Name":
+                            Collections.sort(pokemonListTeam, new Comparator() {
+                                public int compare(Object o1, Object o2) {
+                                    Pokemon p1 = (Pokemon) o1;
+                                    Pokemon p2 = (Pokemon) o2;
+                                    return p1.getName().compareTo(p2.getName());
                                 }
                             });
                             dexAdapter = new DexListAdapter(c,pokemonListTeam);
