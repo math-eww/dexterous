@@ -20,6 +20,9 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Spinner;
 
+import com.winsontan520.wversionmanager.library.OnReceiveListener;
+import com.winsontan520.wversionmanager.library.WVersionManager;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -81,6 +84,22 @@ public class MainActivity extends ActionBarActivity
                 new LoadData.CallAPI(false).execute(pokeballTog1States, pokeballTog2States, pokeballTog3States);
             }
         }
+
+        //Check version against server to see if there is an update available'
+        WVersionManager versionManager = new WVersionManager(this);
+        versionManager.setUpdateNowLabel("Download");
+        versionManager.setRemindMeLaterLabel("Later");
+        versionManager.setIgnoreThisVersionLabel("Skip");
+        versionManager.setUpdateUrl("http://mattsaunders.info/dexterous/download/Dexterous.apk"); // this is the link will execute when update now clicked. default will go to google play based on your package name.
+        //versionManager.setReminderTimer(10); // this mean checkVersion() will not take effect within 10 minutes
+        versionManager.setVersionContentUrl("http://mattsaunders.info/dexterous/download/version.json");
+        versionManager.setOnReceiveListener(new OnReceiveListener() {
+            @Override
+            public boolean onReceive(int status, String result) {
+                return true; // return true if you want to use library's default logic & dialog
+            }
+        });
+        versionManager.checkVersion();
     }
 
     @Override
