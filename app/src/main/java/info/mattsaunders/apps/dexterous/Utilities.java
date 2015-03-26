@@ -250,6 +250,44 @@ public class Utilities {
         NavigationDrawerFragment.navDrawerAdapter.notifyDataSetChanged();
     }
 
+    public static void checkAllPokeballIndicators(int indicatorIndex, boolean toSet) {
+        switch (indicatorIndex) {
+            case 0:
+                MainActivity.caughtDex = 0;
+                break;
+            case 1:
+                MainActivity.livingDex = 0;
+                break;
+        }
+        for (Pokemon poke : Global.pokemonList) {
+            switch (indicatorIndex) {
+                case 0: //Pokedex
+                    poke.setPokeballToggle1(toSet);
+                    if (poke.getPokeballToggle1()) { MainActivity.caughtDex++; }
+                    break;
+                case 1: //Living Dex
+                    poke.setPokeballToggle2(toSet);
+                    if (poke.getPokeballToggle2()) { MainActivity.livingDex++; }
+                    break;
+                case 2: //My Team
+                    poke.setPokeballToggle3(toSet);
+                    break;
+            }
+        }
+        MainActivity.dexAdapter.setList(Global.pokemonList);
+        MainActivity.dexAdapter.notifyDataSetChanged();
+        NavigationDrawerFragment.navDrawerAdapter.setList(new String[]{
+                MainActivity.c.getString(R.string.title_section1),
+                MainActivity.c.getString(R.string.title_section2),
+                MainActivity.c.getString(R.string.title_section3),
+                MainActivity.c.getString(R.string.title_section4),
+                MainActivity.c.getString(R.string.title_section5),
+                MainActivity.c.getString(R.string.title_section6),
+                MainActivity.c.getString(R.string.title_section7)
+        });
+        NavigationDrawerFragment.navDrawerAdapter.notifyDataSetChanged();
+    }
+
     public static void deleteFile() {
         File sdcard = Environment.getExternalStorageDirectory();
         File dir = new File(sdcard.getAbsolutePath() + FILEDIR + SUBDIR);

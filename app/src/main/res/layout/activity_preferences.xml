@@ -52,9 +52,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Toggle Pokedex markers"
+        android:id="@+id/pref_changeMarkers"
+        android:layout_below="@+id/pref_restoreMarkers"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="25dp"
+        android:layout_alignParentRight="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="About Dexterous"
         android:id="@+id/pref_aboutApp"
-        android:layout_below="@+id/pref_restoreMarkers"
+        android:layout_below="@+id/pref_changeMarkers"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="50dp"
         android:layout_alignParentRight="true" />
