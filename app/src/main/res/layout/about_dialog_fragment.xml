@@ -12,8 +12,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/app_version"
+        android:id="@+id/about_appVersion"
+        android:singleLine="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/app_descriptions"
-        android:id="@+id/about_appDescription" />
+        android:id="@+id/about_appDescription"
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:layout_width="wrap_content"

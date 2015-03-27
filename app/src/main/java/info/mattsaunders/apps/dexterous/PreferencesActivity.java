@@ -2,6 +2,8 @@ package info.mattsaunders.apps.dexterous;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
@@ -23,6 +25,7 @@ public class PreferencesActivity extends ActionBarActivity {
         Button restoreMarkers = (Button) findViewById(R.id.pref_restoreMarkers);
         Button toggleMarkers = (Button) findViewById(R.id.pref_changeMarkers);
         Button aboutApp = (Button) findViewById(R.id.pref_aboutApp);
+        Button sendFeedback = (Button) findViewById(R.id.pref_giveFeedback);
         //Set button click listeners
         redownloadSprites.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +55,14 @@ public class PreferencesActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 showAbout();
+            }
+        });
+        sendFeedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse("https://bitbucket.org/sattmaunders/dexterous/issues");
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
             }
         });
     }

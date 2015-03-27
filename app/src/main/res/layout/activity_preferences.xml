@@ -34,7 +34,7 @@
         android:id="@+id/pref_backupMarkers"
         android:layout_below="@+id/pref_redownloadSprites"
         android:layout_alignParentLeft="true"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
         android:layout_alignParentRight="true" />
 
     <Button
@@ -45,7 +45,7 @@
         android:id="@+id/pref_restoreMarkers"
         android:layout_below="@+id/pref_backupMarkers"
         android:layout_alignParentLeft="true"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
         android:layout_alignParentRight="true" />
 
     <Button
@@ -56,7 +56,7 @@
         android:id="@+id/pref_changeMarkers"
         android:layout_below="@+id/pref_restoreMarkers"
         android:layout_alignParentLeft="true"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
         android:layout_alignParentRight="true" />
 
     <Button
@@ -67,7 +67,18 @@
         android:id="@+id/pref_aboutApp"
         android:layout_below="@+id/pref_changeMarkers"
         android:layout_alignParentLeft="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
+        android:layout_alignParentRight="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Give Feedback / Report Bugs"
+        android:id="@+id/pref_giveFeedback"
+        android:layout_below="@+id/pref_aboutApp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="20dp"
         android:layout_alignParentRight="true" />
 
 </RelativeLayout>
