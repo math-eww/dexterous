@@ -1,280 +1,287 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="info.mattsaunders.apps.dexterous.IVCalculator">
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="info.mattsaunders.apps.dexterous.IVCalculator"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/pokeIVname"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/pokeIVbasestats"
-        android:layout_below="@+id/pokeIVname"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/pokeIVmaxstats"
-        android:layout_below="@+id/pokeIVname"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Nature:"
-        android:id="@+id/pokeIVnatureHeader"
-        android:layout_below="@+id/pokeIVbasestats"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp" />
-
-    <AutoCompleteTextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/pokeIVnatureEditText"
-        android:layout_below="@+id/pokeIVnatureHeader"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:inputType="textAutoComplete" />
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/pokeIVnatureEditText"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="5dp">
-
-        <LinearLayout
-            android:orientation="vertical"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp">
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:id="@+id/pokeIVname"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="HP:"
-                android:id="@+id/pokeIVhpHeader"
-                android:layout_below="@+id/pokeIVnatureEditText"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/pokeIVbasestats"
+            android:layout_below="@+id/pokeIVname"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Atk:"
-                android:id="@+id/pokeIVatkHeader"
-                android:layout_below="@+id/pokeIVhpHeader"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/pokeIVmaxstats"
+            android:layout_below="@+id/pokeIVname"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Def:"
-                android:id="@+id/pokeIVdefHeader"
-                android:layout_below="@+id/pokeIVatkHeader"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Nature:"
+            android:id="@+id/pokeIVnatureHeader"
+            android:layout_below="@+id/pokeIVbasestats"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="SpAtk"
-                android:id="@+id/pokeIVspatkHeader"
-                android:layout_below="@+id/pokeIVdefHeader"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="SpDef"
-                android:id="@+id/pokeIVspdefHeader"
-                android:layout_below="@+id/pokeIVspatkHeader"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Spd"
-                android:id="@+id/pokeIVspdHeader"
-                android:layout_below="@+id/pokeIVspdefHeader"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Lvl"
-                android:id="@+id/pokeIVlevelHeader"
-                android:layout_below="@+id/pokeIVspdefHeader"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="75dp"
-            android:layout_height="fill_parent">
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:inputType="number"
-                android:ems="10"
-                android:id="@+id/pokeIVhpEntered"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:padding="2dp" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:inputType="number"
-                android:ems="10"
-                android:id="@+id/pokeIVatkEntered"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:padding="2dp" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:inputType="number"
-                android:ems="10"
-                android:id="@+id/pokeIVdefEntered"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:padding="2dp" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:inputType="number"
-                android:ems="10"
-                android:id="@+id/pokeIVspatkEntered"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:padding="2dp"/>
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:inputType="number"
-                android:ems="10"
-                android:id="@+id/pokeIVspdefEntered"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:padding="2dp" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:inputType="number"
-                android:ems="10"
-                android:id="@+id/pokeIVspdEntered"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:padding="2dp" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:inputType="number"
-                android:ems="10"
-                android:id="@+id/pokeIVlvlEntered"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:padding="2dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
+        <AutoCompleteTextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp">
+            android:id="@+id/pokeIVnatureEditText"
+            android:layout_below="@+id/pokeIVnatureHeader"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:inputType="textAutoComplete" />
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:gravity="right"
-                android:layout_height="25dp"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="HP:"
-                android:id="@+id/pokeIVhpOutput" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/pokeIVnatureEditText"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="5dp"
+            android:id="@+id/checkerLinearLayout">
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:gravity="right"
-                android:layout_height="25dp"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Atk:"
-                android:id="@+id/pokeIVatkOutput" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp">
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:gravity="right"
-                android:layout_height="25dp"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Def:"
-                android:id="@+id/pokeIVdefOutput" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="HP:"
+                    android:id="@+id/pokeIVhpHeader"
+                    android:layout_below="@+id/pokeIVnatureEditText"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:gravity="right"
-                android:layout_height="25dp"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="SpAtk:"
-                android:id="@+id/pokeIVspatkOutput" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Atk:"
+                    android:id="@+id/pokeIVatkHeader"
+                    android:layout_below="@+id/pokeIVhpHeader"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:gravity="right"
-                android:layout_height="25dp"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="SpDef:"
-                android:id="@+id/pokeIVspdefOutput" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Def:"
+                    android:id="@+id/pokeIVdefHeader"
+                    android:layout_below="@+id/pokeIVatkHeader"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
 
-            <TextView
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="SpAtk"
+                    android:id="@+id/pokeIVspatkHeader"
+                    android:layout_below="@+id/pokeIVdefHeader"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="SpDef"
+                    android:id="@+id/pokeIVspdefHeader"
+                    android:layout_below="@+id/pokeIVspatkHeader"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Spd"
+                    android:id="@+id/pokeIVspdHeader"
+                    android:layout_below="@+id/pokeIVspdefHeader"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Lvl"
+                    android:id="@+id/pokeIVlevelHeader"
+                    android:layout_below="@+id/pokeIVspdefHeader"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="75dp"
+                android:layout_height="fill_parent">
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/pokeIVhpEntered"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:padding="2dp" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/pokeIVatkEntered"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:padding="2dp" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/pokeIVdefEntered"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:padding="2dp" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/pokeIVspatkEntered"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:padding="2dp"/>
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/pokeIVspdefEntered"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:padding="2dp" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/pokeIVspdEntered"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:padding="2dp" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/pokeIVlvlEntered"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:padding="2dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="fill_parent"
-                android:gravity="right"
-                android:layout_height="25dp"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Spd:"
-                android:id="@+id/pokeIVspdOutput" />
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:gravity="right"
+                    android:layout_height="25dp"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="HP:"
+                    android:id="@+id/pokeIVhpOutput" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:gravity="right"
+                    android:layout_height="25dp"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Atk:"
+                    android:id="@+id/pokeIVatkOutput" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:gravity="right"
+                    android:layout_height="25dp"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Def:"
+                    android:id="@+id/pokeIVdefOutput" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:gravity="right"
+                    android:layout_height="25dp"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="SpAtk:"
+                    android:id="@+id/pokeIVspatkOutput" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:gravity="right"
+                    android:layout_height="25dp"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="SpDef:"
+                    android:id="@+id/pokeIVspdefOutput" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:gravity="right"
+                    android:layout_height="25dp"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Spd:"
+                    android:id="@+id/pokeIVspdOutput" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Calculate IVs"
-        android:id="@+id/pokeIVcalcIVsButton"
-        android:layout_alignParentTop="false"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Calculate IVs"
+            android:id="@+id/pokeIVcalcIVsButton"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/checkerLinearLayout" />
 
-</RelativeLayout>
+    </RelativeLayout>
+</ScrollView>
