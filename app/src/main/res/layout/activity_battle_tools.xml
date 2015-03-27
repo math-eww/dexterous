@@ -1,185 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp">
-
-        <Spinner
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/typeOneSpinner"
-            android:layout_weight="0.5" />
-
-        <Spinner
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/typeTwoSpinner"
-            android:layout_weight="0.5" />
-    </LinearLayout>
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Offensive"
-            android:id="@+id/offensiveHeader"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp" />
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="5dp">
 
-            <TextView
+            <Spinner
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Supereffective"
-                android:id="@+id/textView9"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="0.33" />
+                android:id="@+id/typeOneSpinner"
+                android:layout_weight="0.5" />
 
-            <TextView
+            <Spinner
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Not very effective"
-                android:id="@+id/textView11"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="0.33" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Does not effect"
-                android:id="@+id/textView15"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="0.33" />
+                android:id="@+id/typeTwoSpinner"
+                android:layout_weight="0.5" />
         </LinearLayout>
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp" >
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="0.33"
-                android:id="@+id/offensiveSupereffective" >
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="0.33"
-                android:id="@+id/offensiveNotVeryEffective" >
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="0.33"
-                android:id="@+id/offensiveDoesNotEffect" >
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Defensive"
-            android:id="@+id/defensiveHeader"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="50dp" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Supereffective"
-                android:id="@+id/textView18"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Offensive"
+                android:id="@+id/offensiveHeader"
                 android:layout_gravity="center_horizontal"
-                android:layout_weight="0.33" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Not very effective"
-                android:id="@+id/textView19"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="0.33" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Does not effect"
-                android:id="@+id/textView21"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="0.33" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_marginTop="10dp" >
+                android:layout_marginTop="15dp" />
 
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="0.33"
-                android:id="@+id/defensiveSupereffective" >
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp">
 
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Supereffective"
+                    android:id="@+id/textView9"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="0.33" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Not very effective"
+                    android:id="@+id/textView11"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="0.33" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Does not effect"
+                    android:id="@+id/textView15"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="0.33" />
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="0.33"
-                android:id="@+id/defensiveNotVeryEffective" >
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
 
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="0.33"
+                    android:id="@+id/offensiveSupereffective" >
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="0.33"
+                    android:id="@+id/offensiveNotVeryEffective" >
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="0.33"
+                    android:id="@+id/offensiveDoesNotEffect" >
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Defensive"
+                android:id="@+id/defensiveHeader"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="50dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Supereffective"
+                    android:id="@+id/textView18"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="0.33" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Not very effective"
+                    android:id="@+id/textView19"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="0.33" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Does not effect"
+                    android:id="@+id/textView21"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="0.33" />
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:layout_weight="0.33"
-                android:id="@+id/defensiveDoesNotEffect" >
+                android:layout_marginTop="10dp" >
 
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="0.33"
+                    android:id="@+id/defensiveSupereffective" >
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="0.33"
+                    android:id="@+id/defensiveNotVeryEffective" >
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="0.33"
+                    android:id="@+id/defensiveDoesNotEffect" >
+
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-
-</LinearLayout>
+</ScrollView>
