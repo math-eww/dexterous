@@ -130,6 +130,13 @@
             </ScrollView>
         </LinearLayout>
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
@@ -162,6 +169,9 @@
             android:id="@+id/pokeDetailsAbilities"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp" />
+            </LinearLayout>
+
+        </ScrollView>
 
     </LinearLayout>
 
