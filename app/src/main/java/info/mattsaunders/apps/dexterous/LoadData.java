@@ -49,7 +49,8 @@ public class LoadData {
                     MainActivity.c.getString(R.string.title_section4),
                     MainActivity.c.getString(R.string.title_section5),
                     MainActivity.c.getString(R.string.title_section6),
-                    MainActivity.c.getString(R.string.title_section7)
+                    MainActivity.c.getString(R.string.title_section7),
+                    MainActivity.c.getString(R.string.title_section8)
             });
             NavigationDrawerFragment.navDrawerAdapter.notifyDataSetChanged();
             new LoadInBackground.CallAPI().execute();

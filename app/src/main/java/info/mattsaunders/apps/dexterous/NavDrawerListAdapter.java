@@ -104,6 +104,10 @@ public class NavDrawerListAdapter extends ArrayAdapter<String> {
                 listPercentage.setText("");
                 listCount.setText("");
                 break;
+            case 7:
+                listPercentage.setText("");
+                listCount.setText("");
+                break;
         }
 
         listName.setText(itemStringList[position]);

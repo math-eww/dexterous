@@ -181,6 +181,9 @@ public class MainActivity extends ActionBarActivity
             case 6:
                 fragment = MovesFragment.newInstance(position + 1);
                 break;
+            case 7:
+                fragment = PokemonByTypeFragment.newInstance(position + 1);
+                break;
         }
         fragmentManager.beginTransaction()
                 .replace(R.id.container, fragment)
@@ -209,6 +212,9 @@ public class MainActivity extends ActionBarActivity
                 break;
             case 7:
                 mTitle = getString(R.string.title_section7);
+                break;
+            case 8:
+                mTitle = getString(R.string.title_section8);
                 break;
         }
     }
@@ -997,6 +1003,91 @@ public class MainActivity extends ActionBarActivity
                             l1.setAdapter(dexAdapter);
                             break;
                     }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+            return rootView;
+        }
+
+        @Override
+        public void onAttach(Activity activity) {
+            super.onAttach(activity);
+            ((MainActivity) activity).onSectionAttached(
+                    getArguments().getInt(ARG_SECTION_NUMBER));
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            dexAdapter.getFilter().filter(newText);
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            return false;
+        }
+    }
+
+    /**
+     * A placeholder fragment containing a simple view.
+     */
+    public static class PokemonByTypeFragment extends Fragment implements SearchView.OnQueryTextListener {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+        private ArrayList<Pokemon> fragPokeList;
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static PokemonByTypeFragment newInstance(int sectionNumber) {
+            PokemonByTypeFragment fragment = new PokemonByTypeFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        public PokemonByTypeFragment() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_pokelist, container, false);
+            SearchView searchView = (SearchView) rootView.findViewById(R.id.searchView);
+            final ListView l1=(ListView)rootView.findViewById(R.id.pokeList);
+            fragPokeList = new ArrayList<>();
+            Global.curPokeList.clear();
+            for (Pokemon poke : Global.pokemonList) {
+                fragPokeList.add(poke);
+                Global.curPokeList.add(poke.getNumber() - 1);
+            }
+            dexAdapter = new DexListAdapter(c,fragPokeList);
+            l1.setAdapter(dexAdapter);
+            searchView.setOnQueryTextListener(this);
+            Spinner spinner = (Spinner) rootView.findViewById(R.id.sortSpinner);
+            ArrayAdapter<String> sortOptions = new ArrayAdapter<> (c,
+                    android.R.layout.simple_list_item_1, android.R.id.text1, TypeEffectiveness.typeNamesList );
+            spinner.setAdapter(sortOptions);
+            spinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    String selectedType = parent.getItemAtPosition(position).toString();
+                    fragPokeList.clear();
+                    for (Pokemon poke : Global.pokemonList) {
+                        if (poke.getTypeOne().equalsIgnoreCase(selectedType)) { fragPokeList.add(poke); }
+                        if (poke.getTypeTwo().equalsIgnoreCase(selectedType)) { fragPokeList.add(poke); }
+                    }
+                    dexAdapter = new DexListAdapter(c,fragPokeList);
+                    l1.setAdapter(dexAdapter);
                 }
 
                 @Override
