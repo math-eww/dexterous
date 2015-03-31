@@ -24,6 +24,6 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/pokeList"
-        android:fastScrollEnabled="true" />
+        android:id="@+id/pokeList" />
+       <!-- android:fastScrollEnabled="true" -->
 </LinearLayout>
