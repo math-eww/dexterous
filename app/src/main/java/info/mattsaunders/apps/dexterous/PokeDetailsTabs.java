@@ -17,6 +17,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -322,8 +323,14 @@ public class PokeDetailsTabs extends ActionBarActivity {
             final String subfolderNotShiny = "xy-animated";
             final String subfolderShiny = "xy-animated-shiny";
             gifNum = poke.getThreeDigitStringNumber();
+            //TODO: change scale method to use density
+            DisplayMetrics metrics = PokeDetailsTabs.con.getResources().getDisplayMetrics();
+            int width = metrics.widthPixels;
+            //float logicalDensity = metrics.density; //3 on 1080x1920, 1.5 on 500x800
+            //System.out.println("Logical Density: " + logicalDensity + " || Width/1080: " + (width/1080f));
+            float scaleFactor = 3.5f * (width / 1080f);
             pokeSprite.setScaleType(ImageView.ScaleType.CENTER);
-            pokeSprite.setScaleX(3.5f); pokeSprite.setScaleY(3.5f);
+            pokeSprite.setScaleX(scaleFactor); pokeSprite.setScaleY(scaleFactor);
             pokeSprite.setClickable(true);
             pokeSprite.setTag("off");
             pokeSprite.setOnClickListener(new View.OnClickListener() {
