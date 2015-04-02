@@ -1,4 +1,21 @@
-<android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:id="@+id/pager"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    tools:context="info.mattsaunders.apps.dexterous.PokeDetailsTabs" />
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="info.mattsaunders.apps.dexterous.PokeDetailsTabs"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent">
+    <com.viewpagerindicator.LinePageIndicator
+        android:id="@+id/indicator"
+        android:padding="10dip"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_alignParentTop="true"
+        app:strokeWidth="4dp"
+        app:lineWidth="30dp"
+        app:unselectedColor="#FF888888"
+        app:selectedColor="#FF33B5E5" />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"  />
+</RelativeLayout>

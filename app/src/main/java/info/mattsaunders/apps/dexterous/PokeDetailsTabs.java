@@ -35,6 +35,9 @@ import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.viewpagerindicator.LinePageIndicator;
+import com.viewpagerindicator.PageIndicator;
+
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 
@@ -55,6 +58,11 @@ public class PokeDetailsTabs extends ActionBarActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
+
+    /**
+     * The (@link PageIndicator) that will show the current page.
+     */
+    PageIndicator mIndicator;
 
     public static Context con;
     private static int pokePosition;
@@ -77,6 +85,11 @@ public class PokeDetailsTabs extends ActionBarActivity {
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(1);
+
+        mIndicator = (LinePageIndicator)findViewById(R.id.indicator);
+        mIndicator.setViewPager(mViewPager);
+        mIndicator.notifyDataSetChanged();
+        mIndicator.setCurrentItem(1);
 
 
         Intent intent = getIntent();

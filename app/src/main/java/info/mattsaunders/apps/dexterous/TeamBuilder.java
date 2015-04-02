@@ -39,6 +39,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import com.viewpagerindicator.LinePageIndicator;
+import com.viewpagerindicator.PageIndicator;
+
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 
@@ -48,6 +51,8 @@ public class TeamBuilder extends ActionBarActivity {
     SectionsPagerAdapter mSectionsPagerAdapter;
 
     ViewPager mViewPager;
+
+    PageIndicator mIndicator;
 
     int pagesToShow = 1;
 
@@ -100,6 +105,9 @@ public class TeamBuilder extends ActionBarActivity {
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOffscreenPageLimit(7);
+
+        mIndicator = (LinePageIndicator)findViewById(R.id.indicator);
+        mIndicator.setViewPager(mViewPager);
 
         con = this;
         curTeam = "-----";
@@ -160,6 +168,7 @@ public class TeamBuilder extends ActionBarActivity {
                     teamDetails = null;
                     mViewPager.setCurrentItem(0);
                     pagesToShow = 1;
+                    mIndicator.notifyDataSetChanged();
                     resetFragments();
                 } else {
                     saveData();
@@ -172,6 +181,7 @@ public class TeamBuilder extends ActionBarActivity {
                         initTeamDetails();
                     }
                     pagesToShow = 7;
+                    mIndicator.notifyDataSetChanged();
                     resetFragments();
                 }
             }
