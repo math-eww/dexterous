@@ -88,7 +88,6 @@ public class PokeDetailsTabs extends ActionBarActivity {
 
         mIndicator = (LinePageIndicator)findViewById(R.id.indicator);
         mIndicator.setViewPager(mViewPager);
-        mIndicator.notifyDataSetChanged();
         mIndicator.setCurrentItem(1);
 
 
