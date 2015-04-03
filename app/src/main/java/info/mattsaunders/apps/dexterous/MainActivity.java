@@ -32,6 +32,11 @@ public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     /**
+     * Version code for update check:
+     */
+    private static final int CURRENT_VERSION_NUMBER = 2;
+
+    /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
@@ -96,7 +101,15 @@ public class MainActivity extends ActionBarActivity
         versionManager.setOnReceiveListener(new OnReceiveListener() {
             @Override
             public boolean onReceive(int status, String result) {
-                return true; // return true if you want to use library's default logic & dialog
+                if (status == 200) {
+                    int receivedVersion = Integer.parseInt(result.substring(19).split(",")[0]);
+                    if (receivedVersion > CURRENT_VERSION_NUMBER) {
+                        System.out.println("Result: " + receivedVersion);
+                        return true; // return true if you want to use library's default logic & dialog
+                    } else {
+                        return false;
+                    }
+                } else { return false; }
             }
         });
         versionManager.checkVersion();
